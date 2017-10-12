@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+Dir.glob("./*.gem").each { |path| `rm #{path}` }
+puts `gem uninstall -x markov_twitter`
+puts `gem build markov_twitter.gemspec`
+Dir.glob("./*.gem").each { |path| puts `gem install -f #{path}` }

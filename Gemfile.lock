@@ -1,0 +1,19 @@
+PATH
+  remote: .
+  specs:
+    markov_twitter (0.0.0)
+      thor
+
+GEM
+  remote: http://www.rubygems.org/
+  specs:
+    thor (0.20.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  markov_twitter!
+
+BUNDLED WITH
+   1.15.4

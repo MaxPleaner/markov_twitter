@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+require 'markov_twitter'
+class MarkovTwitter::CLI < Thor
+  desc "test", "run tests"
+  def test
+    puts "No tests have been wrritten"
+    exit
+  end
+end
+MarkovTwitter::CLI.start ARGV
