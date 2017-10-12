@@ -7,3 +7,4 @@ class MarkovTwitter; end
 require "markov_twitter/tweet_reader"
 require "markov_twitter/test_helper_methods"
 require "markov_twitter/authenticator"
+require "markov_twitter/markov_builder"

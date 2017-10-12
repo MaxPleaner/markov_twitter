@@ -29,8 +29,22 @@ module MarkovTwitter::TestHelperMethods
   end
 
   # ordered from newest to oldest
-  def get_sample_user_first_10_tweets
-    9.downto(0).to_a.map &:to_s
+  def get_sample_user_first_9_tweets
+  [
+    "A long-term goal of mine is to create a water-based horror game. I've done some work on building this in Unity already.",
+   "Many amazing looking animals can be kept in reasonably simple environments, but some require elaborate setups.",
+   "I enjoy creating terrariums but it's a lot of work to keep everything balanced so that all the critters survive.",
+   "Although I haven't had a cat myself, I have had aquariums, terrariums, and rodents at different points.",
+   "i have personally never owned a pet cat, and I'm a bit allergic, but I still enjoy their company.",
+   "carnivorous by nature, cats hunt many other wild animals such as gophers and mice. As a result, some people would prefer less outdoor cats.",
+   "you have now unsubscribed to cat facts. respond with UNSUBSCRIBE to unsubscribe.",
+   "egyption hairless cats are less allergenic than most other cats. they don't have hair and are probably less oily.",
+   "the cat in the hat ate and sat. it got fat and couldn't catch a rat."
+ ]
+  end
+
+  def get_many_tweets_username
+    "SFist"
   end
 
   refine Object do
