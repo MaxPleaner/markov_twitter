@@ -49,4 +49,5 @@ class MarkovTwitter::MarkovBuilder
     regex = self.class::SeparatorCharacterRegex
     phrase.split(regex).map(&:downcase)
   end
+  
 end
