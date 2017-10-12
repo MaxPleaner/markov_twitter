@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'pry'
+require 'markov_twitter'
+
+Pry.start

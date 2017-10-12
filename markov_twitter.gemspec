@@ -16,5 +16,12 @@ Gem::Specification.new do |s|
   s.executables = Dir["bin/*"].map &File.method(:basename)
   s.license     = 'MIT'
 
+  # Dependencies are added here, not the Gemfile.
   s.add_dependency "thor"
+  s.add_dependency "twitter"
+  s.add_dependency "activesupport"
+  s.add_development_dependency "pry"
+  s.add_development_dependency "dotenv"
+  s.add_development_dependency "rspec"
+
 end
