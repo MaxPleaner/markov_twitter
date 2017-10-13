@@ -108,6 +108,7 @@ def stub_twitter_user_lookup_request_with_valid_username(username)
   #   where the hashes have keys "id" and "text"
   # @return void
   def stub_twitter_user_timeline_request(tweets_to_return)
+    return if ENV["DisableWebmock"] == "true"
     stub_request(
       :get,
       "https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=0"

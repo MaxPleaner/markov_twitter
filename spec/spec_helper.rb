@@ -1,7 +1,7 @@
 require 'markov_twitter'
 require 'dotenv'
 require 'pry-byebug'
-require 'webmock/rspec'
+require('webmock/rspec') unless ENV["DisableWebmock"] == "true"
 
 Dotenv.load
 
