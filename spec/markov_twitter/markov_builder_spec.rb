@@ -7,38 +7,61 @@ RSpec.describe MarkovBuilder do
   let(:phrase2) { "the bat in the flat" }
   let(:sample_phrases) { [phrase1, phrase2] }
 
-  context "naive interpretation" do
-
-    it "processes phrases and stores their values/linkages" do
-      markov_builder = MarkovBuilder.new(phrases: sample_phrases)
-      nodes = markov_builder.nodes
-      expect(nodes.keys.sort).to eq(%w{bat cat flat hat in the})
-      %w{cat bat}.each do |word|
-        expect(nodes[word].linkages[:next].map(&:value)).to eq(%w{in})
-        expect(nodes[word].linkages[:prev].map(&:value)).to eq(%w{the})
-      end
-      %w{hat flat}.each do |word|
-        expect(nodes[word].linkages[:next].map(&:value)).to eq(%w{})
-        expect(nodes[word].linkages[:prev].map(&:value)).to eq(%w{the})
-      end
-      expect(nodes["the"].linkages[:next].map(&:value)).to eq(%w{cat hat bat flat})
-      expect(nodes["the"].linkages[:prev].map(&:value)).to eq(%w{in in})
-      expect(nodes["in"].linkages[:next].map(&:value)).to eq(%w{the the})
-      expect(nodes["in"].linkages[:prev].map(&:value)).to eq(%w{cat bat})
+  it "processes phrases and stores their values/linkages" do
+    markov_builder = MarkovBuilder.new(phrases: sample_phrases)
+    nodes = markov_builder.nodes
+    expect(nodes.keys.sort).to eq(%w{bat cat flat hat in the})
+    %w{cat bat}.each do |word|
+      expect(nodes[word].linkages[:next]).to eq({"in" => 1.0,})
+      expect(nodes[word].linkages[:prev]).to eq({"the" => 1.0})
+      expect(nodes[word].num_inputs_per_cell[:next]).to eq({"in" => 1})
+      expect(nodes[word].num_inputs_per_cell[:prev]).to eq({"the" => 1})
+      expect(nodes[word].total_num_inputs[:next]).to eq(1)
+      expect(nodes[word].total_num_inputs[:prev]).to eq(1)
     end
+    %w{hat flat}.each do |word|
+      expect(nodes[word].linkages[:next]).to eq({})
+      expect(nodes[word].linkages[:prev]).to eq({"the" => 1.0})
+      expect(nodes[word].num_inputs_per_cell[:next]).to eq({})
+      expect(nodes[word].num_inputs_per_cell[:prev]).to eq({"the" => 1})
+      expect(nodes[word].total_num_inputs[:next]).to eq(0)
+      expect(nodes[word].total_num_inputs[:prev]).to eq(1)
 
-    it "evaluates the chain into a random order" do
-      srand(0) # seeds the randomness 
-      markov_builder = MarkovBuilder.new(phrases: sample_phrases)
-      results = 3.times.map { markov_builder.evaluate(length: 5) }
-      expect(results).to eq [
-        "bat in the hat the",
-        "hat hat cat in the",
-        "in the flat the cat"
-      ]
-      srand() # unseeds the randomness
     end
+    expect(nodes["the"].linkages[:next]).to eq({
+      "cat" => 0.25, "bat" => 0.25, "hat" => 0.25, "flat" => 0.25
+    })
+    expect(nodes["the"].linkages[:prev]).to eq({"in" => 1.0})
+    expect(nodes["the"].num_inputs_per_cell[:next]).to eq({
+      "cat" => 1, "bat" => 1, "hat" => 1, "flat" => 1
+    })
+    expect(nodes["the"].num_inputs_per_cell[:prev]).to eq({"in" => 2})
+    expect(nodes["the"].total_num_inputs[:next]).to eq(4)
+    expect(nodes["the"].total_num_inputs[:prev]).to eq(2)
+    expect(nodes["in"].linkages[:next]).to eq({
+      "the" => 1
+    })
+    expect(nodes["in"].linkages[:prev]).to eq({"cat" => 0.5, "bat" => 0.5})
+    expect(nodes["in"].num_inputs_per_cell[:next]).to eq({
+      "the" => 2
+    })
+    expect(nodes["in"].num_inputs_per_cell[:prev]).to eq({
+      "cat" => 1, "bat" => 1
+    })
+    expect(nodes["in"].total_num_inputs[:next]).to eq(2)
+    expect(nodes["in"].total_num_inputs[:prev]).to eq(2)
+  end
 
+  it "evaluates the chain into a random order" do
+    srand(0) # seeds the randomness 
+    markov_builder = MarkovBuilder.new(phrases: sample_phrases)
+    results = 3.times.map { markov_builder.evaluate(length: 5) }
+    expect(results).to eq [
+      "bat in the hat cat",
+      "flat the bat in the",
+      "the flat flat cat in"
+    ]
+    srand() # unseeds the randomness
   end
 
 end

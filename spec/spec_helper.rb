@@ -1,7 +1,7 @@
 require 'markov_twitter'
 require 'dotenv'
-require 'pry'
-require 'securerandom'
+require 'pry-byebug'
+require 'webmock/rspec'
 
 Dotenv.load
 
