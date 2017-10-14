@@ -3,20 +3,31 @@ class MarkovTwitter::MarkovBuilder
   # Represents a single node in a Markov chain
   class Node
 
-    # @attr value [String] a single token, e.g. a word
-    # @attr linkages [Hash<String, Hash<String, Float>>]
-    #   - Outer hash is keyed by the string value.
-    #     Inner hash represents possible traversals -
+    # @!attribute [r] value
+    #   return [String] a single token, e.g. a word
+    #
+    # @!attribute [r] linkages
+    #   return [Hash<Symbol, Hash<String, Float>>]
+    #   - Outer hash is keyed by the direction (:next, :prev).
+    #   - Inner hash represents possible traversals -
     #     also keyed by string value, its values are probabilities
     #     representing the likelihood of choosing that route.
-    # @attr num_inputs_per_cell [Hash<Symbol, Hash<String,Integer>>]
-    #   - incremented/decremented whenever a linkage is added/removed
+    #
+    # @!attribute [r] num_inputs_per_cell
+    #   return [Hash<Symbol, Hash<String,Integer>>]
+    #   - outer hash is keyed by the direction (:next, :prev)
+    #   - inner hash is keyed by node value and the Integer value is
+    #     incremented/decremented whenever a linkage is added/removed
     #   - used to re-calculate probabilities.
-    # @attr total_num_inputs [Hash<Symbol>, Integer]
+    #
+    # @!attribute [r] total_num_inputs
+    #   return [Hash<Symbol>, Integer]
+    #    - tracks the total number of inputs added in a direction
     #    - also used to re-calculate probabilities
+    #
     attr_reader :value, :linkages, :num_inputs_per_cell, :total_num_inputs
     
-    # @keyword value [String]
+    # @param value [String] for example, a word
     def initialize(value: nil)
       @value = value
       @linkages = { next: Hash.new(0), prev: Hash.new(0) }
@@ -24,6 +35,7 @@ class MarkovTwitter::MarkovBuilder
       @total_num_inputs = { next: 0, prev: 0 }
     end
 
+    # Adds a single node to the :next linkages and updates probabilities
     # @param direction [Symbol] either :next or :prev
     # @param other_node [Node]
     # @return void
@@ -39,13 +51,18 @@ class MarkovTwitter::MarkovBuilder
       end
     end
 
-    # If a Nth item is inserted into the linkages at <direction>,
-    # then the weight of a single insertion is re-calculated to 1/N
+    # Determines the weight of a single insertion by looking up the total
+    # number of insertions in that direction.
+    # @param direction [Symbol] :next or :prev
+    # @return [Float] between 0 and 1
     def get_probability_unit(direction)
       1.0 / total_num_inputs[direction]
     end
 
     # a check made before removing a node, to ensure the state remains valid.
+    # @param direction [Symbol] :next or :prev
+    # @param other_node [Node] the node to be removed
+    # @return void
     def preempt_faulty_removal(direction, other_node)
       if [
         total_num_inputs[direction],
@@ -55,8 +72,9 @@ class MarkovTwitter::MarkovBuilder
       end
     end
 
+    # Removes a single node from the :prev linkages and updates probabilities
     # @param direction [Symbol] either :next or :prev
-    # @param other_node [Node]
+    # @param other_node [Node] the node to be removed
     # @return void
     def remove_and_adjust_probabilites(direction, other_node)
       preempt_faulty_removal
@@ -74,30 +92,33 @@ class MarkovTwitter::MarkovBuilder
       end
     end
 
-    # @param child_node [Node] to be added to the :next linkage
+    # Adds another node to the :next linkages, updating probabilities
+    # @param child_node [Node] to be added
     # @return void
     def add_next_linkage(child_node)
       add_and_adjust_probabilities(:next, child_node)
     end
  
-    # @param parent_node [Node] to be added to the :prev linkage
+    # Adds another node to the :prev linkages, updating probabilities
+    # @param parent_node [Node] to be added
     # @return void
     def add_prev_linkage(parent_node)
       add_and_adjust_probabilities(:prev, parent_node)
     end
 
-    # @param child_node [Node]
+    # Removes a node from the :next linkages, updating probabilities
+    # @param child_node [Node] to be removed
     # @return void
     def remove_next_linkage(child_node)
       remove_and_adjust_probabilities(:next, child_node)
     end
 
-    # @param parent_node [Node]
+    # Removes a node from the :prev linkages, updating probabilities
+    # @param parent_node [Node] to be removed.
     # @return void
     def remove_prev_linkage(parent_node)
       remove_and_adjust_probabilities(:prev, parent_node)
     end
-
 
   end
 

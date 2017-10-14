@@ -1,10 +1,14 @@
-# methods which are included into test case via refinement,
+# Methods which are included into test case via refinement,
 # so they don't interfere with application code
 # and don't require a namespace.
 module MarkovTwitter::TestHelperMethods
+
+  refine Object do
+    include MarkovTwitter::TestHelperMethods
+  end
   
-  # builds an authenticator instance with valid credentials.
-  # will raise an error unless the expected ENV vars are defined.
+  # Builds an authenticator instance with valid credentials.
+  # Will raise an error unless the expected ENV vars are defined.
   # @return [Authenticator]
   def build_valid_authenticator
     Authenticator.new(
@@ -13,8 +17,8 @@ module MarkovTwitter::TestHelperMethods
     )
   end
   
-  # builds an authenticator instance with invalid credentials.
-  # should raise errors on subsequent operations.
+  # Builds an authenticator instance with invalid credentials.
+  # Should raise errors on subsequent operations.
   # @return [Authenticator]
   def build_invalid_authenticator
     Authenticator.new(api_key: "", secret_key: "")
@@ -27,7 +31,7 @@ module MarkovTwitter::TestHelperMethods
     "max_p_sample"
   end
 
-  # This is the expected latest tweet of the sample user
+  # This is the expected latest tweet of the sample user.
   # @return [String]
   def get_sample_user_latest_tweet
     "don't ever change"
@@ -39,7 +43,7 @@ module MarkovTwitter::TestHelperMethods
     "3u9r4j8fjniecn875jdpwqk32mdiy4584vuniwcoekpd932"
   end
 
-  # ordered from newest to oldest
+  # The expected tweets fetched from the user timeline I hard-coded.
   # @return [Array<String>]
   def get_sample_user_first_9_tweets
   [
@@ -55,15 +59,15 @@ module MarkovTwitter::TestHelperMethods
  ]
   end
 
-  # a twitter user which has many tweets.
-  # used to test pagination of search results.
+  # A twitter user which has many tweets.
+  # Used to test pagination of search results.
   # @return [String]
   def get_many_tweets_username
     "SFist"
   end
 
-  # makes twitter's oauth request succeed.
-  # returns without doing anything if DisableWebmock=true in ENV.
+  # Makes twitter's oauth request succeed.
+  # Returns without doing anything if DisableWebmock=true in ENV.
   # @return void
   def stub_twitter_token_request_with_valid_credentials
     return if ENV["DisableWebmock"] == "true"
@@ -72,8 +76,8 @@ module MarkovTwitter::TestHelperMethods
     ).to_return(status: 200, body: "", headers: {})
   end
 
-  # makes twitter's oauth request fail
-  # returns without doing anything if DisableWebmock=true in ENV.
+  # Makes twitter's oauth request fail
+  # Returns without doing anything if DisableWebmock=true in ENV.
   # @return void
   def stub_twitter_token_request_with_invalid_credentials
     return if ENV["DisableWebmock"] == "true"
@@ -82,8 +86,8 @@ module MarkovTwitter::TestHelperMethods
     ).to_return(status: 403, body: "", headers: {})
   end
 
-  # makes the twitter user lookup request succeed.
-  # returns without doing anything if DisableWebmock=true in ENV
+  # Makes the twitter user lookup request succeed.
+  # Returns without doing anything if DisableWebmock=true in ENV.
   # @return void
 def stub_twitter_user_lookup_request_with_valid_username(username)
     return if ENV["DisableWebmock"] == "true"
@@ -92,8 +96,8 @@ def stub_twitter_user_lookup_request_with_valid_username(username)
     ).to_return(status: 200, body: {id: 0}.to_json, headers: {})
   end
 
-  # makes the twitter user lookup request fail.
-  # returns without doing anything if DisableWebmock=true in ENV
+  # Makes the twitter user lookup request fail.
+  # Returns without doing anything if DisableWebmock=true in ENV.
   # @param username [String]
   # @return void
   def stub_twitter_user_lookup_request_with_invalid_username(username)
@@ -103,9 +107,10 @@ def stub_twitter_user_lookup_request_with_valid_username(username)
     ).to_return(status: 404, body: {id: 0}.to_json, headers: {})    
   end
 
-  # makes the twitter user timeline request succeed.
+  # Makes the twitter user timeline request succeed.
+  # returns without doing anything if DisableWebmock=true in ENV
   # @param tweets_to_return [Array<Hash>]
-  #   where the hashes have keys "id" and "text"
+  #   - the hashes have keys "id" and "text"
   # @return void
   def stub_twitter_user_timeline_request(tweets_to_return)
     return if ENV["DisableWebmock"] == "true"
@@ -113,10 +118,6 @@ def stub_twitter_user_lookup_request_with_valid_username(username)
       :get,
       "https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=0"
     ).to_return(status: 200, body: tweets_to_return.to_json, headers: {})
-  end
-
-  refine Object do
-    include MarkovTwitter::TestHelperMethods
   end
 
 end

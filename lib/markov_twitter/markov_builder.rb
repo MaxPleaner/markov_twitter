@@ -1,17 +1,26 @@
+# Builds a Markov chain from phrases passed as input.
+# A "phrase" is defined here as a tweet.
 class MarkovTwitter::MarkovBuilder
 
-  # Regex used to split the phrase into tokens
+  # Regex used to split the phrase into tokens.
+  # It splits on any number of whitespace and periods in sequence
   SeparatorCharacterRegex = /[\s\.]+?/
 
+  # @attr nodes [Hash<String, Node>]
+  # The base dictionary for nodes.
+  # There is only a single copy of each node created,
+  # although they are referenced in Node#linkages as well.
   attr_reader :nodes
 
-  # @param phrases [Array<String>]
+  # @param phrases [Array<String>] e.g. sentences or tweets.
+  # processes the phrases to populate @nodes
   def initialize(phrases:)
     @nodes = {}
     phrases.each &method(:process_phrase)
   end
 
-  # @param phrase [String]
+  # Splits a phrase into tokens, adds them to @nodes, and creates linkages.
+  # @param phrase [String] e.g. a sentence or tweet
   # @return void
   def process_phrase(phrase)
     node_vals = split_and_sanitize_phrase(phrase)
@@ -20,7 +29,7 @@ class MarkovTwitter::MarkovBuilder
     end
   end
 
-  # re-calculates the probabilities
+  # Adds a sequence of two tokens to @nodes and creates linkages.
   # @param node_val1 [String]
   # @param node_val2 [String]
   # @return void
@@ -32,17 +41,20 @@ class MarkovTwitter::MarkovBuilder
     end
   end
 
-  # adds node2 to node1's :next,
-  # and node1 to node2's :prev
+  # Adds bidirectional linkages beween two nodes.
   # the Node class re-calculates the probabilities internally.
+  # @param node1 [Node] the parent
+  # @param node2 [Node] the child
+  # @return void
   def add_linkages(node1, node2)
     node1.add_next_linkage(node2)
     node2.add_prev_linkage(node1)
   end
 
-  # Evaluates the nodes & linkages to make a new sentence
-  # @keyword length [Integer]
-  # @return [String]
+  # An "evaluation" of the markov chain, e.g. a run case.
+  # Passes random values through the probability sequences.
+  # @param length [Integer] the number of tokens in the result.
+  # @return [String], the resulting tokens joined by a whitespace.
   def evaluate(length:)
     root_node = nil
     length.times.reduce([]) do |result_nodes|
@@ -53,16 +65,17 @@ class MarkovTwitter::MarkovBuilder
     end.map(&:value).join(" ")
   end
 
-  # gets a random node name as a potential start point
+  # Gets a random node as a potential start point
   # @param linkage_names [Array<String>]
-  # @return [String] or nil
+  # @return [Node] or nil if one couldn't be found
   def get_new_start_point(linkage_names)
     nodes[linkage_names.sample]
   end
 
-  # a random pick weighed by probability
-  # @param linkages [Hash<String, Float>]
-  # @return [Node] or nil
+  # Given "linkages" which includes all possibly node traversals in
+  # a predetermined direction, pick one based on their probabilities.
+  # @param linkages [Hash<String, Float>] key=token, val=probability
+  # @return [Node] or nil if one couldn't be found.
   def pick_linkage(linkages)
     random_num = rand(100) * 0.01
     offset = 0
@@ -75,11 +88,12 @@ class MarkovTwitter::MarkovBuilder
     nodes[new_key]
   end
 
+  # Splits a phrase into tokens.
   # @param phrase [String]
   # @return [Array<String>]
   def split_and_sanitize_phrase(phrase)
     regex = self.class::SeparatorCharacterRegex
-    phrase.split(regex).map(&:downcase)
+    phrase.split(regex)
   end
 
 end

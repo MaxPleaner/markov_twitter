@@ -1,8 +1,15 @@
 require 'markov_twitter'
 require 'dotenv'
 require 'pry-byebug'
+
+# can disable webmock by passing an option in the environment variables,
+# e.g.
+#          env DisableWebmock=true rspec
+#
 require('webmock/rspec') unless ENV["DisableWebmock"] == "true"
 
+# Loads environment variables from .env file, which should be in gitignore.
+# See .env.example, which is included in source control.
 Dotenv.load
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
