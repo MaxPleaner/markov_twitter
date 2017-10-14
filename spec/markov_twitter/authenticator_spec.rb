@@ -1,8 +1,6 @@
-Authenticator = MarkovTwitter::Authenticator
-
 using MarkovTwitter::TestHelperMethods
 
-RSpec.describe Authenticator do
+RSpec.describe "Authenticator" do
 
   let(:authenticator) { build_valid_authenticator }
 

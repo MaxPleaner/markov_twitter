@@ -21,7 +21,7 @@ class MarkovTwitter::MarkovBuilder
 
   # Splits a phrase into tokens, adds them to @nodes, and creates linkages.
   # @param phrase [String] e.g. a sentence or tweet
-  # @return void
+  # @return [void]
   def process_phrase(phrase)
     node_vals = split_and_sanitize_phrase(phrase)
     node_vals.length.times do |i|
@@ -32,7 +32,7 @@ class MarkovTwitter::MarkovBuilder
   # Adds a sequence of two tokens to @nodes and creates linkages.
   # @param node_val1 [String]
   # @param node_val2 [String]
-  # @return void
+  # @return [void]
   def add_nodes(node_val1, node_val2)
     @nodes[node_val1] ||= Node.new(value: node_val1)
     if node_val2
@@ -45,7 +45,7 @@ class MarkovTwitter::MarkovBuilder
   # the Node class re-calculates the probabilities internally.
   # @param node1 [Node] the parent
   # @param node2 [Node] the child
-  # @return void
+  # @return [void]
   def add_linkages(node1, node2)
     node1.add_next_linkage(node2)
     node2.add_prev_linkage(node1)

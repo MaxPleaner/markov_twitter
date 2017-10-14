@@ -96,6 +96,16 @@ interfere with application code and don&#39;t require a namespace.</p>
   
 
 </div>
+  <h2>Constant Summary</h2>
+  <dl class="constants">
+    
+      <dt id="Authenticator-constant" class="">Authenticator =
+        
+      </dt>
+      <dd><pre class="code"><span class='const'><span class='object_link'><a href="../MarkovTwitter.html" title="MarkovTwitter (class)">MarkovTwitter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Authenticator.html" title="MarkovTwitter::Authenticator (class)">Authenticator</a></span></span></pre></dd>
+    
+  </dl>
+
 
 
 
@@ -281,7 +291,7 @@ interfere with application code and don&#39;t require a namespace.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#stub_twitter_token_request_with_invalid_credentials-instance_method" title="#stub_twitter_token_request_with_invalid_credentials (instance method)">#<strong>stub_twitter_token_request_with_invalid_credentials</strong>  &#x21d2; Object </a>
+      <a href="#stub_twitter_token_request_with_invalid_credentials-instance_method" title="#stub_twitter_token_request_with_invalid_credentials (instance method)">#<strong>stub_twitter_token_request_with_invalid_credentials</strong>  &#x21d2; void </a>
     
 
     
@@ -306,7 +316,7 @@ DisableWebmock=true in ENV.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#stub_twitter_token_request_with_valid_credentials-instance_method" title="#stub_twitter_token_request_with_valid_credentials (instance method)">#<strong>stub_twitter_token_request_with_valid_credentials</strong>  &#x21d2; Object </a>
+      <a href="#stub_twitter_token_request_with_valid_credentials-instance_method" title="#stub_twitter_token_request_with_valid_credentials (instance method)">#<strong>stub_twitter_token_request_with_valid_credentials</strong>  &#x21d2; void </a>
     
 
     
@@ -330,7 +340,7 @@ DisableWebmock=true in ENV.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#stub_twitter_user_lookup_request_with_invalid_username-instance_method" title="#stub_twitter_user_lookup_request_with_invalid_username (instance method)">#<strong>stub_twitter_user_lookup_request_with_invalid_username</strong>(username)  &#x21d2; Object </a>
+      <a href="#stub_twitter_user_lookup_request_with_invalid_username-instance_method" title="#stub_twitter_user_lookup_request_with_invalid_username (instance method)">#<strong>stub_twitter_user_lookup_request_with_invalid_username</strong>(username)  &#x21d2; void </a>
     
 
     
@@ -354,7 +364,7 @@ DisableWebmock=true in ENV.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#stub_twitter_user_lookup_request_with_valid_username-instance_method" title="#stub_twitter_user_lookup_request_with_valid_username (instance method)">#<strong>stub_twitter_user_lookup_request_with_valid_username</strong>(username)  &#x21d2; Object </a>
+      <a href="#stub_twitter_user_lookup_request_with_valid_username-instance_method" title="#stub_twitter_user_lookup_request_with_valid_username (instance method)">#<strong>stub_twitter_user_lookup_request_with_valid_username</strong>(username)  &#x21d2; void </a>
     
 
     
@@ -378,7 +388,7 @@ DisableWebmock=true in ENV.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#stub_twitter_user_timeline_request-instance_method" title="#stub_twitter_user_timeline_request (instance method)">#<strong>stub_twitter_user_timeline_request</strong>(tweets_to_return)  &#x21d2; Object </a>
+      <a href="#stub_twitter_user_timeline_request-instance_method" title="#stub_twitter_user_timeline_request (instance method)">#<strong>stub_twitter_user_timeline_request</strong>(tweets_to_return)  &#x21d2; void </a>
     
 
     
@@ -411,7 +421,7 @@ DisableWebmock=true in ENV.</p>
       <div class="method_details first">
   <h3 class="signature first" id="build_invalid_authenticator-instance_method">
   
-    #<strong>build_invalid_authenticator</strong>  &#x21d2; <tt><span class='object_link'><a href="Authenticator.html" title="MarkovTwitter::Authenticator (class)">Authenticator</a></span></tt> 
+    #<strong>build_invalid_authenticator</strong>  &#x21d2; <tt><span class='object_link'><a href="#Authenticator-constant" title="MarkovTwitter::TestHelperMethods::Authenticator (constant)">Authenticator</a></span></tt> 
   
 
   
@@ -434,7 +444,7 @@ errors on subsequent operations.</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="Authenticator.html" title="MarkovTwitter::Authenticator (class)">Authenticator</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="#Authenticator-constant" title="MarkovTwitter::TestHelperMethods::Authenticator (constant)">Authenticator</a></span></tt>)</span>
       
       
       
@@ -448,15 +458,15 @@ errors on subsequent operations.</p>
       <pre class="lines">
 
 
+22
 23
-24
-25</pre>
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build_invalid_authenticator'>build_invalid_authenticator</span>
-  <span class='const'><span class='object_link'><a href="Authenticator.html" title="MarkovTwitter::Authenticator (class)">Authenticator</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Authenticator.html#initialize-instance_method" title="MarkovTwitter::Authenticator#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>api_key:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="#Authenticator-constant" title="MarkovTwitter::TestHelperMethods::Authenticator (constant)">Authenticator</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>api_key:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -466,7 +476,7 @@ errors on subsequent operations.</p>
       <div class="method_details ">
   <h3 class="signature " id="build_valid_authenticator-instance_method">
   
-    #<strong>build_valid_authenticator</strong>  &#x21d2; <tt><span class='object_link'><a href="Authenticator.html" title="MarkovTwitter::Authenticator (class)">Authenticator</a></span></tt> 
+    #<strong>build_valid_authenticator</strong>  &#x21d2; <tt><span class='object_link'><a href="#Authenticator-constant" title="MarkovTwitter::TestHelperMethods::Authenticator (constant)">Authenticator</a></span></tt> 
   
 
   
@@ -489,7 +499,7 @@ error unless the expected ENV vars are defined.</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="Authenticator.html" title="MarkovTwitter::Authenticator (class)">Authenticator</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="#Authenticator-constant" title="MarkovTwitter::TestHelperMethods::Authenticator (constant)">Authenticator</a></span></tt>)</span>
       
       
       
@@ -503,18 +513,18 @@ error unless the expected ENV vars are defined.</p>
       <pre class="lines">
 
 
+12
 13
 14
 15
 16
-17
-18</pre>
+17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build_valid_authenticator'>build_valid_authenticator</span>
-  <span class='const'><span class='object_link'><a href="Authenticator.html" title="MarkovTwitter::Authenticator (class)">Authenticator</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Authenticator.html#initialize-instance_method" title="MarkovTwitter::Authenticator#initialize (method)">new</a></span></span><span class='lparen'>(</span>
+  <span class='const'><span class='object_link'><a href="#Authenticator-constant" title="MarkovTwitter::TestHelperMethods::Authenticator (constant)">Authenticator</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
     <span class='label'>api_key:</span> <span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>TWITTER_API_KEY</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
     <span class='label'>secret_key:</span> <span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>TWITTER_SECRET_KEY</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='rparen'>)</span>
@@ -563,12 +573,12 @@ error unless the expected ENV vars are defined.</p>
       <pre class="lines">
 
 
+41
 42
-43
-44</pre>
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 41</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_invalid_username'>get_invalid_username</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>3u9r4j8fjniecn875jdpwqk32mdiy4584vuniwcoekpd932</span><span class='tstring_end'>&quot;</span></span>
@@ -618,12 +628,12 @@ results.</p>
       <pre class="lines">
 
 
+64
 65
-66
-67</pre>
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 64</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_many_tweets_username'>get_many_tweets_username</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SFist</span><span class='tstring_end'>&quot;</span></span>
@@ -672,6 +682,7 @@ results.</p>
       <pre class="lines">
 
 
+47
 48
 49
 50
@@ -683,11 +694,10 @@ results.</p>
 56
 57
 58
-59
-60</pre>
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_sample_user_first_9_tweets'>get_sample_user_first_9_tweets</span>
 <span class='lbracket'>[</span>
@@ -746,12 +756,12 @@ results.</p>
       <pre class="lines">
 
 
+35
 36
-37
-38</pre>
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_sample_user_latest_tweet'>get_sample_user_latest_tweet</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>don&#39;t ever change</span><span class='tstring_end'>&quot;</span></span>
@@ -801,12 +811,12 @@ It&#39;s there to make sure that fetching tweets works correctly.</p>
       <pre class="lines">
 
 
+29
 30
-31
-32</pre>
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_sample_username'>get_sample_username</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>max_p_sample</span><span class='tstring_end'>&quot;</span></span>
@@ -819,7 +829,7 @@ It&#39;s there to make sure that fetching tweets works correctly.</p>
       <div class="method_details ">
   <h3 class="signature " id="stub_twitter_token_request_with_invalid_credentials-instance_method">
   
-    #<strong>stub_twitter_token_request_with_invalid_credentials</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>stub_twitter_token_request_with_invalid_credentials</strong>  &#x21d2; <tt>void</tt> 
   
 
   
@@ -827,7 +837,7 @@ It&#39;s there to make sure that fetching tweets works correctly.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Makes twitter&#39;s oauth request fail Returns without doing anything if
 DisableWebmock=true in ENV.</p>
 
@@ -836,24 +846,6 @@ DisableWebmock=true in ENV.</p>
 </div>
 <div class="tags">
   
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        
-        <div class='inline'>
-<p>void</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -861,15 +853,15 @@ DisableWebmock=true in ENV.</p>
       <pre class="lines">
 
 
+81
 82
 83
 84
 85
-86
-87</pre>
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 81</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stub_twitter_token_request_with_invalid_credentials'>stub_twitter_token_request_with_invalid_credentials</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DisableWebmock</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true</span><span class='tstring_end'>&quot;</span></span>
@@ -885,7 +877,7 @@ DisableWebmock=true in ENV.</p>
       <div class="method_details ">
   <h3 class="signature " id="stub_twitter_token_request_with_valid_credentials-instance_method">
   
-    #<strong>stub_twitter_token_request_with_valid_credentials</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>stub_twitter_token_request_with_valid_credentials</strong>  &#x21d2; <tt>void</tt> 
   
 
   
@@ -893,7 +885,7 @@ DisableWebmock=true in ENV.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Makes twitter&#39;s oauth request succeed. Returns without doing anything
 if DisableWebmock=true in ENV.</p>
 
@@ -902,24 +894,6 @@ if DisableWebmock=true in ENV.</p>
 </div>
 <div class="tags">
   
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        
-        <div class='inline'>
-<p>void</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -927,15 +901,15 @@ if DisableWebmock=true in ENV.</p>
       <pre class="lines">
 
 
+71
 72
 73
 74
 75
-76
-77</pre>
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 71</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stub_twitter_token_request_with_valid_credentials'>stub_twitter_token_request_with_valid_credentials</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DisableWebmock</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true</span><span class='tstring_end'>&quot;</span></span>
@@ -951,7 +925,7 @@ if DisableWebmock=true in ENV.</p>
       <div class="method_details ">
   <h3 class="signature " id="stub_twitter_user_lookup_request_with_invalid_username-instance_method">
   
-    #<strong>stub_twitter_user_lookup_request_with_invalid_username</strong>(username)  &#x21d2; <tt>Object</tt> 
+    #<strong>stub_twitter_user_lookup_request_with_invalid_username</strong>(username)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -959,7 +933,7 @@ if DisableWebmock=true in ENV.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Makes the twitter user lookup request fail. Returns without doing anything
 if DisableWebmock=true in ENV.</p>
 
@@ -983,24 +957,6 @@ if DisableWebmock=true in ENV.</p>
   
 </ul>
 
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        
-        <div class='inline'>
-<p>void</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1008,15 +964,15 @@ if DisableWebmock=true in ENV.</p>
       <pre class="lines">
 
 
+102
 103
 104
 105
 106
-107
-108</pre>
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stub_twitter_user_lookup_request_with_invalid_username'>stub_twitter_user_lookup_request_with_invalid_username</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DisableWebmock</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true</span><span class='tstring_end'>&quot;</span></span>
@@ -1032,7 +988,7 @@ if DisableWebmock=true in ENV.</p>
       <div class="method_details ">
   <h3 class="signature " id="stub_twitter_user_lookup_request_with_valid_username-instance_method">
   
-    #<strong>stub_twitter_user_lookup_request_with_valid_username</strong>(username)  &#x21d2; <tt>Object</tt> 
+    #<strong>stub_twitter_user_lookup_request_with_valid_username</strong>(username)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -1040,7 +996,7 @@ if DisableWebmock=true in ENV.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Makes the twitter user lookup request succeed. Returns without doing
 anything if DisableWebmock=true in ENV.</p>
 
@@ -1049,24 +1005,6 @@ anything if DisableWebmock=true in ENV.</p>
 </div>
 <div class="tags">
   
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        
-        <div class='inline'>
-<p>void</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1074,15 +1012,15 @@ anything if DisableWebmock=true in ENV.</p>
       <pre class="lines">
 
 
+91
 92
 93
 94
 95
-96
-97</pre>
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 91</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stub_twitter_user_lookup_request_with_valid_username'>stub_twitter_user_lookup_request_with_valid_username</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DisableWebmock</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true</span><span class='tstring_end'>&quot;</span></span>
@@ -1098,7 +1036,7 @@ anything if DisableWebmock=true in ENV.</p>
       <div class="method_details ">
   <h3 class="signature " id="stub_twitter_user_timeline_request-instance_method">
   
-    #<strong>stub_twitter_user_timeline_request</strong>(tweets_to_return)  &#x21d2; <tt>Object</tt> 
+    #<strong>stub_twitter_user_timeline_request</strong>(tweets_to_return)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -1106,7 +1044,7 @@ anything if DisableWebmock=true in ENV.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p class="note returns_void">This method returns an undefined value.</p>
 <p>Makes the twitter user timeline request succeed. returns without doing
 anything if DisableWebmock=true in ENV</p>
 
@@ -1136,24 +1074,6 @@ anything if DisableWebmock=true in ENV</p>
   
 </ul>
 
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        
-        <div class='inline'>
-<p>void</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1161,16 +1081,16 @@ anything if DisableWebmock=true in ENV</p>
       <pre class="lines">
 
 
+114
 115
 116
 117
 118
 119
-120
-121</pre>
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stub_twitter_user_timeline_request'>stub_twitter_user_timeline_request</span><span class='lparen'>(</span><span class='id identifier rubyid_tweets_to_return'>tweets_to_return</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DisableWebmock</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true</span><span class='tstring_end'>&quot;</span></span>
@@ -1189,7 +1109,7 @@ anything if DisableWebmock=true in ENV</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 13 23:36:31 2017 by
+  Generated on Sat Oct 14 11:13:57 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.2).
 </div>

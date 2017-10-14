@@ -2,14 +2,12 @@
 class MarkovTwitter::TweetReader
 
   # @!attribute [r] client
-  #   @return [Twitter::Client]
+  #   @return [Object], an instance of Twitter::REST::Client
   attr_reader :client
 
-  # @param client [Authenticator]
+  # @param client [Twitter::REST::Client]
   def initialize(client:)
     @client = client
-    binding.pry
-    "what is client class"
   end
 
   # @param username [String] must exist or this will raise an error

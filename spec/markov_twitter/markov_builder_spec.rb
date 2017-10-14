@@ -1,17 +1,17 @@
 using MarkovTwitter::TestHelperMethods
-MarkovBuilder = MarkovTwitter::MarkovBuilder
 
-RSpec.describe MarkovBuilder do
+RSpec.describe "MarkovBuilder" do
 
   let(:phrase1) { "the cat in the hat" }
   let(:phrase2) { "the bat in the flat" }
   let(:sample_phrases) { [phrase1, phrase2] }
+  let(:markov_builder) { MarkovTwitter::MarkovBuilder }
 
   describe "#initialize" do
 
     it "processes phrases and stores their values/linkages" do
-      markov_builder = MarkovBuilder.new(phrases: sample_phrases)
-      nodes = markov_builder.nodes
+      chain = markov_builder.new(phrases: sample_phrases)
+      nodes = chain.nodes
       expect(nodes.keys.sort).to eq(%w{bat cat flat hat in the})
       %w{cat bat}.each do |word|
         expect(nodes[word].linkages[:next]).to eq({"in" => 1.0,})
@@ -60,8 +60,8 @@ RSpec.describe MarkovBuilder do
 
     it "evaluates the chain into a random order" do
       srand(0) # seeds the randomness 
-      markov_builder = MarkovBuilder.new(phrases: sample_phrases)
-      results = 3.times.map { markov_builder.evaluate(length: 5) }
+      chain = markov_builder.new(phrases: sample_phrases)
+      results = 3.times.map { chain.evaluate(length: 5) }
       expect(results).to eq [
         "bat in the hat cat",
         "flat the bat in the",

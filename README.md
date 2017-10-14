@@ -2,21 +2,7 @@
 
 ---
 
-1. Setup
-  a. [installation](#installation)
-  b. [twitter integration](#twitter_integration)
-2. Usage
-  a. [TweetReader](#tweet_reader)
-  b. [MarkovBuilder](#markov_builder)
-3. Internals
-  a. [application structure](#application_structure)
-  b. [tests](#tests)
-
----
-
 ### setup
-
-<a name="installation" />
 
 #### installation
 
@@ -38,12 +24,10 @@ After doing this, require it as usual:
 require "markov_twitter"
 ```
 
-<a name="twitter_integration">
-
 #### twitter integration
 
 The source code of the gem (available on github
-[here](http://github.com/maxpleaner/markov_twitter)])
+[here](http://github.com/maxpleaner/markov_twitter))
 includes a `.env.example` file which includes two environment variables.
 Both of them need to be changed to the values provided by Twitter.
 To get these credentials, create an application on the Twitter developer
@@ -66,10 +50,7 @@ console is unnecessary. Specifically this requires only
 
 ### usage
 
-<a name="tweet_reader"></a>
-
 #### TweetReader
-
 
 First, initialize an [Authenticator](TODO):
 
