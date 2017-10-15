@@ -23,6 +23,12 @@ RSpec.describe "Node" do
       # make the => bat => cat very probable
       20.times { the.add_next_linkage bat }
       20.times { bat.add_next_linkage cat }
+      validate_linkages(the, _next: {
+        "cat"=>0.04166666666666667,
+        "hat"=>0.04166666666666667,
+        "bat"=>0.8749999999999999,
+        "flat"=>0.04166666666666667
+      })
       results = 3.times.map { chain.evaluate(length: 5) }
       expect(results).to eq [
        "bat cat in the bat",
@@ -36,6 +42,13 @@ RSpec.describe "Node" do
       the = chain.nodes["the"]
       # make the => the very probable
       20.times { the.add_next_linkage the }
+      validate_linkages(the, _next: {
+        "cat"=>0.04166666666666667,
+        "hat"=>0.04166666666666667,
+        "bat"=>0.04166666666666667,
+        "flat"=>0.04166666666666667,
+        "the"=>0.833333333333333
+      })
       results = 3.times.map { chain.evaluate(length: 5) }
       expect(results).to eq [
         "bat in the the the",
@@ -58,6 +71,9 @@ RSpec.describe "Node" do
           the.remove_next_linkage chain.nodes[word]
         end
       end
+      validate_linkages(the, _next: {
+        "flat" => 1
+      })
       results = 3.times.map { chain.evaluate(length: 5) }
       expect(results).to eq [
         "bat in the flat cat",
@@ -80,6 +96,9 @@ RSpec.describe "Node" do
           the.delete_linkage! :next, chain.nodes[word]
         end
       end
+      validate_linkages(the, _next: {
+        "flat" => 1
+      })
       results = 3.times.map { chain.evaluate(length: 5) }
       # note this is the same result as the previous example.
       expect(results).to eq [
@@ -90,7 +109,6 @@ RSpec.describe "Node" do
     end
 
   end
-
 
   describe "#add_linkage!" do
 
