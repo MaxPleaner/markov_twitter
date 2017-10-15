@@ -56,7 +56,7 @@ module MarkovTwitter::TestHelperMethods
     strings.map { |string| { id: 0, text: string } }
   end
 
-  # Sample tweets for which the content does not matter - 
+  # Sample tweets for which the content does not matter.
   # these are only used to test the pagination of Twitter results.
   # @return [Array<String>]
   def get_stubbed_many_tweets_user_tweets
@@ -86,7 +86,7 @@ module MarkovTwitter::TestHelperMethods
     ).to_return(status: 200, body: "", headers: {})
   end
 
-  # Makes twitter's oauth request fail
+  # Makes twitter's oauth request fail.
   # Returns without doing anything if DisableWebmock=true in ENV.
   # @return [void]
   def stub_twitter_token_request_with_invalid_credentials
@@ -118,9 +118,9 @@ module MarkovTwitter::TestHelperMethods
   end
 
   # Makes the twitter user timeline request succeed.
-  # returns without doing anything if DisableWebmock=true in ENV
+  # returns without doing anything if DisableWebmock=true in ENV.
   # @param tweets_to_return [Array<Hash>]
-  #   - the hashes have keys "id" and "text"
+  #   - the hashes must have keys "id" and "text".
   # @return [void]
   def stub_twitter_user_timeline_request(tweets_to_return)
     return if ENV["DisableWebmock"] == "true"
@@ -128,6 +128,29 @@ module MarkovTwitter::TestHelperMethods
       :get,
       "https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=0"
     ).to_return(status: 200, body: tweets_to_return.to_json, headers: {})
+  end
+
+  # Validates that the linkages on a node are as expected.
+  # @param node [MarkovBuilder::Node]
+  # @param next [Hash<String,Float>] mapping key to probability.
+  # @param prev [Hash<String,Float>] mapping key to probability.
+  # @param total_num_inputs [Hash<Symbol,Integer>] keyed by direction.
+  def validate_linkages(node, _next: nil, prev: nil, total_num_inputs: nil)
+    (expect(node.linkages[:next]).to eq _next) if _next
+    (expect(node.linkages[:prev]).to eq prev) if prev
+    (expect(node.total_num_inputs).to eq total_num_inputs) if total_num_inputs
+  end
+
+  # A sample phrase used to test manipulations on the markov chain.
+  # @return [String]
+  def get_sample_phrase_1
+    "the cat in the hat"
+  end
+
+  # A sample phrase used to test manipulations on the markov chain.
+  # @return [String]
+  def get_sample_phrase_2
+    "the bat in the flat"
   end
 
   # This module can be added with `using MarkovTwitter::TestHelperMethods`.
