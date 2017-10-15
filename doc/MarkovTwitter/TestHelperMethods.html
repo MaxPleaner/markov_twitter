@@ -100,7 +100,18 @@ interfere with application code and don&#39;t require a namespace.</p>
   <dl class="constants">
     
       <dt id="Authenticator-constant" class="">Authenticator =
-        
+        <div class="docstring">
+  <div class="discussion">
+    
+<p>alias</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
       </dt>
       <dd><pre class="code"><span class='const'><span class='object_link'><a href="../MarkovTwitter.html" title="MarkovTwitter (class)">MarkovTwitter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Authenticator.html" title="MarkovTwitter::Authenticator (class)">Authenticator</a></span></span></pre></dd>
     
@@ -219,7 +230,7 @@ interfere with application code and don&#39;t require a namespace.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_sample_user_first_9_tweets-instance_method" title="#get_sample_user_first_9_tweets (instance method)">#<strong>get_sample_user_first_9_tweets</strong>  &#x21d2; Array&lt;String&gt; </a>
+      <a href="#get_sample_user_tweets-instance_method" title="#get_sample_user_tweets (instance method)">#<strong>get_sample_user_tweets</strong>  &#x21d2; Array&lt;String&gt; </a>
     
 
     
@@ -234,31 +245,7 @@ interfere with application code and don&#39;t require a namespace.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The expected tweets fetched from the user timeline I hard-coded.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#get_sample_user_latest_tweet-instance_method" title="#get_sample_user_latest_tweet (instance method)">#<strong>get_sample_user_latest_tweet</strong>  &#x21d2; String </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>This is the expected latest tweet of the sample user.</p>
+<p>The expected tweets of the user I manually posted to on Twitter.</p>
 </div></span>
   
 </li>
@@ -291,6 +278,31 @@ interfere with application code and don&#39;t require a namespace.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#get_stubbed_many_tweets_user_tweets-instance_method" title="#get_stubbed_many_tweets_user_tweets (instance method)">#<strong>get_stubbed_many_tweets_user_tweets</strong>  &#x21d2; Array&lt;String&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sample tweets for which the content does not matter -  these are only used
+to test the pagination of Twitter results.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#stub_twitter_token_request_with_invalid_credentials-instance_method" title="#stub_twitter_token_request_with_invalid_credentials (instance method)">#<strong>stub_twitter_token_request_with_invalid_credentials</strong>  &#x21d2; void </a>
     
 
@@ -306,8 +318,7 @@ interfere with application code and don&#39;t require a namespace.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Makes twitter&#39;s oauth request fail Returns without doing anything if
-DisableWebmock=true in ENV.</p>
+<p>Makes twitter&#39;s oauth request fail.</p>
 </div></span>
   
 </li>
@@ -409,6 +420,31 @@ DisableWebmock=true in ENV.</p>
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_tweet_objects-instance_method" title="#to_tweet_objects (instance method)">#<strong>to_tweet_objects</strong>(strings)  &#x21d2; Array&lt;Hash&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Converts strings into a specific structure that is used internally by the
+twitter gem.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -458,12 +494,12 @@ errors on subsequent operations.</p>
       <pre class="lines">
 
 
-22
 23
-24</pre>
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build_invalid_authenticator'>build_invalid_authenticator</span>
   <span class='const'><span class='object_link'><a href="#Authenticator-constant" title="MarkovTwitter::TestHelperMethods::Authenticator (constant)">Authenticator</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>api_key:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -513,15 +549,15 @@ error unless the expected ENV vars are defined.</p>
       <pre class="lines">
 
 
-12
 13
 14
 15
 16
-17</pre>
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 13</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build_valid_authenticator'>build_valid_authenticator</span>
   <span class='const'><span class='object_link'><a href="#Authenticator-constant" title="MarkovTwitter::TestHelperMethods::Authenticator (constant)">Authenticator</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
@@ -573,12 +609,12 @@ error unless the expected ENV vars are defined.</p>
       <pre class="lines">
 
 
-41
-42
-43</pre>
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_invalid_username'>get_invalid_username</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>3u9r4j8fjniecn875jdpwqk32mdiy4584vuniwcoekpd932</span><span class='tstring_end'>&quot;</span></span>
@@ -628,12 +664,12 @@ results.</p>
       <pre class="lines">
 
 
-64
-65
-66</pre>
+75
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 75</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_many_tweets_username'>get_many_tweets_username</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SFist</span><span class='tstring_end'>&quot;</span></span>
@@ -644,9 +680,9 @@ results.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="get_sample_user_first_9_tweets-instance_method">
+  <h3 class="signature " id="get_sample_user_tweets-instance_method">
   
-    #<strong>get_sample_user_first_9_tweets</strong>  &#x21d2; <tt>Array&lt;String&gt;</tt> 
+    #<strong>get_sample_user_tweets</strong>  &#x21d2; <tt>Array&lt;String&gt;</tt> 
   
 
   
@@ -655,7 +691,7 @@ results.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The expected tweets fetched from the user timeline I hard-coded.</p>
+<p>The expected tweets of the user I manually posted to on Twitter.</p>
 
 
   </div>
@@ -682,89 +718,37 @@ results.</p>
       <pre class="lines">
 
 
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
 47
 48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59</pre>
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 36</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_sample_user_first_9_tweets'>get_sample_user_first_9_tweets</span>
-<span class='lbracket'>[</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A long-term goal of mine is to create a water-based horror game. I&#39;ve done some work on building this in Unity already.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
- <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Many amazing looking animals can be kept in reasonably simple environments, but some require elaborate setups.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
- <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>I enjoy creating terrariums but it&#39;s a lot of work to keep everything balanced so that all the critters survive.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
- <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Although I haven&#39;t had a cat myself, I have had aquariums, terrariums, and rodents at different points.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
- <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>i have personally never owned a pet cat, and I&#39;m a bit allergic, but I still enjoy their company.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
- <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>carnivorous by nature, cats hunt many other wild animals such as gophers and mice. As a result, some people would prefer less outdoor cats.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
- <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>you have now unsubscribed to cat facts. respond with UNSUBSCRIBE to unsubscribe.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
- <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>egyption hairless cats are less allergenic than most other cats. they don&#39;t have hair and are probably less oily.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
- <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>the cat in the hat ate and sat. it got fat and couldn&#39;t catch a rat.</span><span class='tstring_end'>&quot;</span></span>
- <span class='rbracket'>]</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="get_sample_user_latest_tweet-instance_method">
-  
-    #<strong>get_sample_user_latest_tweet</strong>  &#x21d2; <tt>String</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>This is the expected latest tweet of the sample user.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-35
-36
-37</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 35</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_get_sample_user_latest_tweet'>get_sample_user_latest_tweet</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>don&#39;t ever change</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_sample_user_tweets'>get_sample_user_tweets</span>
+  <span class='lbracket'>[</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>don&#39;t ever change</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A long-term goal of mine is to create a water-based horror game. I&#39;ve done some work on building this in Unity already.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Many amazing looking animals can be kept in reasonably simple environments, but some require elaborate setups .</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>I enjoy creating terrariums but it&#39;s a lot of work to keep everything balanced so that all the critters survive .</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Although I haven&#39;t had a cat myself, I have had aquariums, terrariums, and rodents at different points .</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>i have personally never owned a pet cat, and I&#39;m a bit allergic, but I still enjoy their company .</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>carnivorous by nature, cats hunt many other wild animals such as gophers and mice. As a result, some people would prefer less outdoor cats .</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>you have now unsubscribed to cat facts. respond with UNSUBSCRIBE to unsubscribe .</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>egyption hairless cats are less allergenic than most other cats. they don&#39;t have hair and are probably less oily .</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>the cat in the hat ate and sat. it got fat and couldn&#39;t catch a rat .</span><span class='tstring_end'>&quot;</span></span>
+  <span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -811,15 +795,70 @@ It&#39;s there to make sure that fetching tweets works correctly.</p>
       <pre class="lines">
 
 
-29
 30
-31</pre>
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_sample_username'>get_sample_username</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>max_p_sample</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_stubbed_many_tweets_user_tweets-instance_method">
+  
+    #<strong>get_stubbed_many_tweets_user_tweets</strong>  &#x21d2; <tt>Array&lt;String&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sample tweets for which the content does not matter -  these are only used
+to test the pagination of Twitter results.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+62
+63
+64</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 62</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_stubbed_many_tweets_user_tweets'>get_stubbed_many_tweets_user_tweets</span>
+  <span class='int'>20</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='op'>&amp;</span><span class='symbol'>:to_s</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -838,7 +877,7 @@ It&#39;s there to make sure that fetching tweets works correctly.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Makes twitter&#39;s oauth request fail Returns without doing anything if
+<p>Makes twitter&#39;s oauth request fail. Returns without doing anything if
 DisableWebmock=true in ENV.</p>
 
 
@@ -853,15 +892,15 @@ DisableWebmock=true in ENV.</p>
       <pre class="lines">
 
 
-81
-82
-83
-84
-85
-86</pre>
+92
+93
+94
+95
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stub_twitter_token_request_with_invalid_credentials'>stub_twitter_token_request_with_invalid_credentials</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DisableWebmock</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true</span><span class='tstring_end'>&quot;</span></span>
@@ -901,15 +940,15 @@ if DisableWebmock=true in ENV.</p>
       <pre class="lines">
 
 
-71
-72
-73
-74
-75
-76</pre>
+82
+83
+84
+85
+86
+87</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stub_twitter_token_request_with_valid_credentials'>stub_twitter_token_request_with_valid_credentials</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DisableWebmock</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true</span><span class='tstring_end'>&quot;</span></span>
@@ -964,15 +1003,15 @@ if DisableWebmock=true in ENV.</p>
       <pre class="lines">
 
 
-102
-103
-104
-105
-106
-107</pre>
+113
+114
+115
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 113</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stub_twitter_user_lookup_request_with_invalid_username'>stub_twitter_user_lookup_request_with_invalid_username</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DisableWebmock</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true</span><span class='tstring_end'>&quot;</span></span>
@@ -1012,15 +1051,15 @@ anything if DisableWebmock=true in ENV.</p>
       <pre class="lines">
 
 
-91
-92
-93
-94
-95
-96</pre>
+102
+103
+104
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stub_twitter_user_lookup_request_with_valid_username'>stub_twitter_user_lookup_request_with_valid_username</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DisableWebmock</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true</span><span class='tstring_end'>&quot;</span></span>
@@ -1066,7 +1105,7 @@ anything if DisableWebmock=true in ENV</p>
       
         &mdash;
         <div class='inline'><ul><li>
-<p>the hashes have keys “id” and “text”</p>
+<p>the hashes must have keys “id” and “text”</p>
 </li></ul>
 </div>
       
@@ -1081,16 +1120,16 @@ anything if DisableWebmock=true in ENV</p>
       <pre class="lines">
 
 
-114
-115
-116
-117
-118
-119
-120</pre>
+125
+126
+127
+128
+129
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stub_twitter_user_timeline_request'>stub_twitter_user_timeline_request</span><span class='lparen'>(</span><span class='id identifier rubyid_tweets_to_return'>tweets_to_return</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DisableWebmock</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true</span><span class='tstring_end'>&quot;</span></span>
@@ -1104,12 +1143,87 @@ anything if DisableWebmock=true in ENV</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="to_tweet_objects-instance_method">
+  
+    #<strong>to_tweet_objects</strong>(strings)  &#x21d2; <tt>Array&lt;Hash&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Converts strings into a specific structure that is used internally by the
+twitter gem. Used for stubbing with Webmock.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>strings</span>
+      
+      
+        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Hash&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>where each hash has :id and :text keys.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+55
+56
+57</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 55</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_tweet_objects'>to_tweet_objects</span><span class='lparen'>(</span><span class='id identifier rubyid_strings'>strings</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_strings'>strings</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_string'>string</span><span class='op'>|</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>text:</span> <span class='id identifier rubyid_string'>string</span> <span class='rbrace'>}</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Sat Oct 14 11:13:57 2017 by
+  Generated on Sat Oct 14 12:19:13 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.2).
 </div>

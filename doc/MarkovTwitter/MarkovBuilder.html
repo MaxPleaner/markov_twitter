@@ -155,7 +155,7 @@ whitespace and periods in sequence</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#nodes-instance_method" title="#nodes (instance method)">#<strong>nodes</strong>  &#x21d2; Object </a>
+      <a href="#nodes-instance_method" title="#nodes (instance method)">#<strong>nodes</strong>  &#x21d2; Hash&lt;String, Node&gt; </a>
     
 
     
@@ -260,7 +260,7 @@ whitespace and periods in sequence</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>An “evaluation” of the markov chain, e.g.</p>
+<p>An “evaluation” of the markov chain.</p>
 </div></span>
   
 </li>
@@ -468,7 +468,7 @@ predetermined direction, pick one based on their probabilities.</p>
       <div class="method_details first">
   <h3 class="signature first" id="nodes-instance_method">
   
-    #<strong>nodes</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+    #<strong>nodes</strong>  &#x21d2; <tt>Hash&lt;String, <span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt>  <span class="extras">(readonly)</span>
   
 
   
@@ -485,6 +485,19 @@ created, although they are referenced in Node#linkages as well.</p>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash&lt;String, <span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -681,7 +694,7 @@ the probabilities internally.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An “evaluation” of the markov chain, e.g. a run case. Passes random values
+<p>An “evaluation” of the markov chain. e.g. a run case. Passes random values
 through the probability sequences.</p>
 
 
@@ -1074,7 +1087,7 @@ predetermined direction, pick one based on their probabilities.</p>
 </div>
 
       <div id="footer">
-  Generated on Sat Oct 14 11:13:57 2017 by
+  Generated on Sat Oct 14 12:19:14 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.2).
 </div>

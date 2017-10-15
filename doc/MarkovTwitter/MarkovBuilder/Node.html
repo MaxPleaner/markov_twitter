@@ -120,7 +120,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#linkages-instance_method" title="#linkages (instance method)">#<strong>linkages</strong>  &#x21d2; Object </a>
+      <a href="#linkages-instance_method" title="#linkages (instance method)">#<strong>linkages</strong>  &#x21d2; Hash&lt;Symbol, Hash&lt;String, Float&gt;&gt; </a>
     
 
     
@@ -139,8 +139,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute linkages.</p>
+    <span class="summary_desc"><div class='inline'><ul><li>
+<p>Outer hash is keyed by the direction (:next, :prev).</p>
+</li></ul>
 </div></span>
   
 </li>
@@ -149,7 +150,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#num_inputs_per_cell-instance_method" title="#num_inputs_per_cell (instance method)">#<strong>num_inputs_per_cell</strong>  &#x21d2; Object </a>
+      <a href="#num_inputs_per_cell-instance_method" title="#num_inputs_per_cell (instance method)">#<strong>num_inputs_per_cell</strong>  &#x21d2; Hash&lt;Symbol, Hash&lt;String,Integer&gt;&gt; </a>
     
 
     
@@ -168,8 +169,11 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute num_inputs_per_cell.</p>
+    <span class="summary_desc"><div class='inline'><ul><li>
+<p>outer hash is keyed by the direction (:next, :prev) - inner hash is keyed
+by node value and the Integer value is   incremented/decremented whenever a
+linkage is added/removed - used to re-calculate probabilities.</p>
+</li></ul>
 </div></span>
   
 </li>
@@ -178,7 +182,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#total_num_inputs-instance_method" title="#total_num_inputs (instance method)">#<strong>total_num_inputs</strong>  &#x21d2; Object </a>
+      <a href="#total_num_inputs-instance_method" title="#total_num_inputs (instance method)">#<strong>total_num_inputs</strong>  &#x21d2; Hash&lt;Symbol&gt;, Integer </a>
     
 
     
@@ -187,6 +191,8 @@
   
   
     
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -195,8 +201,10 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute total_num_inputs.</p>
+    <span class="summary_desc"><div class='inline'><ul><li>
+<p>tracks the total number of inputs added in a direction - also used to
+re-calculate probabilities.</p>
+</li></ul>
 </div></span>
   
 </li>
@@ -224,9 +232,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute value.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -515,15 +521,15 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
+29
+30
+31
+32
 33
-34
-35
-36
-37
-38</pre>
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>value:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
@@ -546,7 +552,7 @@ of insertions in that direction.</p>
       <div class="method_details first">
   <h3 class="signature first" id="linkages-instance_method">
   
-    #<strong>linkages</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+    #<strong>linkages</strong>  &#x21d2; <tt>Hash&lt;Symbol, Hash&lt;String, Float&gt;&gt;</tt>  <span class="extras">(readonly)</span>
   
 
   
@@ -555,13 +561,41 @@ of insertions in that direction.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute linkages</p>
+<p>Returns - Outer hash is keyed by the direction (:next, :prev).</p>
+<ul><li>
+<p>Inner hash represents possible traversals - also keyed by string value, its
+values are probabilities representing the likelihood of choosing that
+route.</p>
+</li></ul>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash&lt;Symbol, Hash&lt;String, Float&gt;&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>Outer hash is keyed by the direction (:next, :prev).</p>
+</li><li>
+<p>Inner hash represents possible traversals - also keyed by string value, its
+values are probabilities representing the likelihood of choosing that
+route.</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -569,12 +603,12 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
-16
-17
-18</pre>
+14
+15
+16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_linkages'>linkages</span>
   <span class='ivar'>@linkages</span>
@@ -589,7 +623,7 @@ of insertions in that direction.</p>
       <div class="method_details ">
   <h3 class="signature " id="num_inputs_per_cell-instance_method">
   
-    #<strong>num_inputs_per_cell</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+    #<strong>num_inputs_per_cell</strong>  &#x21d2; <tt>Hash&lt;Symbol, Hash&lt;String,Integer&gt;&gt;</tt>  <span class="extras">(readonly)</span>
   
 
   
@@ -598,13 +632,43 @@ of insertions in that direction.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute num_inputs_per_cell</p>
+<p>Returns - outer hash is keyed by the direction (:next, :prev)</p>
+<ul><li>
+<p>inner hash is keyed by node value and the Integer value is
+incremented/decremented whenever a linkage is added/removed</p>
+</li><li>
+<p>used to re-calculate probabilities.</p>
+</li></ul>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash&lt;Symbol, Hash&lt;String,Integer&gt;&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>outer hash is keyed by the direction (:next, :prev)</p>
+</li><li>
+<p>inner hash is keyed by node value and the Integer value is
+incremented/decremented whenever a linkage is added/removed</p>
+</li><li>
+<p>used to re-calculate probabilities.</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -612,12 +676,12 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
-24
-25
-26</pre>
+21
+22
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_num_inputs_per_cell'>num_inputs_per_cell</span>
   <span class='ivar'>@num_inputs_per_cell</span>
@@ -628,11 +692,11 @@ of insertions in that direction.</p>
 </div>
     
       
-      <span id="total_num_inputs=-instance_method"></span>
+      <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="total_num_inputs-instance_method">
   
-    #<strong>total_num_inputs</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>total_num_inputs</strong>  &#x21d2; <tt>Hash&lt;Symbol&gt;</tt>, <tt>Integer</tt>  <span class="extras">(readonly)</span>
   
 
   
@@ -641,13 +705,37 @@ of insertions in that direction.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute total_num_inputs</p>
+<p>Returns - tracks the total number of inputs added in a direction</p>
+<ul><li>
+<p>also used to re-calculate probabilities</p>
+</li></ul>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash&lt;Symbol&gt;</tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>tracks the total number of inputs added in a direction</p>
+</li><li>
+<p>also used to re-calculate probabilities</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -655,12 +743,12 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
-30
-31
-32</pre>
+26
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span>
   <span class='ivar'>@total_num_inputs</span>
@@ -681,29 +769,18 @@ of insertions in that direction.</p>
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns the value of attribute value</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
+7
 8
-9
-10</pre>
+9</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 7</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value'>value</span>
   <span class='ivar'>@value</span>
@@ -777,20 +854,20 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
+40
+41
+42
+43
 44
 45
 46
 47
 48
 49
-50
-51
-52
-53
-54</pre>
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_and_adjust_probabilities'>add_and_adjust_probabilities</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='int'>0</span>
@@ -854,12 +931,12 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
-100
-101
-102</pre>
+96
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_next_linkage'>add_next_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_child_node'>child_node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_add_and_adjust_probabilities'>add_and_adjust_probabilities</span><span class='lparen'>(</span><span class='symbol'>:next</span><span class='comma'>,</span> <span class='id identifier rubyid_child_node'>child_node</span><span class='rparen'>)</span>
@@ -915,12 +992,12 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
-107
-108
-109</pre>
+103
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 103</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_prev_linkage'>add_prev_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_parent_node'>parent_node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_add_and_adjust_probabilities'>add_and_adjust_probabilities</span><span class='lparen'>(</span><span class='symbol'>:prev</span><span class='comma'>,</span> <span class='id identifier rubyid_parent_node'>parent_node</span><span class='rparen'>)</span>
@@ -995,12 +1072,12 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
-60
-61
-62</pre>
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_probability_unit'>get_probability_unit</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='rparen'>)</span>
   <span class='float'>1.0</span> <span class='op'>/</span> <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span>
@@ -1072,17 +1149,17 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
+64
+65
+66
+67
 68
 69
 70
-71
-72
-73
-74
-75</pre>
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 64</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_preempt_faulty_removal'>preempt_faulty_removal</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='lbracket'>[</span>
@@ -1159,6 +1236,10 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
+77
+78
+79
+80
 81
 82
 83
@@ -1169,14 +1250,10 @@ of insertions in that direction.</p>
 88
 89
 90
-91
-92
-93
-94
-95</pre>
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_and_adjust_probabilites'>remove_and_adjust_probabilites</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_preempt_faulty_removal'>preempt_faulty_removal</span>
@@ -1244,12 +1321,12 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
-114
-115
-116</pre>
+110
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_next_linkage'>remove_next_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_child_node'>child_node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_remove_and_adjust_probabilities'>remove_and_adjust_probabilities</span><span class='lparen'>(</span><span class='symbol'>:next</span><span class='comma'>,</span> <span class='id identifier rubyid_child_node'>child_node</span><span class='rparen'>)</span>
@@ -1305,12 +1382,12 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
-121
-122
-123</pre>
+117
+118
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 117</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_prev_linkage'>remove_prev_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_parent_node'>parent_node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_remove_and_adjust_probabilities'>remove_and_adjust_probabilities</span><span class='lparen'>(</span><span class='symbol'>:prev</span><span class='comma'>,</span> <span class='id identifier rubyid_parent_node'>parent_node</span><span class='rparen'>)</span>
@@ -1325,7 +1402,7 @@ of insertions in that direction.</p>
 </div>
 
       <div id="footer">
-  Generated on Sat Oct 14 11:13:58 2017 by
+  Generated on Sat Oct 14 12:19:14 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.2).
 </div>

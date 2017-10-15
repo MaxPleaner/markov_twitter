@@ -120,7 +120,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#client-instance_method" title="#client (instance method)">#<strong>client</strong>  &#x21d2; Object </a>
+      <a href="#client-instance_method" title="#client (instance method)">#<strong>client</strong>  &#x21d2; Twitter::REST::Client </a>
     
 
     
@@ -139,9 +139,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute client.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -257,12 +255,12 @@
       <pre class="lines">
 
 
+8
 9
-10
-11</pre>
+10</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/tweet_reader.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/tweet_reader.rb', line 8</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>client:</span><span class='rparen'>)</span>
   <span class='ivar'>@client</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span>
@@ -282,7 +280,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="client-instance_method">
   
-    #<strong>client</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+    #<strong>client</strong>  &#x21d2; <tt>Twitter::REST::Client</tt>  <span class="extras">(readonly)</span>
   
 
   
@@ -291,13 +289,24 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute client</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Twitter::REST::Client</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -305,12 +314,12 @@
       <pre class="lines">
 
 
+5
 6
-7
-8</pre>
+7</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/tweet_reader.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/tweet_reader.rb', line 5</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_client'>client</span>
   <span class='ivar'>@client</span>
@@ -359,7 +368,7 @@
       
         &mdash;
         <div class='inline'>
-<p>must exist or this will raise an error</p>
+<p>must exist om twitter or this will raise an error</p>
 </div>
       
     </li>
@@ -392,13 +401,13 @@
       <pre class="lines">
 
 
+15
 16
 17
-18
-19</pre>
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/tweet_reader.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/tweet_reader.rb', line 15</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_tweets'>get_tweets</span><span class='lparen'>(</span><span class='label'>username:</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_user'>user</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
@@ -414,7 +423,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Oct 14 11:13:57 2017 by
+  Generated on Sat Oct 14 12:19:13 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.2).
 </div>
