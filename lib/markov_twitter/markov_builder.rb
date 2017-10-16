@@ -3,8 +3,9 @@
 class MarkovTwitter::MarkovBuilder
 
   # Regex used to split the phrase into tokens.
-  # It splits on any number of whitespace and periods in sequence.
-  SeparatorCharacterRegex = /[\s\.]+?/
+  # It splits on any number of whitespace\in sequence.
+  # Sequences of punctuation characters are treated like any other word.
+  SeparatorCharacterRegex = /\s+/
 
   # @return [Hash<String, Node>]
   # The base dictionary for nodes.
@@ -12,9 +13,16 @@ class MarkovTwitter::MarkovBuilder
   # although they are referenced in Node#linkages as well.
   attr_reader :nodes
 
+  # Splits a phrase into tokens.
+  # @param phrase [String]
+  # @return [Array<String>]
+  def self.split_phrase(phrase)
+    phrase.split(SeparatorCharacterRegex)
+  end
+
   # @param phrases [Array<String>] e.g. sentences or tweets.
   # processes the phrases to populate @nodes.
-  def initialize(phrases:)
+  def initialize(phrases: [])
     @nodes = {}
     phrases.each &method(:process_phrase)
   end
@@ -23,22 +31,36 @@ class MarkovTwitter::MarkovBuilder
   # @param phrase [String] e.g. a sentence or tweet.
   # @return [void]
   def process_phrase(phrase)
-    node_vals = split_and_sanitize_phrase(phrase)
+    node_vals = self.class.split_phrase(phrase)
     node_vals.length.times do |i|
-      add_nodes(node_vals[i], node_vals[i + 1])
+      nodes = node_vals[i..(i+1)].compact.map do |node_val|
+        construct_node(node_val)
+      end
+      add_nodes(*nodes)
     end
   end
 
   # Adds a sequence of two tokens to @nodes and creates linkages.
-  # @param node_val1 [String]
-  # @param node_val2 [String]
+  # if node_val2 is nil, it won't be added and linkages won't be created
+  # @param node1 [Node]
+  # @param node2 [Node]
   # @return [void]
-  def add_nodes(node_val1, node_val2)
-    @nodes[node_val1] ||= Node.new(value: node_val1, nodes: @nodes)
-    if node_val2
-      @nodes[node_val2] ||= Node.new(value: node_val2, nodes: @nodes)
-      add_linkages(@nodes[node_val1], @nodes[node_val2])
+  def add_nodes(node1, node2=nil)
+    unless node1.is_a?(Node)
+      raise ArgumentError, "first arg passed to add_nodes is not a Node"
     end
+    @nodes[node1.value] ||= node1
+    if node2
+      @nodes[node2.value] ||= node2
+      add_linkages(*@nodes.values_at(*[node1,node2].map(&:value)))
+    end
+  end
+
+  # Builds a single node which contains a reference to @nodes.
+  # Note that this does do the inverse (it doesn't add the node to @nodes)
+  # @param value [String]
+  def construct_node(value)
+    Node.new(value: value, nodes: @nodes)
   end
 
   # Adds bidirectional linkages beween two nodes.
@@ -47,6 +69,7 @@ class MarkovTwitter::MarkovBuilder
   # @param node2 [Node] the child.
   # @return [void]
   def add_linkages(node1, node2)
+    # raise an error unless node1 is a node.
     # Mirrors the change on :prev 
     node1.add_next_linkage(node2, mirror_change=true)
   end
@@ -88,12 +111,5 @@ class MarkovTwitter::MarkovBuilder
     nodes[new_key]
   end
 
-  # Splits a phrase into tokens.
-  # @param phrase [String]
-  # @return [Array<String>]
-  def split_and_sanitize_phrase(phrase)
-    regex = self.class::SeparatorCharacterRegex
-    phrase.split(regex)
-  end
 
 end
