@@ -136,9 +136,24 @@ module MarkovTwitter::TestHelperMethods
   # @param prev [Hash<String,Float>] mapping key to probability.
   # @param total_num_inputs [Hash<Symbol,Integer>] keyed by direction.
   def validate_linkages(node, _next: nil, prev: nil, total_num_inputs: nil)
-    (expect(node.linkages[:next]).to eq _next) if _next
-    (expect(node.linkages[:prev]).to eq prev) if prev
-    (expect(node.total_num_inputs).to eq total_num_inputs) if total_num_inputs
+    precision = 0.00001
+    if _next
+      node.linkages[:next].each do |name, linkage|
+        expect(linkage).to be_within(precision).of(_next[name])
+      end
+    end
+     if prev
+      node.linkages[:prev].each do |name, linkage|
+        expect(linkage).to be_within(precision).of(prev[name])
+      end
+    end
+     if total_num_inputs
+      expect(node.total_num_inputs).to eq(total_num_inputs)
+    end
+  end
+
+
+  def round_values(linkages)
   end
 
   # A sample phrase used to test manipulations on the markov chain.

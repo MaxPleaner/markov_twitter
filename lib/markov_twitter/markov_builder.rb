@@ -47,8 +47,8 @@ class MarkovTwitter::MarkovBuilder
   # @param node2 [Node] the child.
   # @return [void]
   def add_linkages(node1, node2)
-    node1.add_next_linkage(node2)
-    node2.add_prev_linkage(node1)
+    # Mirrors the change on :prev 
+    node1.add_next_linkage(node2, mirror_change=true)
   end
 
   # An "evaluation" of the markov chain. e.g. a run case.
