@@ -57,11 +57,11 @@ RSpec.describe "Node" do
       )
       results = 5.times.map { chain.evaluate(length: 5) }
       expect(results).to eq [
+        "flat cat in the bat",
+        "flat in the bat cat",
         "bat cat in the bat",
-        "hat in the bat cat",
-        "the flat cat in the",
-        "the bat cat in the",
-        "cat in the bat cat"
+        "flat the bat cat in",
+        "in the bat in the"
       ]
     end
 
@@ -85,9 +85,9 @@ RSpec.describe "Node" do
       )
       results = 3.times.map { chain.evaluate(length: 5) }
       expect(results).to eq [
-        "bat in the the the",
-        "hat in the the the",
-        "the bat in the the"
+        "flat cat in the the",
+        "flat in the the the",
+        "bat in the the flat"
       ]
     end
 
@@ -110,10 +110,10 @@ RSpec.describe "Node" do
       )
       results = 3.times.map { chain.evaluate(length: 5) }
       expect(results).to eq [
-        "bat in the rat cat",
-        "flat rat the hat cat",
-        "rat cat in the rat"
-      ]     
+        "rat cat in the rat",
+        "in the rat bat in",
+        "flat the flat in the"
+      ]
     end
 
   end
@@ -157,9 +157,9 @@ RSpec.describe "Node" do
       )
       results = 3.times.map { chain.evaluate(length: 5) }
       expect(results).to eq [
-        "bat in the flat cat",
-        "flat the flat in the",
-        "the flat cat in the"
+        "flat cat in the flat",
+        "flat in the flat bat",
+        "bat in the flat the"
       ]
     end
 
@@ -249,9 +249,9 @@ RSpec.describe "Node" do
       results = 3.times.map { chain.evaluate(length: 5) }
       # note this is the same result as the previous example.
       expect(results).to eq [
-        "bat in the flat cat",
-        "flat the flat in the",
-        "the flat cat in the"
+        "flat cat in the flat",
+        "flat in the flat bat",
+        "bat in the flat the"
       ]
     end
 

@@ -169,10 +169,11 @@ RSpec.describe "MarkovBuilder" do
 
       it "starts from a random node" do
         chain = markov_builder_class.new(phrases: ["foo"])
+        new_node_finder = chain.class::NewNodeFinders[:random]
         expect(chain).to(
           receive(:get_new_start_point)
           .exactly(3).times
-          .with(chain.nodes.keys)
+          .with(new_node_finder)
           .and_call_original
         )
         expect(chain.evaluate(length: 3)).to eq("foo foo foo")
@@ -197,18 +198,101 @@ RSpec.describe "MarkovBuilder" do
 
       it "can prioritize less-likely options" do
         chain = markov_builder_class.new phrases: ["a b a a a a a"]
-        expect(chain.evaluate(
-          length: 7,
-          probability_bounds: [0, 20]
-        )).to eq("a b a b a b a")
+        expect(3.times.map do
+          chain.evaluate(
+            length: 7,
+            probability_bounds: [0, 20]
+          )
+        end).to eq([
+          "b a b a b a b",
+          "a b a b a b a",
+          "a b a b a b a"
+        ])
       end
 
       it "can prioritze more-likely options" do
         chain = markov_builder_class.new phrases: ["a b a a a"]
-        expect(chain.evaluate(
-          length: 10,
-          probability_bounds: [34, 100]
-        )).to eq("a a a a a a a a a a")
+        expect(10.times.map do
+          chain.evaluate(
+            length: 10,
+            probability_bounds: [34, 100]
+          )
+        end).to eq([
+          "b a a a a a a a a a",
+          "b a a a a a a a a a",
+          "b a a a a a a a a a",
+          "b a a a a a a a a a",
+          "b a a a a a a a a a",
+          "a a a a a a a a a a",
+          "a a a a a a a a a a",
+          "b a a a a a a a a a",
+          "a a a a a a a a a a",
+          "b a a a a a a a a a"
+        ])
+      end
+
+    end
+
+    context "default behavior" do
+
+      it "handles punctuation like any other character" do
+        chain = markov_builder_class.new phrases: ["a. cat! in, a; hat - (sat)"]
+        expect(3.times.map { chain.evaluate length: 5 }).to eq([
+          "(sat) cat! in, a; hat",
+          "in, a; hat - (sat)",
+          "hat - (sat) - (sat)"
+        ])
+      end
+
+    end
+
+  end
+
+  describe "_evaluate" do
+
+    context "evaluating forwards" do
+
+      it "can use an arbitrary filter to find starting nodes" do
+        chain = markov_builder_class.new phrases: sample_phrases
+        expect(3.times.map do
+          chain._evaluate(
+            length: 5,
+            direction: :next,
+            new_node_finder: -> (node) {
+              # every phrase in the results should start with cat.
+              node.value == "cat"
+            }
+          ).map(&:value).join(" ")
+        end).to eq([
+          "cat in the flat cat",
+          "cat in the cat in",
+          "cat in the cat in"
+        ])
+      end
+
+    end
+
+    context "evaluating backwards" do
+
+      it "can use an arbitrary filter to find start nodes" do
+        # The "start nodes" determine the ending of the phrases
+        # in this case, since the result is reversed and traversal
+        # happens along :prev linkages
+        chain = markov_builder_class.new phrases: sample_phrases
+        expect(3.times.map do
+          chain._evaluate(
+            length: 5,
+            direction: :prev,
+            new_node_finder: -> (node) {
+              # every phrase in the results should end with hat
+              node.value == "hat"
+            }
+          ).map(&:value).reverse.join(" ")
+        end).to eq([
+          "the bat in the hat",
+          "the cat in the hat",
+          "the bat in the hat"
+        ])
       end
 
     end
@@ -217,11 +301,28 @@ RSpec.describe "MarkovBuilder" do
 
   describe "#get_new_start_point" do
 
-    it "picks a random node name from the given linkages" do
+    it "returns a random one that satisfies the criteria" do
       chain = markov_builder_class.new phrases: sample_phrases
-      linkage_names = chain.nodes.keys
-      expect(linkage_names).to receive(:sample).and_call_original
-      expect(chain.get_new_start_point linkage_names).to eq chain.nodes["bat"]
+      # all phrases will start with "in"
+      new_node_finder = -> (node) { node.value == "in" }
+      vals = chain.nodes.values
+      shuffled = chain.nodes.values.shuffle
+      expect(chain.nodes).to(
+        receive(:values).exactly(3).times.and_return vals
+      )
+      expect(vals).to(
+        receive(:shuffle).exactly(3).times.and_return shuffled
+      )
+      # thanks to https://stackoverflow.com/a/28419381/2981429
+      # for the tip on how to do this
+      expect(shuffled).to(
+        receive(:find).with(no_args) do |blk|
+          expect(blk).to eq(new_node_finder)
+        end.exactly(3).times.and_call_original
+      )
+      expect(3.times.map do
+        chain.get_new_start_point new_node_finder
+      end.map(&:value)).to eq(%w{in in in})
     end
   
   end

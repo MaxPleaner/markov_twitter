@@ -2,6 +2,13 @@
 # A "phrase" is defined here as a tweet.
 class MarkovTwitter::MarkovBuilder
 
+  # Lambdas used to select new nodes.
+  NewNodeFinders = {
+    random:      -> (node) { true },
+    favor_start: -> (node) { node.total_num_linkages[:prev].zero? },
+    favor_end:   -> (node) { node.total_num_linkages[:next].zero? },
+  }
+
   # Regex used to split the phrase into tokens.
   # It splits on any number of whitespace\in sequence.
   # Sequences of punctuation characters are treated like any other word.
@@ -74,27 +81,95 @@ class MarkovTwitter::MarkovBuilder
     node1.add_next_linkage(node2, mirror_change=true)
   end
 
+  # The default evaluation method to produce a run case.
+  # Goes in forward direction with with random nodes as start points.
+  # See also #evaluate_favoring_start and #evaluate_favoring_end.
+  # @param (see #_evaluate)
+  #   the passed node_node_finder lambda picks a totally random new node.
+  # @return [String], the result of #_evaluate joined by whitespace.
+  def evaluate(length:, probability_bounds: [0,100], root_node: nil)
+    _evaluate(
+      length: length,
+      probability_bounds: probability_bounds,
+      root_node: root_node,
+      direction: :next,
+      new_node_finder: self.class::NewNodeFinders[:random]
+    ).map(&:value).join(" ")
+  end
+
+  # @param (see #_evaluate)
+  #   The passed node_node_finder lambda picks a node with no :prev.
+  #   An error is raised if no nodes match this condition.
+  # @return [String], the result of #_evaluate joined by whitespace.
+  def evaluate_favoring_start(length:, probability_bounds: [0,100], root_node: nil)
+    new_node_finder = self.class::NewNodeFinders[:favor_start]
+    has_possible_start_node = nodes.any? &new_node_finder
+    unless has_possible_start_node
+      raise ArgumentError, "All nodes have a :prev linkage, can't favor start"
+    end
+    _evaluate(
+      length: length,
+      probability_bounds: probability_bounds,
+      root_node: root_node,
+      direction: :next,
+      new_node_finder: new_node_finder
+    ).map(&:value).join(" ")
+  end
+
+  # @param (see #_evaluate)
+  #   The passed node_node_finder lambda picks a node with no :next.
+  #   an error is raised if no nodes match this condition.
+  # @return [String], the result of #_evaluate reversed and joined by whitespace.
+  def evaluate_favoring_end(length:, probability_bounds: [0,100], root_node: nil)
+    new_node_finder = self.class::NewNodeFinders[:favor_end]
+    has_possible_end_node = nodes.any? &new_node_finder
+    unless has_possible_end_node
+      raise ArgumentError, "All nodes have a :next linkage, can't favor end"
+    end
+    _evaluate(
+      length: length,
+      probability_bounds: probability_bounds,
+      root_node: root_node,
+      direction: :prev,
+      new_node_finder: new_node_finder
+    ).map(&:value).reverse.join(" ")
+  end
+
   # An "evaluation" of the markov chain. e.g. a run case.
   # Passes random values through the probability sequences.
   # @param length [Integer] the number of tokens in the result.
   # @param probabilitity_bounds [Array<Integer, Integer>]
   #   optional, can limit the probability to a range where
   #   0 <= min <= result <= max <= 100.
-  # @return [String], the resulting tokens joined by a whitespace.
-  def evaluate(length:, probability_bounds: [0,100], root_node: nil)
+  # @param new_node_finder [Lambda<Node>]
+  #   during iteration, if the current node has no linkages in <direction>,
+  #   a new node is selected from the nodes dict. The first randomly-picked
+  #   node which this lambda returns a truthy value for is selected.
+  # @return [Array<Node>], the result tokens in order.
+  def _evaluate(
+    length:,
+    probability_bounds: [0,100],
+    root_node: nil,
+    direction:,
+    new_node_finder:
+  )
     length.times.reduce([]) do |result_nodes|
-      root_node ||= get_new_start_point(@nodes.keys)
+      root_node ||= get_new_start_point(new_node_finder)
       result_nodes.push root_node
-      root_node = pick_linkage(root_node.linkages[:next], probability_bounds)
+      root_node = pick_linkage(
+        root_node.linkages[direction],
+        probability_bounds,
+      )
       result_nodes
-    end.map(&:value).join(" ")
+    end
   end
 
   # Gets a random node as a potential start point.
-  # @param linkage_names [Array<String>]
+  # @param new_node_finder [lambda<Node>]
+  #   any returned node will return a truthy value from this.
   # @return [Node] or nil if one couldn't be found.
-  def get_new_start_point(linkage_names)
-    nodes[linkage_names.sample]
+  def get_new_start_point(new_node_finder)
+    nodes.values.shuffle.find(&new_node_finder)
   end
 
   # validates the given probability bounds
@@ -138,6 +213,5 @@ class MarkovTwitter::MarkovBuilder
     end
     nodes[new_key&.first]
   end
-
 
 end
