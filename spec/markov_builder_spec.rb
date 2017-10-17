@@ -207,7 +207,7 @@ RSpec.describe "MarkovBuilder" do
         chain = markov_builder_class.new phrases: ["a b a a a"]
         expect(chain.evaluate(
           length: 10,
-          probability_bounds: [30, 100]
+          probability_bounds: [34, 100]
         )).to eq("a a a a a a a a a a")
       end
 
@@ -229,9 +229,20 @@ RSpec.describe "MarkovBuilder" do
   describe "#pick_linkage" do
 
     context "default probability_bounds" do
+
       it "picks the next linkage according to the probabilities" do
-        chain = markov_builder_class.new phrases: ["foo bar", "foo car"]
+        chain = markov_builder_class.new phrases: ["a b", "a c", "a b"]
+        a,b,c = chain.nodes.values_at *%w{a b c}
+        # the lower-prob option "b" can be excluded
+        expect(
+          chain.pick_linkage(a.linkages[:next], [34, 100])
+        ).to eq(b)
+        # similarly, the higher-prob option "c" can be excluded
+        expect(
+          chain.pick_linkage(a.linkages[:next], [0, 33])
+        ).to eq(c)
       end
+
     end
 
   end
