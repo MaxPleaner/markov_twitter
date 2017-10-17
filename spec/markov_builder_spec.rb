@@ -243,6 +243,11 @@ RSpec.describe "MarkovBuilder" do
         ).to eq(c)
       end
 
+      it "returns nil if there are no options" do
+        chain = markov_builder_class.new phrases: []
+        expect(chain.pick_linkage([])).to be_nil
+      end
+
     end
 
   end

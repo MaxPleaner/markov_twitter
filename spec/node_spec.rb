@@ -15,23 +15,29 @@ RSpec.describe "Node" do
     srand() # unseeds the randomness
   end
 
-  describe "#add_next_linkage" do
+  describe "#initialize and attr_readers" do
 
-    it "calls add_and_adjust_probabilities" do
-      chain = markov_builder_class.new(phrases: sample_phrases)
-      the, cat = chain.nodes.values_at *%w{the cat}
-      expect(the).to receive(:add_and_adjust_probabilities).with(:next, cat)
-      the.add_next_linkage cat
+    it "stores correct instance variables" do
+      nodes = {}
+      node = node_class.new(value: "foo", nodes: nodes)
+      expect(node.value).to eq "foo"
+      expect(node.linkages).to eq({ next: {}, prev: {} })
+      expect(node.total_num_inputs).to eq({next: 0, prev: 0})
+      expect(node.nodes).to eq nodes
     end
 
+  end
+
+  describe "#add_and_adjust_probabilities" do
+    
     it "can add a :next option more probable by adding it multiple times" do
       chain = markov_builder_class.new(phrases: sample_phrases)
       the = chain.nodes["the"]
       cat = chain.nodes["cat"]
       bat = chain.nodes["bat"]
       # make the => bat => cat very probable
-      20.times { the.add_next_linkage bat }
-      20.times { bat.add_next_linkage cat }
+      20.times { the.add_and_adjust_probabilities :next, bat }
+      20.times { bat.add_and_adjust_probabilities :next, cat }
       validate_linkages(the,
         _next: {
           "cat"=> 1/24.0, "hat"=> 1/24.0, "bat"=> 21/24.0, "flat"=> 1/24.0
@@ -63,7 +69,7 @@ RSpec.describe "Node" do
       chain = markov_builder_class.new(phrases: sample_phrases)
       the = chain.nodes["the"]
       # make the => the very probable
-      20.times { the.add_next_linkage the }
+      20.times { the.add_and_adjust_probabilities :next, the }
       validate_linkages(the,
         _next: {
           "cat"=> 1/24.0,
@@ -90,7 +96,7 @@ RSpec.describe "Node" do
       the = chain.nodes["the"]
       rat = node_class.new(value: "rat", nodes: the.nodes)
       # make the => rat fairly likely
-      10.times { the.add_next_linkage rat }
+      10.times { the.add_and_adjust_probabilities :next, rat }
       validate_linkages(the,
         _next: {
           "bat" => 1/14.0,
@@ -112,16 +118,32 @@ RSpec.describe "Node" do
 
   end
 
-  describe "#remove_next_linkage" do
+  describe "#get_probability_unit" do
+
+    it "determine a single input's weight using total_num_inputs" do
+      chain = markov_builder_class.new phrases: ["foo bar foo car"]
+      expect(chain.nodes["foo"].get_probability_unit(:next)).to eq(0.5)
+    end
+
+    it "raises an error if there were no inputs added" do
+      chain = markov_builder_class.new phrases: ["foo"]
+      expect {chain.nodes["foo"].get_probability_unit(:next) }.to(
+        raise_error
+      )
+    end
+
+  end 
+
+  describe "#remove_and_adjust_probabilities" do
 
     it "can remove a certain word to make it less likely" do
       chain = markov_builder_class.new(phrases: sample_phrases)
       the, cat, bat, hat = chain.nodes.values_at *%w{the cat bat hat}
       # make the => cat/bat/hat impossible.
       %w{cat bat hat}.each do |word|
-        # it's safe to run remove_next_linkage excess times.
+        # it's safe to run it excess times.
         5.times do
-          the.remove_next_linkage chain.nodes[word]
+          the.remove_and_adjust_probabilities :next, chain.nodes[word]
         end
       end
       validate_linkages(the,
@@ -139,6 +161,70 @@ RSpec.describe "Node" do
         "flat the flat in the",
         "the flat cat in the"
       ]
+    end
+
+  end
+
+  describe "#update_opposite_direction" do
+
+    it "calls the given method using the opposite direction" do
+      chain = markov_builder_class.new phrases: ["foo bar"]
+      foo,bar = chain.nodes.values_at *%w{foo bar}
+      expect_fake_method_called_with_direction = -> (direction) {
+        expect(bar).to receive(:send).with(
+          :fake_method, direction, foo, :a, :b, false
+        )
+        expect(bar).not_to receive(:update_opposite_direction)
+      }
+      expect_fake_method_called_with_direction.call(:prev)
+      foo.update_opposite_direction(:next, bar, :fake_method, :a, :b)
+      expect_fake_method_called_with_direction.call(:next)
+      foo.update_opposite_direction(:prev, bar, :fake_method, :a, :b)
+    end
+
+  end
+
+  describe "#add_next_linkage" do
+
+    it "calls add_and_adjust_probabilities with :next" do
+      chain = markov_builder_class.new(phrases: sample_phrases)
+      the, cat = chain.nodes.values_at *%w{the cat}
+      expect(the).to receive(:add_and_adjust_probabilities).with(:next, cat)
+      the.add_next_linkage cat
+    end
+
+  end
+
+  describe "#add_prev_linkage" do
+
+    it "calls add_and_adjust_probabilities with :prev" do
+      chain = markov_builder_class.new(phrases: sample_phrases)
+      the, cat = chain.nodes.values_at *%w{the cat}
+      expect(the).to receive(:add_and_adjust_probabilities).with(:prev, cat)
+      the.add_prev_linkage cat
+    end
+
+  end
+
+
+  describe "#remove_next_linkage" do
+
+    it "calls remove_and_adjust_probabilities with :next" do
+      chain = markov_builder_class.new(phrases: sample_phrases)
+      the, cat = chain.nodes.values_at *%w{the cat}
+      expect(the).to receive(:remove_and_adjust_probabilities).with(:next, cat)
+      the.remove_next_linkage cat      
+    end
+
+  end
+
+  describe "#remove_prev_linkage" do
+
+    it "calls remove_and_adjust_probabilities with :prev" do
+      chain = markov_builder_class.new(phrases: sample_phrases)
+      the, cat = chain.nodes.values_at *%w{the cat}
+      expect(the).to receive(:remove_and_adjust_probabilities).with(:prev, cat)
+      the.remove_prev_linkage cat      
     end
 
   end

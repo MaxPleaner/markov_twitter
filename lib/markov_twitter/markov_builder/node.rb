@@ -28,7 +28,6 @@ class MarkovTwitter::MarkovBuilder
     def initialize(value:, nodes:)
       @value = value
       @linkages = { next: Hash.new(0), prev: Hash.new(0) }
-      @num_inputs_per_cell = { next: Hash.new(0), prev: Hash.new(0) }
       @total_num_inputs = { next: 0, prev: 0 }
       @nodes = nodes
     end
@@ -59,6 +58,9 @@ class MarkovTwitter::MarkovBuilder
     # @param direction [Symbol] :next or :prev
     # @return [Float] between 0 and 1.
     def get_probability_unit(direction)
+      unless total_num_inputs[direction] > 0
+        raise ArgumentError, "no inputs were added in <direction>"
+      end
       1.0 / total_num_inputs[direction]
     end
 
