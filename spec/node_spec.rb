@@ -49,11 +49,13 @@ RSpec.describe "Node" do
         prev: { "the" => 1.0 },
         total_num_inputs: { next: 21, prev: 21 }
       )
-      results = 3.times.map { chain.evaluate(length: 5) }
+      results = 5.times.map { chain.evaluate(length: 5) }
       expect(results).to eq [
         "bat cat in the bat",
         "hat in the bat cat",
-        "the bat cat in the"
+        "the flat cat in the",
+        "the bat cat in the",
+        "cat in the bat cat"
       ]
     end
 
@@ -78,8 +80,8 @@ RSpec.describe "Node" do
       results = 3.times.map { chain.evaluate(length: 5) }
       expect(results).to eq [
         "bat in the the the",
-        "hat in the the bat",
-        "cat in the the cat"
+        "hat in the the the",
+        "the bat in the the"
       ]
     end
 
@@ -103,8 +105,8 @@ RSpec.describe "Node" do
       results = 3.times.map { chain.evaluate(length: 5) }
       expect(results).to eq [
         "bat in the rat cat",
-        "flat rat the in the",
-        "rat cat in the the"
+        "flat rat the hat cat",
+        "rat cat in the rat"
       ]     
     end
 

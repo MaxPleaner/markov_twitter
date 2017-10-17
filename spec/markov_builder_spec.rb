@@ -13,6 +13,12 @@ RSpec.describe "MarkovBuilder" do
   let(:markov_builder_class) { MarkovTwitter::MarkovBuilder }
   let(:node_class) { markov_builder_class::Node }
 
+  around(:each) do |example|
+    srand(0) # seeds the randomness 
+    example.run
+    srand() # unseeds the randomness
+  end
+
   describe "#initialize" do
 
     it "processes phrases and stores their values/linkages" do
@@ -147,30 +153,85 @@ RSpec.describe "MarkovBuilder" do
   end
 
   describe "#add_linkages" do
+
     it "calls add_next_linkage on node1 with the mirror_change flag" do
       chain = markov_builder_class.new
       node1, node2 = %w{foo bar}.map &chain.method(:construct_node)
       expect(node1).to receive(:add_next_linkage).with(node2, true)
       chain.add_linkages node1, node2 
     end
+    
   end
 
   describe "#evaluate" do
 
-    around(:each) do |example|
-      srand(0) # seeds the randomness 
-      example.run
-      srand() # unseeds the randomness
+    context "without a specified start node" do
+
+      it "starts from a random node" do
+        chain = markov_builder_class.new(phrases: ["foo"])
+        expect(chain).to(
+          receive(:get_new_start_point)
+          .exactly(3).times
+          .with(chain.nodes.keys)
+          .and_call_original
+        )
+        expect(chain.evaluate(length: 3)).to eq("foo foo foo")
+      end
+
     end
 
-    it "evaluates the chain into a random order" do
-      chain = markov_builder_class.new(phrases: sample_phrases)
-      results = 3.times.map { chain.evaluate(length: 5) }
-      expect(results).to eq [
-        "bat in the hat cat",
-        "flat the bat in the",
-        "the flat flat cat in"
-      ]
+    context "with a specified start node" do
+
+      it "starts at the given node" do
+        chain = markov_builder_class.new phrases: ["foo bar bar"]
+        expect(chain).not_to(receive(:get_new_start_point))
+        expect(chain.evaluate(
+          length: 5,
+          root_node: chain.nodes["bar"]
+        )).to eq ("bar bar bar bar bar")
+      end
+
+    end
+
+    context "with a specified probability_bounds" do
+
+      it "can prioritize less-likely options" do
+        chain = markov_builder_class.new phrases: ["a b a a a a a"]
+        expect(chain.evaluate(
+          length: 7,
+          probability_bounds: [0, 20]
+        )).to eq("a b a b a b a")
+      end
+
+      it "can prioritze more-likely options" do
+        chain = markov_builder_class.new phrases: ["a b a a a"]
+        expect(chain.evaluate(
+          length: 10,
+          probability_bounds: [30, 100]
+        )).to eq("a a a a a a a a a a")
+      end
+
+    end
+
+  end
+
+  describe "#get_new_start_point" do
+
+    it "picks a random node name from the given linkages" do
+      chain = markov_builder_class.new phrases: sample_phrases
+      linkage_names = chain.nodes.keys
+      expect(linkage_names).to receive(:sample).and_call_original
+      expect(chain.get_new_start_point linkage_names).to eq chain.nodes["bat"]
+    end
+  
+  end
+
+  describe "#pick_linkage" do
+
+    context "default probability_bounds" do
+      it "picks the next linkage according to the probabilities" do
+        chain = markov_builder_class.new phrases: ["foo bar", "foo car"]
+      end
     end
 
   end

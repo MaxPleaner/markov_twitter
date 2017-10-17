@@ -59,31 +59,33 @@ class MarkovTwitter::MarkovBuilder
   # Builds a single node which contains a reference to @nodes.
   # Note that this does do the inverse (it doesn't add the node to @nodes)
   # @param value [String]
+  # @return [Node]
   def construct_node(value)
     Node.new(value: value, nodes: @nodes)
   end
 
   # Adds bidirectional linkages beween two nodes.
-  # the Node class re-calculates the probabilities internally.
+  # the Node class re-calculates the probabilities internally
+  # and mirrors the change on :prev.
   # @param node1 [Node] the parent.
   # @param node2 [Node] the child.
   # @return [void]
   def add_linkages(node1, node2)
-    # raise an error unless node1 is a node.
-    # Mirrors the change on :prev 
     node1.add_next_linkage(node2, mirror_change=true)
   end
 
   # An "evaluation" of the markov chain. e.g. a run case.
   # Passes random values through the probability sequences.
   # @param length [Integer] the number of tokens in the result.
+  # @param probabilitity_bounds [Array<Integer, Integer>]
+  #   optional, can limit the probability to a range where
+  #   0 <= min <= result <= max <= 100.
   # @return [String], the resulting tokens joined by a whitespace.
-  def evaluate(length:)
-    root_node = nil
+  def evaluate(length:, probability_bounds: [0,100], root_node: nil)
     length.times.reduce([]) do |result_nodes|
       root_node ||= get_new_start_point(@nodes.keys)
       result_nodes.push root_node
-      root_node = pick_linkage(root_node.linkages[:next])
+      root_node = pick_linkage(root_node.linkages[:next], probability_bounds)
       result_nodes
     end.map(&:value).join(" ")
   end
@@ -95,20 +97,46 @@ class MarkovTwitter::MarkovBuilder
     nodes[linkage_names.sample]
   end
 
+  # validates the given probability bounds
+  # @param bounds [Array<Integer, Integer>]
+  # @return [Boolean] indicating whether it is valid
+  def check_probability_bounds(bounds)
+    bounds1, bounds2 = bounds
+    bounds_diff = bounds2 - bounds1 
+    if (
+      (bounds_diff < 0) || (bounds_diff > 100) ||
+      (bounds1 < 0) || (bounds2 > 100)
+    )
+      raise ArgumentError, "wasn't given 0 <= bounds1 <= bounds2 <= 100"
+    end
+  end
+
   # Given "linkages" which includes all possibly node traversals in
   # a predetermined direction, pick one based on their probabilities.
   # @param linkages [Hash<String, Float>] key=token, val=probability
+  # @param probability_bounds [Array<Integer,Integer>]
+  #   Optional, can limit the probability to a range where
+  #   0 <= min <= result <= max <= 100.
+  #   This gets divided by 100 before being compared to the linkage values.
+  #   
   # @return [Node] or nil if one couldn't be found.
-  def pick_linkage(linkages)
-    random_num = rand(100) * 0.01
+  def pick_linkage(linkages, probability_bounds=[0,100])
+    check_probability_bounds(probability_bounds)
+    bounds1, bounds2 = probability_bounds
+    # pick a random number between the bounds.
+    random_num = (rand(bounds2 - bounds1) + bounds1) * 0.01
+    # offset is the accumulation of probabilities seen during iteration.
     offset = 0
-    new_key = linkages.keys.find do |key|
-      probability = linkages[key]
-      is_match = random_num.between?(offset, probability)
-      offset += probability
-      is_match
+    # sort to lowest first
+    sorted = linkages.sort_by { |name, prob| prob }
+    # find the first linkage value that satisfies offset < N(rand) < val.
+    new_key = sorted.find do |(key, probability)|
+      # increment the offset each time.
+      random_num.between?(offset, probability + offset).tap do
+        offset += probability
+      end
     end
-    nodes[new_key]
+    nodes[new_key&.first]
   end
 
 
