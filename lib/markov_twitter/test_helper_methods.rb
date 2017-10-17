@@ -150,6 +150,8 @@ module MarkovTwitter::TestHelperMethods
      if total_num_inputs
       expect(node.total_num_inputs).to eq(total_num_inputs)
     end
+  rescue
+    binding.pry
   end
 
 

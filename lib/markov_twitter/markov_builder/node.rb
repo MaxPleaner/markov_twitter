@@ -12,12 +12,12 @@ class MarkovTwitter::MarkovBuilder
     #   - Inner hash represents possible traversals -
     #     also keyed by string value, its values are probabilities
     #     representing the likelihood of choosing that route.
-    attr_reader :linkages
+    attr_accessor :linkages
 
     # @return [Hash<Symbol>, Integer]
     #   the total number of inputs added in each direction.
     #   - also used to re-calculate probabilities.
-    attr_reader :total_num_inputs
+    attr_accessor :total_num_inputs
 
     # @return [Hash<String,Node>]
     #   a reference to the attr of the parent MarkovBuilder
@@ -137,6 +137,7 @@ class MarkovTwitter::MarkovBuilder
         end
       end
       # Add the new value and set its probability
+      binding.pry if other_node.value == "dog"
       linkages[direction][other_node.value] = probability
       # increment the total count
       total_num_inputs[direction] += 1

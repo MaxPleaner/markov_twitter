@@ -25,6 +25,16 @@ RSpec.describe "MarkovBuilder" do
       chain = markov_builder_class.new(phrases: sample_phrases)
       nodes = chain.nodes
       expect(nodes.keys.sort).to eq(%w{bat cat flat hat in the})
+      validate_linkages(nodes["in"],
+        _next: {"the" => 1},
+        prev: {"cat" => 0.5, "bat" => 0.5},
+        total_num_inputs: { next: 2, prev: 2}
+      )
+      validate_linkages(nodes["the"],
+        _next: {"cat" => 0.25, "bat" => 0.25, "hat" => 0.25, "flat" => 0.25},
+        prev: {"in" => 1.0},
+        total_num_inputs: { next: 4, prev: 2}
+      )
       %w{cat bat}.each do |word|
         validate_linkages(nodes[word],
           _next: {"in" => 1.0},
@@ -39,16 +49,6 @@ RSpec.describe "MarkovBuilder" do
           total_num_inputs: { next: 0, prev: 1 }
         )
       end
-      validate_linkages(nodes["the"],
-        _next: {"cat" => 0.25, "bat" => 0.25, "hat" => 0.25, "flat" => 0.25},
-        prev: {"in" => 1.0},
-        total_num_inputs: { next: 4, prev: 2}
-      )
-      validate_linkages(nodes["in"],
-        _next: {"the" => 1},
-        prev: {"cat" => 0.5, "bat" => 0.5},
-        total_num_inputs: { next: 2, prev: 2}
-      )
     end
 
   end
