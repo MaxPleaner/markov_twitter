@@ -3,7 +3,7 @@
 class MarkovTwitter::MarkovBuilder
 
   # Regex used to split the phrase into tokens.
-  # It splits on any number of whitespace\in sequence.
+  # It splits on any number of whitespace/newline in sequence.
   # Sequences of punctuation characters are treated like any other word.
   SeparatorCharacterRegex = /\s+/
 

@@ -55,8 +55,8 @@ RSpec.describe "MarkovBuilder" do
 
   describe ".split_phrase" do
 
-    it "splits on consecutive whitespace" do
-      phrase = "hello .. world   ...   "
+    it "splits on consecutive whitespace and newlines" do
+      phrase = "hello   \n..\n   world  \n\n ...   \n "
       expect(
         markov_builder_class.split_phrase(phrase)
       ).to eq %w{hello .. world ...} 

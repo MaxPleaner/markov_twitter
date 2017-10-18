@@ -219,3 +219,62 @@ Things which would be interesting to add:
 - dictionary-based search and replace
 - part-of-speech-based search and replace
 
+## performance
+
+Here are the benchmarks for indexing and evaluation for Moby Dick (~115k whitespace-delimited words/punctuation sequence). Since the program uses whitespace to separate words and treats punctuation like any other word, the start/end of phrases needs to be manually defined. Here, I'm splitting phrases by empty lines (e.g. by paragraph).
+
+```txt
+loading the text into memory                    
+0.030000   0.000000   0.030000 (  0.101186)
+
+adding the text to a markov chain              
+20.340000   0.070000  20.410000 ( 20.608080)
+
+evaluating 10k words with random evaluator      
+3.410000   0.000000   3.410000 (  3.456607)
+
+evaluating 10k words with favor_next evaluator  
+1.440000   0.000000   1.440000 (  1.471715)
+
+evaluating 10k words with favor_prev evaluator  
+3.540000   0.000000   3.540000 (  3.563398)
+```
+
+Here's some example results:
+
+```rb
+chain = MarkovTwitter::MarkovBuilder.new(
+  phrases: File.read("spec/mobydick.txt").split(/^\s?$/)
+)
+```
+
+```rb
+
+chain.evaluate length: 50
+```
+
+> "block, I began howling than in the sea as some fifteen thousand men ? ' And of something like a lightning-like hurtling whisper Starbuck now live in her only in an outline pictures life. I feel funny. Fa, la ! ' Pull, then, by what ye harpooneers ! the plainest"
+
+```rb
+chain.evaluate_favoring_start length: 50
+```
+
+> " But we were locked within. For what does not to be in laying open his shipmates ; most part, that so prolonged, and fasces of miles off Patagonia, ipurcbasefc for all ; softly, and weaving and frankly admit that people to make tearless Lima has at all customary dinner"
+
+```rb
+chain.evaluate_favoring_end length: 50
+```
+
+> "the best mode in two fellow-beings should rub each in chorus.)  In short, and fetch that man may very readily passes through the sailors we found that but signifying nothing.  That is a repugnance to me on his father's heathens. Arrived at present as much like the sea."
+
+```rb
+# prioritizing improbable linkages and start each phrase with "I"
+chain._evaluate(
+  length: 50,
+  direction: :next,
+  probability_bounds: [0,5],
+  node_finder: -> (node) { node.value == "I" }
+).map(&:value).join(" ")
+```
+
+> "I allow himself and bent upon us. This whale's heart.' I recall all glittering teeth -gnashing there. Further on, Ishmael, be cherishing unwarrantable prejudices against your thousand Patagonian sights and spears. Some say was darkened like Czar in Queequeg's arm did that typhoon on water when these weapons offensively, and"
