@@ -81,8 +81,8 @@ Here are those three methods:
 
 1. [evaluate](http://rubydoc.info/gems/markov_twitter/MarkovTwitter/MarkovBuilder:evaluate)
   
-    - traverses rightward along :next
-    - when starting or stuck, picks any random word
+  - traverses rightward along :next
+  - when starting or stuck, picks any random word
 
     ```rb
     5.times.map  { chain.evaluate length: 10 }
@@ -97,9 +97,9 @@ Here are those three methods:
 
 2. [evaluate_favoring_end](http://rubydoc.info/gems/markov_twitter/MarkovTwitter/MarkovBuilder:evaluate_favoring_end)
   
-    - traverses leftward along :prev
-    - when starting or stuck, picks a word that was at the end of one of the original phrases.
-    - reverses the result before returning
+  - traverses leftward along :prev
+  - when starting or stuck, picks a word that was at the end of one of the original phrases.
+  - reverses the result before returning
 
     ```rb
     5.times.map  { chain.evaluate_favoring_end length: 10 }
@@ -114,8 +114,8 @@ Here are those three methods:
 
 3. [evaluate_favoring_start](http://rubydoc.info/gems/markov_twitter/MarkovTwitter/MarkovBuilder:evaluate_favoring_start)
   
-    - traverses rightward along :next
-    - when starting or stuck, picks a word that was at the start of one of the original phrases.
+  - traverses rightward along :next
+  - when starting or stuck, picks a word that was at the start of one of the original phrases.
 
     ```rb
     5.times.map { chain.evaluate_favoring_start length: 10 }
