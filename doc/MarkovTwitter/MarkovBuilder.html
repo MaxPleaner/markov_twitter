@@ -127,26 +127,6 @@ here as a tweet.</p>
   <h2>Constant Summary</h2>
   <dl class="constants">
     
-      <dt id="NewNodeFinders-constant" class="">NewNodeFinders =
-        <div class="docstring">
-  <div class="discussion">
-    
-<p>Lambdas used to select new nodes.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
-      </dt>
-      <dd><pre class="code"><span class='lbrace'>{</span>
-  <span class='label'>random:</span>      <span class='tlambda'>-&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='kw'>true</span> <span class='rbrace'>}</span><span class='comma'>,</span>
-  <span class='label'>favor_start:</span> <span class='tlambda'>-&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_total_num_linkages'>total_num_linkages</span><span class='lbracket'>[</span><span class='symbol'>:prev</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span> <span class='rbrace'>}</span><span class='comma'>,</span>
-  <span class='label'>favor_end:</span>   <span class='tlambda'>-&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_total_num_linkages'>total_num_linkages</span><span class='lbracket'>[</span><span class='symbol'>:next</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span> <span class='rbrace'>}</span><span class='comma'>,</span>
-<span class='rbrace'>}</span></pre></dd>
-    
       <dt id="SeparatorCharacterRegex-constant" class="">SeparatorCharacterRegex =
         <div class="docstring">
   <div class="discussion">
@@ -176,6 +156,35 @@ any other word.</p>
       <li class="public ">
   <span class="summary_signature">
     
+      <a href="#end_nodes-instance_method" title="#end_nodes (instance method)">#<strong>end_nodes</strong>  &#x21d2; Set&lt;Node&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The nodes that were found at the end of phrases.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#nodes-instance_method" title="#nodes (instance method)">#<strong>nodes</strong>  &#x21d2; Hash&lt;String, Node&gt; </a>
     
 
@@ -197,6 +206,35 @@ any other word.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>The base dictionary for nodes.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#start_nodes-instance_method" title="#start_nodes (instance method)">#<strong>start_nodes</strong>  &#x21d2; Set&lt;Node&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The nodes that were found at the start of phrases.</p>
 </div></span>
   
 </li>
@@ -251,7 +289,7 @@ any other word.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#_evaluate-instance_method" title="#_evaluate (instance method)">#<strong>_evaluate</strong>(length:, probability_bounds: [0,100], root_node: nil, direction:, new_node_finder:)  &#x21d2; Array&lt;Node&gt; </a>
+      <a href="#_evaluate-instance_method" title="#_evaluate (instance method)">#<strong>_evaluate</strong>(length:, probability_bounds: [0,100], root_node: nil, direction:, node_finder:)  &#x21d2; Array&lt;Node&gt; </a>
     
 
     
@@ -443,7 +481,7 @@ any other word.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_new_start_point-instance_method" title="#get_new_start_point (instance method)">#<strong>get_new_start_point</strong>(new_node_finder)  &#x21d2; Node </a>
+      <a href="#get_new_start_point-instance_method" title="#get_new_start_point (instance method)">#<strong>get_new_start_point</strong>(node_finder)  &#x21d2; Node </a>
     
 
     
@@ -485,6 +523,31 @@ any other word.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>processes the phrases to populate @nodes.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#node_finders-instance_method" title="#node_finders (instance method)">#<strong>node_finders</strong>  &#x21d2; Lambda&lt;Node&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>lambdas which can be used during evaluation to find the first node, or the
+next node when “stuck” (meaning there is no :next/:prev node).</p>
 </div></span>
   
 </li>
@@ -591,16 +654,20 @@ predetermined direction, pick one based on their probabilities.</p>
       <pre class="lines">
 
 
-32
-33
-34
-35</pre>
+45
+46
+47
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>phrases:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='ivar'>@nodes</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@start_nodes</span> <span class='op'>=</span> <span class='const'>Set</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='ivar'>@end_nodes</span> <span class='op'>=</span> <span class='const'>Set</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
   <span class='id identifier rubyid_phrases'>phrases</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='op'>&amp;</span><span class='id identifier rubyid_method'>method</span><span class='lparen'>(</span><span class='symbol'>:process_phrase</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -616,7 +683,63 @@ predetermined direction, pick one based on their probabilities.</p>
       
       <span id=""></span>
       <div class="method_details first">
-  <h3 class="signature first" id="nodes-instance_method">
+  <h3 class="signature first" id="end_nodes-instance_method">
+  
+    #<strong>end_nodes</strong>  &#x21d2; <tt>Set&lt;<span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The nodes that were found at the end of phrases</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Set&lt;<span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+22
+23
+24</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 22</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_end_nodes'>end_nodes</span>
+  <span class='ivar'>@end_nodes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="nodes-instance_method">
   
     #<strong>nodes</strong>  &#x21d2; <tt>Hash&lt;String, <span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt>  <span class="extras">(readonly)</span>
   
@@ -655,15 +778,71 @@ created, although they are referenced in Node#linkages as well.</p>
       <pre class="lines">
 
 
-21
-22
-23</pre>
+14
+15
+16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_nodes'>nodes</span>
   <span class='ivar'>@nodes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="start_nodes-instance_method">
+  
+    #<strong>start_nodes</strong>  &#x21d2; <tt>Set&lt;<span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The nodes that were found at the start of phrases</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Set&lt;<span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 18</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_start_nodes'>start_nodes</span>
+  <span class='ivar'>@start_nodes</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -731,12 +910,12 @@ created, although they are referenced in Node#linkages as well.</p>
       <pre class="lines">
 
 
-26
-27
-28</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_split_phrase'>split_phrase</span><span class='lparen'>(</span><span class='id identifier rubyid_phrase'>phrase</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_phrase'>phrase</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#SeparatorCharacterRegex-constant" title="MarkovTwitter::MarkovBuilder::SeparatorCharacterRegex (constant)">SeparatorCharacterRegex</a></span></span><span class='rparen'>)</span>
@@ -755,7 +934,7 @@ created, although they are referenced in Node#linkages as well.</p>
       <div class="method_details first">
   <h3 class="signature first" id="_evaluate-instance_method">
   
-    #<strong>_evaluate</strong>(length:, probability_bounds: [0,100], root_node: nil, direction:, new_node_finder:)  &#x21d2; <tt>Array&lt;<span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt> 
+    #<strong>_evaluate</strong>(length:, probability_bounds: [0,100], root_node: nil, direction:, node_finder:)  &#x21d2; <tt>Array&lt;<span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt> 
   
 
   
@@ -809,7 +988,7 @@ result &lt;= max &lt;= 100.</p>
   
     <li>
       
-        <span class='name'>new_node_finder</span>
+        <span class='name'>node_finder</span>
       
       
         <span class='type'>(<tt>Lambda&lt;<span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt>)</span>
@@ -852,36 +1031,36 @@ which this lambda returns a truthy value for is selected.</p>
       <pre class="lines">
 
 
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165</pre>
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 168</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid__evaluate'>_evaluate</span><span class='lparen'>(</span>
   <span class='label'>length:</span><span class='comma'>,</span>
   <span class='label'>probability_bounds:</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span><span class='comma'>,</span>
   <span class='label'>root_node:</span> <span class='kw'>nil</span><span class='comma'>,</span>
   <span class='label'>direction:</span><span class='comma'>,</span>
-  <span class='label'>new_node_finder:</span>
+  <span class='label'>node_finder:</span>
 <span class='rparen'>)</span>
   <span class='id identifier rubyid_length'>length</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span><span class='period'>.</span><span class='id identifier rubyid_reduce'>reduce</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_result_nodes'>result_nodes</span><span class='op'>|</span>
-    <span class='id identifier rubyid_root_node'>root_node</span> <span class='op'>||=</span> <span class='id identifier rubyid_get_new_start_point'>get_new_start_point</span><span class='lparen'>(</span><span class='id identifier rubyid_new_node_finder'>new_node_finder</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_root_node'>root_node</span> <span class='op'>||=</span> <span class='id identifier rubyid_get_new_start_point'>get_new_start_point</span><span class='lparen'>(</span><span class='id identifier rubyid_node_finder'>node_finder</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_result_nodes'>result_nodes</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='id identifier rubyid_root_node'>root_node</span>
     <span class='id identifier rubyid_root_node'>root_node</span> <span class='op'>=</span> <span class='id identifier rubyid_pick_linkage'>pick_linkage</span><span class='lparen'>(</span>
       <span class='id identifier rubyid_root_node'>root_node</span><span class='period'>.</span><span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='comma'>,</span>
@@ -958,12 +1137,12 @@ the probabilities internally and mirrors the change on :prev.</p>
       <pre class="lines">
 
 
-80
-81
-82</pre>
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 99</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_linkages'>add_linkages</span><span class='lparen'>(</span><span class='id identifier rubyid_node1'>node1</span><span class='comma'>,</span> <span class='id identifier rubyid_node2'>node2</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node1'>node1</span><span class='period'>.</span><span class='id identifier rubyid_add_next_linkage'>add_next_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_node2'>node2</span><span class='comma'>,</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
@@ -1028,19 +1207,19 @@ is nil, it won&#39;t be added and linkages won&#39;t be created</p>
       <pre class="lines">
 
 
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64</pre>
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 74</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_nodes'>add_nodes</span><span class='lparen'>(</span><span class='id identifier rubyid_node1'>node1</span><span class='comma'>,</span> <span class='id identifier rubyid_node2'>node2</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_node1'>node1</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span></span><span class='rparen'>)</span>
@@ -1116,19 +1295,19 @@ is nil, it won&#39;t be added and linkages won&#39;t be created</p>
       <pre class="lines">
 
 
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187</pre>
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 178</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 197</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_probability_bounds'>check_probability_bounds</span><span class='lparen'>(</span><span class='id identifier rubyid_bounds'>bounds</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_bounds1'>bounds1</span><span class='comma'>,</span> <span class='id identifier rubyid_bounds2'>bounds2</span> <span class='op'>=</span> <span class='id identifier rubyid_bounds'>bounds</span>
@@ -1200,12 +1379,12 @@ does do the inverse (it doesn&#39;t add the node to @nodes)</p>
       <pre class="lines">
 
 
-70
-71
-72</pre>
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 89</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_construct_node'>construct_node</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="MarkovBuilder/Node.html#initialize-instance_method" title="MarkovTwitter::MarkovBuilder::Node#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>value:</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='label'>nodes:</span> <span class='ivar'>@nodes</span><span class='rparen'>)</span>
@@ -1263,18 +1442,18 @@ node.</p>
       <pre class="lines">
 
 
-90
-91
-92
-93
-94
-95
-96
-97
-98</pre>
+109
+110
+111
+112
+113
+114
+115
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 109</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='label'>length:</span><span class='comma'>,</span> <span class='label'>probability_bounds:</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>root_node:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid__evaluate'>_evaluate</span><span class='lparen'>(</span>
@@ -1282,7 +1461,7 @@ node.</p>
     <span class='label'>probability_bounds:</span> <span class='id identifier rubyid_probability_bounds'>probability_bounds</span><span class='comma'>,</span>
     <span class='label'>root_node:</span> <span class='id identifier rubyid_root_node'>root_node</span><span class='comma'>,</span>
     <span class='label'>direction:</span> <span class='symbol'>:next</span><span class='comma'>,</span>
-    <span class='label'>new_node_finder:</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>NewNodeFinders</span><span class='lbracket'>[</span><span class='symbol'>:random</span><span class='rbracket'>]</span>
+    <span class='label'>node_finder:</span> <span class='id identifier rubyid_node_finders'>node_finders</span><span class='lbracket'>[</span><span class='symbol'>:random</span><span class='rbracket'>]</span>
   <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:value</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1303,7 +1482,8 @@ node.</p>
   <div class="discussion">
     
 <p>See #_evaluate for paramspec. The passed node_node_finder lambda picks a
-node with no :next. An error is raised if no nodes match this condition.</p>
+node contained in @end_nodes An error is raised if no nodes match this
+condition.</p>
 
 
   </div>
@@ -1335,36 +1515,36 @@ node with no :next. An error is raised if no nodes match this condition.</p>
       <pre class="lines">
 
 
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136</pre>
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 142</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_evaluate_favoring_end'>evaluate_favoring_end</span><span class='lparen'>(</span><span class='label'>length:</span><span class='comma'>,</span> <span class='label'>probability_bounds:</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>root_node:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_new_node_finder'>new_node_finder</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>NewNodeFinders</span><span class='lbracket'>[</span><span class='symbol'>:favor_end</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_has_possible_end_node'>has_possible_end_node</span> <span class='op'>=</span> <span class='id identifier rubyid_nodes'>nodes</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='op'>&amp;</span><span class='id identifier rubyid_new_node_finder'>new_node_finder</span>
+  <span class='id identifier rubyid_node_finder'>node_finder</span> <span class='op'>=</span> <span class='id identifier rubyid_node_finders'>node_finders</span><span class='lbracket'>[</span><span class='symbol'>:favor_end</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_has_possible_end_node'>has_possible_end_node</span> <span class='op'>=</span> <span class='id identifier rubyid_nodes'>nodes</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='op'>&amp;</span><span class='id identifier rubyid_node_finder'>node_finder</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_has_possible_end_node'>has_possible_end_node</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>All nodes have a :next linkage, can&#39;t favor end</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@end_nodes is empty; can&#39;t evaluate favoring end</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid__evaluate'>_evaluate</span><span class='lparen'>(</span>
     <span class='label'>length:</span> <span class='id identifier rubyid_length'>length</span><span class='comma'>,</span>
     <span class='label'>probability_bounds:</span> <span class='id identifier rubyid_probability_bounds'>probability_bounds</span><span class='comma'>,</span>
     <span class='label'>root_node:</span> <span class='id identifier rubyid_root_node'>root_node</span><span class='comma'>,</span>
     <span class='label'>direction:</span> <span class='symbol'>:prev</span><span class='comma'>,</span>
-    <span class='label'>new_node_finder:</span> <span class='id identifier rubyid_new_node_finder'>new_node_finder</span>
+    <span class='label'>node_finder:</span> <span class='id identifier rubyid_node_finder'>node_finder</span>
   <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:value</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_reverse'>reverse</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1385,7 +1565,8 @@ node with no :next. An error is raised if no nodes match this condition.</p>
   <div class="discussion">
     
 <p>See #_evaluate for paramspec. The passed node_node_finder lambda picks a
-node with no :prev. An error is raised if no nodes match this condition.</p>
+node contained in @start_nodes An error is raised if no nodes match this
+condition.</p>
 
 
   </div>
@@ -1417,36 +1598,36 @@ node with no :prev. An error is raised if no nodes match this condition.</p>
       <pre class="lines">
 
 
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117</pre>
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 104</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_evaluate_favoring_start'>evaluate_favoring_start</span><span class='lparen'>(</span><span class='label'>length:</span><span class='comma'>,</span> <span class='label'>probability_bounds:</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>root_node:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_new_node_finder'>new_node_finder</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>NewNodeFinders</span><span class='lbracket'>[</span><span class='symbol'>:favor_start</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_has_possible_start_node'>has_possible_start_node</span> <span class='op'>=</span> <span class='id identifier rubyid_nodes'>nodes</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='op'>&amp;</span><span class='id identifier rubyid_new_node_finder'>new_node_finder</span>
+  <span class='id identifier rubyid_node_finder'>node_finder</span> <span class='op'>=</span> <span class='id identifier rubyid_node_finders'>node_finders</span><span class='lbracket'>[</span><span class='symbol'>:favor_start</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_has_possible_start_node'>has_possible_start_node</span> <span class='op'>=</span> <span class='id identifier rubyid_nodes'>nodes</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='op'>&amp;</span><span class='id identifier rubyid_node_finder'>node_finder</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_has_possible_start_node'>has_possible_start_node</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>All nodes have a :prev linkage, can&#39;t favor start</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@start_nodes is empty; can&#39;t evaluate favoring start</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid__evaluate'>_evaluate</span><span class='lparen'>(</span>
     <span class='label'>length:</span> <span class='id identifier rubyid_length'>length</span><span class='comma'>,</span>
     <span class='label'>probability_bounds:</span> <span class='id identifier rubyid_probability_bounds'>probability_bounds</span><span class='comma'>,</span>
     <span class='label'>root_node:</span> <span class='id identifier rubyid_root_node'>root_node</span><span class='comma'>,</span>
     <span class='label'>direction:</span> <span class='symbol'>:next</span><span class='comma'>,</span>
-    <span class='label'>new_node_finder:</span> <span class='id identifier rubyid_new_node_finder'>new_node_finder</span>
+    <span class='label'>node_finder:</span> <span class='id identifier rubyid_node_finder'>node_finder</span>
   <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:value</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1457,7 +1638,7 @@ node with no :prev. An error is raised if no nodes match this condition.</p>
       <div class="method_details ">
   <h3 class="signature " id="get_new_start_point-instance_method">
   
-    #<strong>get_new_start_point</strong>(new_node_finder)  &#x21d2; <tt><span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span></tt> 
+    #<strong>get_new_start_point</strong>(node_finder)  &#x21d2; <tt><span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span></tt> 
   
 
   
@@ -1477,7 +1658,7 @@ node with no :prev. An error is raised if no nodes match this condition.</p>
   
     <li>
       
-        <span class='name'>new_node_finder</span>
+        <span class='name'>node_finder</span>
       
       
         <span class='type'>(<tt>lambda&lt;<span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt>)</span>
@@ -1518,15 +1699,83 @@ node with no :prev. An error is raised if no nodes match this condition.</p>
       <pre class="lines">
 
 
-171
-172
-173</pre>
+190
+191
+192</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 171</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 190</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_new_start_point'>get_new_start_point</span><span class='lparen'>(</span><span class='id identifier rubyid_new_node_finder'>new_node_finder</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_nodes'>nodes</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_shuffle'>shuffle</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_new_node_finder'>new_node_finder</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_new_start_point'>get_new_start_point</span><span class='lparen'>(</span><span class='id identifier rubyid_node_finder'>node_finder</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_nodes'>nodes</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_shuffle'>shuffle</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_node_finder'>node_finder</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="node_finders-instance_method">
+  
+    #<strong>node_finders</strong>  &#x21d2; <tt>Lambda&lt;<span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>lambdas which can be used during evaluation to find the first node, or the
+next node when “stuck” (meaning there is no :next/:prev node).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Lambda&lt;<span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the lambda should return true for a node that is suitable.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30
+31
+32
+33
+34</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 28</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_node_finders'>node_finders</span>
+  <span class='ivar'>@node_finders</span> <span class='op'>||=</span> <span class='lbrace'>{</span>
+    <span class='label'>random:</span>      <span class='tlambda'>-&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='kw'>true</span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='label'>favor_start:</span> <span class='tlambda'>-&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='id identifier rubyid_start_nodes'>start_nodes</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='label'>favor_end:</span>   <span class='tlambda'>-&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='id identifier rubyid_end_nodes'>end_nodes</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1618,27 +1867,27 @@ to the linkage values.</p>
       <pre class="lines">
 
 
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215</pre>
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 198</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 217</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pick_linkage'>pick_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_linkages'>linkages</span><span class='comma'>,</span> <span class='id identifier rubyid_probability_bounds'>probability_bounds</span><span class='op'>=</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>100</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_check_probability_bounds'>check_probability_bounds</span><span class='lparen'>(</span><span class='id identifier rubyid_probability_bounds'>probability_bounds</span><span class='rparen'>)</span>
@@ -1709,27 +1958,35 @@ to the linkage values.</p>
       <pre class="lines">
 
 
-40
-41
-42
-43
-44
-45
-46
-47
-48</pre>
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_process_phrase'>process_phrase</span><span class='lparen'>(</span><span class='id identifier rubyid_phrase'>phrase</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node_vals'>node_vals</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_split_phrase'>split_phrase</span><span class='lparen'>(</span><span class='id identifier rubyid_phrase'>phrase</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_last_node'>last_node</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id identifier rubyid_node_vals'>node_vals</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
     <span class='id identifier rubyid_nodes'>nodes</span> <span class='op'>=</span> <span class='id identifier rubyid_node_vals'>node_vals</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='op'>..</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span><span class='op'>+</span><span class='int'>1</span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_node_val'>node_val</span><span class='op'>|</span>
       <span class='id identifier rubyid_construct_node'>construct_node</span><span class='lparen'>(</span><span class='id identifier rubyid_node_val'>node_val</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
+    <span class='ivar'>@start_nodes</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_nodes'>nodes</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_i'>i</span> <span class='op'>==</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_last_node'>last_node</span> <span class='op'>=</span> <span class='id identifier rubyid_nodes'>nodes</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
     <span class='id identifier rubyid_add_nodes'>add_nodes</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_nodes'>nodes</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
+  <span class='ivar'>@end_nodes</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span> <span class='id identifier rubyid_last_node'>last_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1741,7 +1998,7 @@ to the linkage values.</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Oct 17 15:51:07 2017 by
+  Generated on Tue Oct 17 18:56:43 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.2).
 </div>

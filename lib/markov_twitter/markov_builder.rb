@@ -21,6 +21,10 @@ class MarkovTwitter::MarkovBuilder
   # @return [Set<Node>]
   attr_reader :end_nodes
 
+  # lambdas which can be used during evaluation to find the first node,
+  # or the next node when "stuck" (meaning there is no :next/:prev node).
+  # @return [Lambda<Node>]
+  #   the lambda should return true for a node that is suitable. 
   def node_finders
     @node_finders ||= {
       random:      -> (node) { true },
@@ -108,7 +112,7 @@ class MarkovTwitter::MarkovBuilder
       probability_bounds: probability_bounds,
       root_node: root_node,
       direction: :next,
-      new_node_finder: node_finders[:random]
+      node_finder: node_finders[:random]
     ).map(&:value).join(" ")
   end
 
@@ -117,8 +121,8 @@ class MarkovTwitter::MarkovBuilder
   # An error is raised if no nodes match this condition.
   # @return [String] the result of #_evaluate joined by whitespace.
   def evaluate_favoring_start(length:, probability_bounds: [0,100], root_node: nil)
-    new_node_finder = node_finders[:favor_start]
-    has_possible_start_node = nodes.values.any? &new_node_finder
+    node_finder = node_finders[:favor_start]
+    has_possible_start_node = nodes.values.any? &node_finder
     unless has_possible_start_node
       raise ArgumentError, "@start_nodes is empty; can't evaluate favoring start"
     end
@@ -127,7 +131,7 @@ class MarkovTwitter::MarkovBuilder
       probability_bounds: probability_bounds,
       root_node: root_node,
       direction: :next,
-      new_node_finder: new_node_finder
+      node_finder: node_finder
     ).map(&:value).join(" ")
   end
 
@@ -136,8 +140,8 @@ class MarkovTwitter::MarkovBuilder
   # An error is raised if no nodes match this condition.
   # @return [String] the result of #_evaluate reversed and joined by whitespace.
   def evaluate_favoring_end(length:, probability_bounds: [0,100], root_node: nil)
-    new_node_finder = node_finders[:favor_end]
-    has_possible_end_node = nodes.values.any? &new_node_finder
+    node_finder = node_finders[:favor_end]
+    has_possible_end_node = nodes.values.any? &node_finder
     unless has_possible_end_node
       raise ArgumentError, "@end_nodes is empty; can't evaluate favoring end"
     end
@@ -146,7 +150,7 @@ class MarkovTwitter::MarkovBuilder
       probability_bounds: probability_bounds,
       root_node: root_node,
       direction: :prev,
-      new_node_finder: new_node_finder
+      node_finder: node_finder
     ).map(&:value).reverse.join(" ")
   end
 
@@ -156,7 +160,7 @@ class MarkovTwitter::MarkovBuilder
   # @param probability_bounds [Array<Integer, Integer>]
   #   optional, can limit the probability to a range where
   #   0 <= min <= result <= max <= 100.
-  # @param new_node_finder [Lambda<Node>]
+  # @param node_finder [Lambda<Node>]
   #   during iteration, if the current node has no linkages in <direction>,
   #   a new node is selected from the nodes dict. The first randomly-picked
   #   node which this lambda returns a truthy value for is selected.
@@ -166,10 +170,10 @@ class MarkovTwitter::MarkovBuilder
     probability_bounds: [0,100],
     root_node: nil,
     direction:,
-    new_node_finder:
+    node_finder:
   )
     length.times.reduce([]) do |result_nodes|
-      root_node ||= get_new_start_point(new_node_finder)
+      root_node ||= get_new_start_point(node_finder)
       result_nodes.push root_node
       root_node = pick_linkage(
         root_node.linkages[direction],
@@ -180,11 +184,11 @@ class MarkovTwitter::MarkovBuilder
   end
 
   # Gets a random node as a potential start point.
-  # @param new_node_finder [lambda<Node>]
+  # @param node_finder [lambda<Node>]
   #   any returned node will return a truthy value from this.
   # @return [Node] or nil if one couldn't be found.
-  def get_new_start_point(new_node_finder)
-    nodes.values.shuffle.find(&new_node_finder)
+  def get_new_start_point(node_finder)
+    nodes.values.shuffle.find(&node_finder)
   end
 
   # validates the given probability bounds

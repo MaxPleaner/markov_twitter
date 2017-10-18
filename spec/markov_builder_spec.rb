@@ -169,11 +169,11 @@ RSpec.describe "MarkovBuilder" do
 
       it "starts from a random node" do
         chain = markov_builder_class.new(phrases: ["foo"])
-        new_node_finder = chain.node_finders[:random]
+        node_finder = chain.node_finders[:random]
         expect(chain).to(
           receive(:get_new_start_point)
           .exactly(3).times
-          .with(new_node_finder)
+          .with(node_finder)
           .and_call_original
         )
         expect(chain.evaluate(length: 3)).to eq("foo foo foo")
@@ -258,7 +258,7 @@ RSpec.describe "MarkovBuilder" do
           chain._evaluate(
             length: 5,
             direction: :next,
-            new_node_finder: -> (node) {
+            node_finder: -> (node) {
               # every phrase in the results should start with cat.
               node.value == "cat"
             }
@@ -283,7 +283,7 @@ RSpec.describe "MarkovBuilder" do
           chain._evaluate(
             length: 5,
             direction: :prev,
-            new_node_finder: -> (node) {
+            node_finder: -> (node) {
               # every phrase in the results should end with hat
               node.value == "hat"
             }
@@ -303,13 +303,13 @@ RSpec.describe "MarkovBuilder" do
 
     it "ensures the result's start nodes are also start nodes in the input" do
       chain = markov_builder_class.new phrases: sample_phrases
-      new_node_finder = chain.node_finders[:favor_start]
+      node_finder = chain.node_finders[:favor_start]
       expect(chain).to receive(:_evaluate).with(
         length: 5,
         probability_bounds: [0,100],
         root_node: nil,
         direction: :next,
-        new_node_finder: new_node_finder
+        node_finder: node_finder
       ).exactly(3).and_call_original
       expect(3.times.map do
         chain.evaluate_favoring_start length: 5
@@ -326,13 +326,13 @@ RSpec.describe "MarkovBuilder" do
 
     it "works" do
       chain = markov_builder_class.new phrases: sample_phrases
-      new_node_finder = chain.node_finders[:favor_end]
+      node_finder = chain.node_finders[:favor_end]
       expect(chain).to receive(:_evaluate).with(
         length: 5,
         probability_bounds: [0,100],
         root_node: nil,
         direction: :prev,
-        new_node_finder: new_node_finder
+        node_finder: node_finder
       ).exactly(3).times.and_call_original
       expect(3.times.map do
         chain.evaluate_favoring_end length: 5
@@ -350,7 +350,7 @@ RSpec.describe "MarkovBuilder" do
     it "returns a random one that satisfies the criteria" do
       chain = markov_builder_class.new phrases: sample_phrases
       # all phrases will start with "in"
-      new_node_finder = -> (node) { node.value == "in" }
+      node_finder = -> (node) { node.value == "in" }
       vals = chain.nodes.values
       shuffled = chain.nodes.values.shuffle
       expect(chain.nodes).to(
@@ -363,11 +363,11 @@ RSpec.describe "MarkovBuilder" do
       # for the tip on how to do this
       expect(shuffled).to(
         receive(:find).with(no_args) do |blk|
-          expect(blk).to eq(new_node_finder)
+          expect(blk).to eq(node_finder)
         end.exactly(3).times.and_call_original
       )
       expect(3.times.map do
-        chain.get_new_start_point new_node_finder
+        chain.get_new_start_point node_finder
       end.map(&:value)).to eq(%w{in in in})
     end
   

@@ -1,6 +1,25 @@
 #!/usr/bin/env ruby
 
 require 'pry'
+require 'dotenv'
 require 'markov_twitter'
+
+Dotenv.load
+
+authenticator = MarkovTwitter::Authenticator.new(
+  api_key: ENV.fetch("TWITTER_API_KEY"),
+  secret_key: ENV.fetch("TWITTER_SECRET_KEY")
+)
+
+tweet_reader = MarkovTwitter::TweetReader.new(
+  client: authenticator.client
+)
+
+tweets = tweet_reader.get_tweets(username: "@accidental575")
+
+chain = MarkovTwitter::MarkovBuilder.new(
+  phrases: tweets.map(&:text)
+)
+
 
 Pry.start

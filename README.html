@@ -1061,14 +1061,18 @@ console is unnecessary. Specifically this requires only <br />
 )
 </code></pre>
 
-<p>Lastly, fetch some tweets for an arbitrary username. Note that the <a href="DOCS_PATH/MarkovTwitter/TweetReader:get_tweets">get_tweets</a> method will return the most recently 20 tweets only. This gem doesn&rsquo;t have a way to fetch more tweets than that.</p>
+<p>Lastly, fetch some tweets for an arbitrary username. Note that the<br />
+<a href="DOCS_PATH/MarkovTwitter/TweetReader:get_tweets">get_tweets</a> method will return<br />
+the most recently 20 tweets only. This gem doesn&rsquo;t have a way to fetch more<br />
+tweets than that.</p>
 <pre><code class="rb">tweets = tweet_reader.get_tweets(username: &quot;@accidental575&quot;)
 puts tweets.map(&amp;:text).first # the newest
 # =&gt; &quot;Jets fan who stands for /\nnational anthem sits on /\nAmerican flag /\n#accidentalhaiku by @Deadspin \nhttps://t.co/INsLlMB31G&quot;
 </code></pre>
 
 <h4 id="usage-markovbuilder"><a name="user-content-usage-markovbuilder" href="#usage-markovbuilder" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>usage: <em>MarkovBuilder</em></h4>
-<p><a href="DOCS_PATH/MarkovTwitter/MarkovBuilder">MarkovTwitter::MarkovBuilder</a> gets passed the list of tweet strings to its initialize:</p>
+<p><a href="DOCS_PATH/MarkovTwitter/MarkovBuilder">MarkovTwitter::MarkovBuilder</a> gets<br />
+passed the list of tweet strings to its initialize:</p>
 <pre><code class="rb">chain = MarkovTwitter::MarkovBuilder.new(
   phrases: tweets.map(&amp;:text)
 )
@@ -1077,17 +1081,55 @@ puts tweets.map(&amp;:text).first # the newest
 <p>The linkages between words are automatically created and it&rsquo;s <br />
 possible to evaluate the chain right away, producing a randomly<br />
 generated sentence. There are three built in methods to <br />
-evaluate the chain:</p>
+evaluate the chain, but more can be constructed using lower-level methods.<br />
+There are two ways these methods differ:</p>
+<p>a. do they build the result by walking along the :next or :prev nodes<br />
+(forward or backward?)<br />
+b. How do they pick the first node, and how do they choose a node<br />
+when there are no more linkages along the given direction (:prev or :next)?</p>
+<p>Here are those three methods:</p>
 <ol>
 <li>
-<p><a href="DOCS_PATH/MarkovTwitter/MarkovBuilder:evaluate">evaluate</a>:</p>
+<p><a href="DOCS_PATH/MarkovTwitter/MarkovBuilder:evaluate">evaluate</a><br />
+  a. traverses rightward along :next<br />
+  b. picks any random word</p>
 <pre><code class="rb">5.times.map  { chain.evaluage length: 10 }
 # =&gt; [
-#   &quot;by @FlayrahNews https://t.co/LbxzPQ5Zqv back. / together with dung! / American&quot;,
-#   &quot;thought/ #accidentalhaiku by @news_24_365 https://t.co/kkfz5S3Kut pumpkin / Wes Anderson's Isle&quot;,
-#   &quot;has been in a lot about / #accidentalhaiku by @UrbanLion_&quot;,
-#   &quot;them, my boyfriend used my friends. Or as / #accidentalhaiku&quot;,
-#   &quot;25 years... / feeling it today. / to write /&quot;
+# &quot;by @FlayrahNews https://t.co/LbxzPQ5Zqv back. / together with dung! / American&quot;,
+# &quot;thought/ #accidentalhaiku by @news_24_365 https://t.co/kkfz5S3Kut pumpkin / Wes Anderson's Isle&quot;,
+# &quot;has been in a lot about / #accidentalhaiku by @UrbanLion_&quot;,c
+# &quot;them, my boyfriend used my friends. Or as / #accidentalhaiku&quot;,
+# &quot;25 years... / feeling it today. / to write /&quot;
+# ]
+</code></pre>
+
+</li>
+<li>
+<p><a href="DOCS_PATH/MarkovTwitter/MarkovBuilder:evaluate_favoring_end">evaluate_favoring_end</a><br />
+  a. traverses leftware along :prev<br />
+  b. picks a word that was at the end of one of the original phrases.</p>
+<pre><code class="rb">5.times.map  { chain.evaluate_favoring_end length: 10 }
+# =&gt; [
+# &quot;revolution / to improve care, / #accidentalhaiku by @Deadspin https://t.co/INsLlMB31G&quot;,
+# &quot;to save the songs you thought/ #accidentalhaiku by @Mary_Mulan https://t.co/ixw2EQamHq&quot;,
+# &quot;adventure / together with dung! / #accidentalhaiku by @Deadspin https://t.co/INsLlMB31G&quot;,
+# &quot;harder / for / creativity? / #accidentalhaiku by @AlbertBrooks https://t.co/DzXbGeYh0Z&quot;,
+# &quot;/ Asking for 25 years... / #accidentalhaiku by @StratfordON https://t.co/k81u693AbV&quot;
+# ]
+</code></pre>
+
+</li>
+<li>
+<p><a href="DOCS_PATH/MarkovTwitter/MarkovBuilder:evaluate_favoring_start">evaluate_favoring_start</a><br />
+  a. traverses rightward along :next<br />
+  b. picks a word that was at the start of one of the original phrases.</p>
+<pre><code class="rb">5.times.map { chain.evaluate_favoring_start length: 10 }
+# =&gt; [
+# &quot;RT if you listened to / to get lost /&quot;,
+# &quot;Jets fan who stands for / #accidentalhaiku by @theloniousdev https://t.co/6Rb5F8XySy   # &quot;,
+# &quot;The first trailer for / and never come back.    # /&quot;,
+# &quot;Zooey Deschanel / and never come back. / house in   # &quot;,
+# &quot;Oh my friends. Or as / #accidentalhaiku by @timkaine https://t.co/4pgknpmom5   # &quot;    
 # ]
 </code></pre>
 
