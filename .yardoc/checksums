@@ -1,4 +1,4 @@
-lib/version.rb 6d9cf30bd37a4cd923299b98650a8664d1d5d2c6
+lib/version.rb 45369deef520606240a2ae6a02bb5aaaf1f021dc
 lib/markov_twitter.rb 4eb2be695a73fcf9f168dad31f19a42ead10d8c5
 lib/markov_twitter/tweet_reader.rb 929a3244e37e3f001c4c4e5bb8bbe7071f8e0aa8
 lib/markov_twitter/authenticator.rb 6b63aaa5dc86607038382339a66a77b284c93e44

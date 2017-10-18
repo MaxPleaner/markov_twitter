@@ -79,8 +79,7 @@ The linkages between words are automatically created ([Node#linkages](http://rub
 
 Here are those three methods:
 
-1. [evaluate](http://rubydoc.info/gems/markov_twitter/MarkovTwitter/MarkovBuilder:evaluate)
-  
+1. [evaluate](http://rubydoc.info/gems/markov_twitter/MarkovTwitter/MarkovBuilder:evaluate)  
   - traverses rightward along :next
   - when starting or stuck, picks any random word
 
@@ -94,9 +93,7 @@ Here are those three methods:
     # "25 years... / feeling it today. / to write /"
     # ]
     ```
-
 2. [evaluate_favoring_end](http://rubydoc.info/gems/markov_twitter/MarkovTwitter/MarkovBuilder:evaluate_favoring_end)
-  
   - traverses leftward along :prev
   - when starting or stuck, picks a word that was at the end of one of the original phrases.
   - reverses the result before returning
@@ -111,9 +108,7 @@ Here are those three methods:
     # "/ Asking for 25 years... / #accidentalhaiku by @StratfordON https://t.co/k81u693AbV"
     # ]
     ```
-
 3. [evaluate_favoring_start](http://rubydoc.info/gems/markov_twitter/MarkovTwitter/MarkovBuilder:evaluate_favoring_start)
-  
   - traverses rightward along :next
   - when starting or stuck, picks a word that was at the start of one of the original phrases.
 
