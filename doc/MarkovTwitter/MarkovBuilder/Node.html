@@ -623,7 +623,7 @@ the one given as an argument.</p>
 <ul><li>
 <p>Outer hash is keyed by the direction (:next, :prev).</p>
 </li><li>
-<p>Inner hash represents possible traversals - also keyed by string value, its
+<p>Inner hash represents possible traversals - keyed by string value, its
 values are probabilities representing the likelihood of choosing that
 route.</p>
 </li></ul>
@@ -649,7 +649,7 @@ route.</p>
 <ul><li>
 <p>Outer hash is keyed by the direction (:next, :prev).</p>
 </li><li>
-<p>Inner hash represents possible traversals - also keyed by string value, its
+<p>Inner hash represents possible traversals - keyed by string value, its
 values are probabilities representing the likelihood of choosing that
 route.</p>
 </li></ul>
@@ -694,7 +694,7 @@ route.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a reference to the attr of the parent MarkovBuilder</p>
+<p>Returns a reference to the attr of the parent MarkovBuilder.</p>
 
 
   </div>
@@ -713,7 +713,7 @@ route.</p>
       
         &mdash;
         <div class='inline'>
-<p>a reference to the attr of the parent MarkovBuilder</p>
+<p>a reference to the attr of the parent MarkovBuilder.</p>
 </div>
       
     </li>
@@ -1177,6 +1177,24 @@ direction to keep :next and :prev in sync</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>mirror_change</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>whether to update the opposite direction.</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -1186,12 +1204,12 @@ direction to keep :next and :prev in sync</p>
       <pre class="lines">
 
 
-165
 166
-167</pre>
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 165</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 166</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_next_linkage'>add_next_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_child_node'>child_node</span><span class='comma'>,</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_add_and_adjust_probabilities'>add_and_adjust_probabilities</span><span class='lparen'>(</span><span class='symbol'>:next</span><span class='comma'>,</span> <span class='id identifier rubyid_child_node'>child_node</span><span class='rparen'>)</span>
@@ -1238,6 +1256,24 @@ direction to keep :next and :prev in sync</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>mirror_change</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>whether to update the opposite direction.</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -1247,12 +1283,12 @@ direction to keep :next and :prev in sync</p>
       <pre class="lines">
 
 
-172
-173
-174</pre>
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 172</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_prev_linkage'>add_prev_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_parent_node'>parent_node</span><span class='comma'>,</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_add_and_adjust_probabilities'>add_and_adjust_probabilities</span><span class='lparen'>(</span><span class='symbol'>:prev</span><span class='comma'>,</span> <span class='id identifier rubyid_parent_node'>parent_node</span><span class='rparen'>)</span>
@@ -1624,6 +1660,24 @@ sync.</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>mirror_change</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>whether to update the opposite direction.</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -1633,12 +1687,12 @@ sync.</p>
       <pre class="lines">
 
 
-179
-180
-181</pre>
+182
+183
+184</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 182</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_next_linkage'>remove_next_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_child_node'>child_node</span><span class='comma'>,</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_remove_and_adjust_probabilities'>remove_and_adjust_probabilities</span><span class='lparen'>(</span><span class='symbol'>:next</span><span class='comma'>,</span> <span class='id identifier rubyid_child_node'>child_node</span><span class='rparen'>)</span>
@@ -1685,6 +1739,24 @@ sync.</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>mirror_change</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>whether to update the opposite direction.</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -1694,12 +1766,12 @@ sync.</p>
       <pre class="lines">
 
 
-186
-187
-188</pre>
+190
+191
+192</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 186</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 190</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_prev_linkage'>remove_prev_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_parent_node'>parent_node</span><span class='comma'>,</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_remove_and_adjust_probabilities'>remove_and_adjust_probabilities</span><span class='lparen'>(</span><span class='symbol'>:prev</span><span class='comma'>,</span> <span class='id identifier rubyid_parent_node'>parent_node</span><span class='rparen'>)</span>
@@ -1810,7 +1882,7 @@ the one given as an argument. This keeps :next and :prev in sync.</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Oct 17 19:10:36 2017 by
+  Generated on Tue Oct 17 19:21:27 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.2).
 </div>

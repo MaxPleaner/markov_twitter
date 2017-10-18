@@ -10,7 +10,7 @@ class MarkovTwitter::MarkovBuilder
     #   the :next and :previous linkages.
     #   - Outer hash is keyed by the direction (:next, :prev).
     #   - Inner hash represents possible traversals -
-    #     also keyed by string value, its values are probabilities
+    #     keyed by string value, its values are probabilities
     #     representing the likelihood of choosing that route.
     attr_accessor :linkages
 
@@ -20,7 +20,7 @@ class MarkovTwitter::MarkovBuilder
     attr_accessor :total_num_inputs
 
     # @return [Hash<String,Node>]
-    #   a reference to the attr of the parent MarkovBuilder
+    #   a reference to the attr of the parent MarkovBuilder.
     attr_reader :nodes
     
     # @param value [String] for example, a word.
@@ -161,6 +161,7 @@ class MarkovTwitter::MarkovBuilder
 
     # Adds another node to the :next linkages, updating probabilities.
     # @param child_node [Node] to be added.
+    # @param mirror_change [Boolean] whether to update the opposite direction.
     # @return [void]
     def add_next_linkage(child_node, mirror_change=true)
       add_and_adjust_probabilities(:next, child_node)
@@ -168,6 +169,7 @@ class MarkovTwitter::MarkovBuilder
  
     # Adds another node to the :prev linkages, updating probabilities.
     # @param parent_node [Node] to be added.
+    # @param mirror_change [Boolean] whether to update the opposite direction.
     # @return [void]
     def add_prev_linkage(parent_node, mirror_change=true)
       add_and_adjust_probabilities(:prev, parent_node)
@@ -175,6 +177,7 @@ class MarkovTwitter::MarkovBuilder
 
     # Removes a node from the :next linkages, updating probabilities.
     # @param child_node [Node] to be removed.
+    # @param mirror_change [Boolean] whether to update the opposite direction.
     # @return [void]
     def remove_next_linkage(child_node, mirror_change=true)
       remove_and_adjust_probabilities(:next, child_node)
@@ -182,6 +185,7 @@ class MarkovTwitter::MarkovBuilder
 
     # Removes a node from the :prev linkages, updating probabilities.
     # @param parent_node [Node] to be removed.
+    # @param mirror_change [Boolean] whether to update the opposite direction.
     # @return [void]
     def remove_prev_linkage(parent_node, mirror_change=true)
       remove_and_adjust_probabilities(:prev, parent_node)

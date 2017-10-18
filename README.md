@@ -188,9 +188,9 @@ All of these methods can be safely run many times. Note that `remove_next_linkag
 
 The gem boilerplate was scaffolded using a gem I made, [gemmyrb](http://github.com/maxpleaner/gemmyrb). 
 
-Test scripts are in the [spec/](http://github.com/maxpleaner/markov_twitter/tree/master/spec) folder, although some helper methods are written into the application code at [lib/markov_twitter/test_helper_methods.rb](http://github.com/maxpleaner/markov_twitter/tree/master/lib/markov_twitter/test_helper_methods.rb).
+Test scripts are in the [spec/](http://github.com/maxpleaner/markov_twitter/tree/master/spec) folder, although some helper methods are written into the application code at [MarkovTwitter::TestHelperMethods](http://rubydoc.info/gems/markov_twitter/MarkovTwitter/TestHelperMethods).
 
-The application code is in [lib/](http://github.com/maxpleaner/markov_twitter/tree/lib).
+The application code is in [lib/](http://github.com/maxpleaner/markov_twitter/tree/master/lib).
 
 Documentation is built with [yard](https://github.com/lsegal/yard) into [doc/](http://github.com/maxpleaner/markov_twitter/tree/master/doc) - it's viewable [on rubydoc](http://rubydoc.info/gems/markov_twitter). It has 100% documentation at time of writing. If when building, it shows that something is undocumented, run `yard --list-undoc` to find out where it is.
 
