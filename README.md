@@ -197,7 +197,7 @@ Test scripts are in the [spec/](http://github.com/maxpleaner/markov_twitter/tree
 
 The application code is in [lib/](http://github.com/maxpleaner/markov_twitter/tree/lib).
 
-Documentation is built with [yard](https://github.com/lsegal/yard) into [doc/](http://github.com/maxpleaner/markov_twitter/tree/master/doc) - it's viewable [on rubydoc](http://rubydoc.info/gems/markov_twitter).
+Documentation is built with [yard](https://github.com/lsegal/yard) into [doc/](http://github.com/maxpleaner/markov_twitter/tree/master/doc) - it's viewable [on rubydoc](http://rubydoc.info/gems/markov_twitter). It has 100% documentation at time of writing. If when building, it shows that something is undocumented, run `yard --list-undoc` to find out where it is.
 
 ## development: tests
 
@@ -216,10 +216,6 @@ By default, Webmock will prevent any real HTTP calls for the twitter-related tes
 ```sh
 env DISABLE_WEBMOCK=true rspec
 ```
-
-## development: building docs
-
-Docs are built with `yard` from the command line. It has 100% documentation at time of writing. If when building, it shows that something is undocumented, run `yard --list-undoc` to find out where it is.
 
 ## development: todos
 
