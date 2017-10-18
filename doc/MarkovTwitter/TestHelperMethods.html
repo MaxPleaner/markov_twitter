@@ -230,6 +230,54 @@ interfere with application code and don&#39;t require a namespace.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#get_sample_phrase_1-instance_method" title="#get_sample_phrase_1 (instance method)">#<strong>get_sample_phrase_1</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A sample phrase used to test manipulations on the markov chain.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_sample_phrase_2-instance_method" title="#get_sample_phrase_2 (instance method)">#<strong>get_sample_phrase_2</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A sample phrase used to test manipulations on the markov chain.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#get_sample_user_tweets-instance_method" title="#get_sample_user_tweets (instance method)">#<strong>get_sample_user_tweets</strong>  &#x21d2; Array&lt;String&gt; </a>
     
 
@@ -293,8 +341,7 @@ interfere with application code and don&#39;t require a namespace.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Sample tweets for which the content does not matter -  these are only used
-to test the pagination of Twitter results.</p>
+<p>Sample tweets for which the content does not matter.</p>
 </div></span>
   
 </li>
@@ -440,6 +487,30 @@ to test the pagination of Twitter results.</p>
     <span class="summary_desc"><div class='inline'>
 <p>Converts strings into a specific structure that is used internally by the
 twitter gem.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate_linkages-instance_method" title="#validate_linkages (instance method)">#<strong>validate_linkages</strong>(node, _next: nil, prev: nil, total_num_inputs: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Validates that the linkages on a node are as expected.</p>
 </div></span>
   
 </li>
@@ -680,6 +751,114 @@ results.</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="get_sample_phrase_1-instance_method">
+  
+    #<strong>get_sample_phrase_1</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>A sample phrase used to test manipulations on the markov chain.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+159
+160
+161</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 159</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_sample_phrase_1'>get_sample_phrase_1</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>the cat in the hat</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_sample_phrase_2-instance_method">
+  
+    #<strong>get_sample_phrase_2</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>A sample phrase used to test manipulations on the markov chain.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+165
+166
+167</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 165</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_sample_phrase_2'>get_sample_phrase_2</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>the bat in the flat</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="get_sample_user_tweets-instance_method">
   
     #<strong>get_sample_user_tweets</strong>  &#x21d2; <tt>Array&lt;String&gt;</tt> 
@@ -822,8 +1001,8 @@ It&#39;s there to make sure that fetching tweets works correctly.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Sample tweets for which the content does not matter -  these are only used
-to test the pagination of Twitter results.</p>
+<p>Sample tweets for which the content does not matter. these are only used to
+test the pagination of Twitter results.</p>
 
 
   </div>
@@ -1085,7 +1264,7 @@ anything if DisableWebmock=true in ENV.</p>
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
 <p>Makes the twitter user timeline request succeed. returns without doing
-anything if DisableWebmock=true in ENV</p>
+anything if DisableWebmock=true in ENV.</p>
 
 
   </div>
@@ -1105,7 +1284,7 @@ anything if DisableWebmock=true in ENV</p>
       
         &mdash;
         <div class='inline'><ul><li>
-<p>the hashes must have keys “id” and “text”</p>
+<p>the hashes must have keys “id” and “text”.</p>
 </li></ul>
 </div>
       
@@ -1218,12 +1397,146 @@ twitter gem. Used for stubbing with Webmock.</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="validate_linkages-instance_method">
+  
+    #<strong>validate_linkages</strong>(node, _next: nil, prev: nil, total_num_inputs: nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Validates that the linkages on a node are as expected.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>node</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="MarkovBuilder/Node.html" title="MarkovTwitter::MarkovBuilder::Node (class)">MarkovBuilder::Node</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>_next</span>
+      
+      
+        <span class='type'>(<tt>Hash&lt;String,Float&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>mapping key to probability.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>prev</span>
+      
+      
+        <span class='type'>(<tt>Hash&lt;String,Float&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>mapping key to probability.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>total_num_inputs</span>
+      
+      
+        <span class='type'>(<tt>Hash&lt;Symbol,Integer&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>keyed by direction.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/test_helper_methods.rb', line 138</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_validate_linkages'>validate_linkages</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>_next:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>prev:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>total_num_inputs:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_precision'>precision</span> <span class='op'>=</span> <span class='float'>0.00001</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid__next'>_next</span>
+    <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='symbol'>:next</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_linkage'>linkage</span><span class='op'>|</span>
+      <span class='id identifier rubyid_expect'>expect</span><span class='lparen'>(</span><span class='id identifier rubyid_linkage'>linkage</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to'>to</span> <span class='id identifier rubyid_be_within'>be_within</span><span class='lparen'>(</span><span class='id identifier rubyid_precision'>precision</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_of'>of</span><span class='lparen'>(</span><span class='id identifier rubyid__next'>_next</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+   <span class='kw'>if</span> <span class='id identifier rubyid_prev'>prev</span>
+    <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='symbol'>:prev</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_linkage'>linkage</span><span class='op'>|</span>
+      <span class='id identifier rubyid_expect'>expect</span><span class='lparen'>(</span><span class='id identifier rubyid_linkage'>linkage</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to'>to</span> <span class='id identifier rubyid_be_within'>be_within</span><span class='lparen'>(</span><span class='id identifier rubyid_precision'>precision</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_of'>of</span><span class='lparen'>(</span><span class='id identifier rubyid_prev'>prev</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+   <span class='kw'>if</span> <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span>
+    <span class='id identifier rubyid_expect'>expect</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to'>to</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>rescue</span>
+  <span class='id identifier rubyid_binding'>binding</span><span class='period'>.</span><span class='id identifier rubyid_pry'>pry</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Sat Oct 14 12:19:13 2017 by
+  Generated on Tue Oct 17 15:51:07 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.2).
 </div>

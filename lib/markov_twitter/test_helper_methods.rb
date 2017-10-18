@@ -132,7 +132,7 @@ module MarkovTwitter::TestHelperMethods
 
   # Validates that the linkages on a node are as expected.
   # @param node [MarkovBuilder::Node]
-  # @param next [Hash<String,Float>] mapping key to probability.
+  # @param _next [Hash<String,Float>] mapping key to probability.
   # @param prev [Hash<String,Float>] mapping key to probability.
   # @param total_num_inputs [Hash<Symbol,Integer>] keyed by direction.
   def validate_linkages(node, _next: nil, prev: nil, total_num_inputs: nil)
@@ -152,10 +152,6 @@ module MarkovTwitter::TestHelperMethods
     end
   rescue
     binding.pry
-  end
-
-
-  def round_values(linkages)
   end
 
   # A sample phrase used to test manipulations on the markov chain.

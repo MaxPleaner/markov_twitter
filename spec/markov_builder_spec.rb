@@ -169,7 +169,7 @@ RSpec.describe "MarkovBuilder" do
 
       it "starts from a random node" do
         chain = markov_builder_class.new(phrases: ["foo"])
-        new_node_finder = chain.class::NewNodeFinders[:random]
+        new_node_finder = chain.node_finders[:random]
         expect(chain).to(
           receive(:get_new_start_point)
           .exactly(3).times
@@ -295,6 +295,52 @@ RSpec.describe "MarkovBuilder" do
         ])
       end
 
+    end
+
+  end
+
+  describe "#evaluate_favoring_start" do
+
+    it "ensures the result's start nodes are also start nodes in the input" do
+      chain = markov_builder_class.new phrases: sample_phrases
+      new_node_finder = chain.node_finders[:favor_start]
+      expect(chain).to receive(:_evaluate).with(
+        length: 5,
+        probability_bounds: [0,100],
+        root_node: nil,
+        direction: :next,
+        new_node_finder: new_node_finder
+      ).exactly(3).and_call_original
+      expect(3.times.map do
+        chain.evaluate_favoring_start length: 5
+      end).to eq([
+        "the cat in the bat",
+        "the hat the bat in",
+        "the flat the hat the"
+      ])
+    end
+
+  end
+
+  describe "#evaluate_favoring_end" do
+
+    it "works" do
+      chain = markov_builder_class.new phrases: sample_phrases
+      new_node_finder = chain.node_finders[:favor_end]
+      expect(chain).to receive(:_evaluate).with(
+        length: 5,
+        probability_bounds: [0,100],
+        root_node: nil,
+        direction: :prev,
+        new_node_finder: new_node_finder
+      ).exactly(3).times.and_call_original
+      expect(3.times.map do
+        chain.evaluate_favoring_end length: 5
+      end).to eq([
+        "the bat in the flat",
+        "the cat in the hat",
+        "the bat in the hat"
+      ])
     end
 
   end

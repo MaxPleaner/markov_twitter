@@ -102,7 +102,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Represents a single node in a Markov chain</p>
+<p>Represents a single node in a Markov chain.</p>
 
 
   </div>
@@ -129,8 +129,6 @@
   
   
     
-      <span class="note title readonly">readonly</span>
-    
     
   
   
@@ -139,9 +137,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><ul><li>
-<p>Outer hash is keyed by the direction (:next, :prev).</p>
-</li></ul>
+    <span class="summary_desc"><div class='inline'>
+<p>The :next and :previous linkages.</p>
 </div></span>
   
 </li>
@@ -150,7 +147,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#num_inputs_per_cell-instance_method" title="#num_inputs_per_cell (instance method)">#<strong>num_inputs_per_cell</strong>  &#x21d2; Hash&lt;Symbol, Hash&lt;String,Integer&gt;&gt; </a>
+      <a href="#nodes-instance_method" title="#nodes (instance method)">#<strong>nodes</strong>  &#x21d2; Hash&lt;String,Node&gt; </a>
     
 
     
@@ -169,11 +166,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><ul><li>
-<p>outer hash is keyed by the direction (:next, :prev) - inner hash is keyed
-by node value and the Integer value is   incremented/decremented whenever a
-linkage is added/removed - used to re-calculate probabilities.</p>
-</li></ul>
+    <span class="summary_desc"><div class='inline'>
+<p>A reference to the attr of the parent MarkovBuilder.</p>
 </div></span>
   
 </li>
@@ -191,8 +185,6 @@ linkage is added/removed - used to re-calculate probabilities.</p>
   
   
     
-      <span class="note title readonly">readonly</span>
-    
     
   
   
@@ -201,10 +193,8 @@ linkage is added/removed - used to re-calculate probabilities.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><ul><li>
-<p>tracks the total number of inputs added in a direction - also used to
-re-calculate probabilities.</p>
-</li></ul>
+    <span class="summary_desc"><div class='inline'>
+<p>The total number of inputs added in each direction.</p>
 </div></span>
   
 </li>
@@ -213,7 +203,7 @@ re-calculate probabilities.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#value-instance_method" title="#value (instance method)">#<strong>value</strong>  &#x21d2; Object </a>
+      <a href="#value-instance_method" title="#value (instance method)">#<strong>value</strong>  &#x21d2; String </a>
     
 
     
@@ -232,7 +222,9 @@ re-calculate probabilities.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>A single token, such as a word.</p>
+</div></span>
   
 </li>
 
@@ -253,7 +245,7 @@ re-calculate probabilities.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#add_and_adjust_probabilities-instance_method" title="#add_and_adjust_probabilities (instance method)">#<strong>add_and_adjust_probabilities</strong>(direction, other_node)  &#x21d2; void </a>
+      <a href="#add_and_adjust_probabilities-instance_method" title="#add_and_adjust_probabilities (instance method)">#<strong>add_and_adjust_probabilities</strong>(direction, other_node, mirror_change = true)  &#x21d2; void </a>
     
 
     
@@ -277,7 +269,31 @@ re-calculate probabilities.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#add_next_linkage-instance_method" title="#add_next_linkage (instance method)">#<strong>add_next_linkage</strong>(child_node)  &#x21d2; void </a>
+      <a href="#add_linkage!-instance_method" title="#add_linkage! (instance method)">#<strong>add_linkage!</strong>(direction, other_node, probability, mirror_change = true)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Force-adds a linkage at a specific probability.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_next_linkage-instance_method" title="#add_next_linkage (instance method)">#<strong>add_next_linkage</strong>(child_node, mirror_change = true)  &#x21d2; void </a>
     
 
     
@@ -301,7 +317,7 @@ re-calculate probabilities.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#add_prev_linkage-instance_method" title="#add_prev_linkage (instance method)">#<strong>add_prev_linkage</strong>(parent_node)  &#x21d2; void </a>
+      <a href="#add_prev_linkage-instance_method" title="#add_prev_linkage (instance method)">#<strong>add_prev_linkage</strong>(parent_node, mirror_change = true)  &#x21d2; void </a>
     
 
     
@@ -317,6 +333,31 @@ re-calculate probabilities.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Adds another node to the :prev linkages, updating probabilities.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_linkage!-instance_method" title="#delete_linkage! (instance method)">#<strong>delete_linkage!</strong>(direction, other_node, mirror_change = true)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Force-removes a linkage, re-adjusting other probabilities but potentially
+breaking their proportionality.</p>
 </div></span>
   
 </li>
@@ -350,7 +391,7 @@ of insertions in that direction.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(value: nil)  &#x21d2; Node </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(value:, nodes:)  &#x21d2; Node </a>
     
 
     
@@ -376,31 +417,7 @@ of insertions in that direction.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#preempt_faulty_removal-instance_method" title="#preempt_faulty_removal (instance method)">#<strong>preempt_faulty_removal</strong>(direction, other_node)  &#x21d2; void </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>a check made before removing a node, to ensure the state remains valid.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#remove_and_adjust_probabilites-instance_method" title="#remove_and_adjust_probabilites (instance method)">#<strong>remove_and_adjust_probabilites</strong>(direction, other_node)  &#x21d2; void </a>
+      <a href="#remove_and_adjust_probabilities-instance_method" title="#remove_and_adjust_probabilities (instance method)">#<strong>remove_and_adjust_probabilities</strong>(direction, other_node, mirror_change = true)  &#x21d2; void </a>
     
 
     
@@ -424,7 +441,7 @@ of insertions in that direction.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#remove_next_linkage-instance_method" title="#remove_next_linkage (instance method)">#<strong>remove_next_linkage</strong>(child_node)  &#x21d2; void </a>
+      <a href="#remove_next_linkage-instance_method" title="#remove_next_linkage (instance method)">#<strong>remove_next_linkage</strong>(child_node, mirror_change = true)  &#x21d2; void </a>
     
 
     
@@ -448,7 +465,7 @@ of insertions in that direction.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#remove_prev_linkage-instance_method" title="#remove_prev_linkage (instance method)">#<strong>remove_prev_linkage</strong>(parent_node)  &#x21d2; void </a>
+      <a href="#remove_prev_linkage-instance_method" title="#remove_prev_linkage (instance method)">#<strong>remove_prev_linkage</strong>(parent_node, mirror_change = true)  &#x21d2; void </a>
     
 
     
@@ -469,6 +486,31 @@ of insertions in that direction.</p>
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_opposite_direction-instance_method" title="#update_opposite_direction (instance method)">#<strong>update_opposite_direction</strong>(direction, other_node, method_name, *other_args)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Calls given method_name on other_node, passing the opposite direction to
+the one given as an argument.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -478,7 +520,7 @@ of insertions in that direction.</p>
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(value: nil)  &#x21d2; <tt><span class='object_link'><a href="" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span></tt> 
+    #<strong>initialize</strong>(value:, nodes:)  &#x21d2; <tt><span class='object_link'><a href="" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span></tt> 
   
 
   
@@ -507,7 +549,23 @@ of insertions in that direction.</p>
       
         &mdash;
         <div class='inline'>
-<p>for example, a word</p>
+<p>for example, a word.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nodes</span>
+      
+      
+        <span class='type'>(<tt>Hash&lt;String,<span class='object_link'><a href="" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>.</p>
 </div>
       
     </li>
@@ -521,21 +579,21 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
+28
 29
 30
 31
 32
-33
-34</pre>
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 28</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>value:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>value:</span><span class='comma'>,</span> <span class='label'>nodes:</span><span class='rparen'>)</span>
   <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
   <span class='ivar'>@linkages</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>next:</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>prev:</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
-  <span class='ivar'>@num_inputs_per_cell</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>next:</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>prev:</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
   <span class='ivar'>@total_num_inputs</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>next:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>prev:</span> <span class='int'>0</span> <span class='rbrace'>}</span>
+  <span class='ivar'>@nodes</span> <span class='op'>=</span> <span class='id identifier rubyid_nodes'>nodes</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -548,11 +606,11 @@ of insertions in that direction.</p>
     <h2>Instance Attribute Details</h2>
     
       
-      <span id=""></span>
+      <span id="linkages=-instance_method"></span>
       <div class="method_details first">
   <h3 class="signature first" id="linkages-instance_method">
   
-    #<strong>linkages</strong>  &#x21d2; <tt>Hash&lt;Symbol, Hash&lt;String, Float&gt;&gt;</tt>  <span class="extras">(readonly)</span>
+    #<strong>linkages</strong>  &#x21d2; <tt>Hash&lt;Symbol, Hash&lt;String, Float&gt;&gt;</tt> 
   
 
   
@@ -561,8 +619,10 @@ of insertions in that direction.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns - Outer hash is keyed by the direction (:next, :prev).</p>
+<p>Returns the :next and :previous linkages.</p>
 <ul><li>
+<p>Outer hash is keyed by the direction (:next, :prev).</p>
+</li><li>
 <p>Inner hash represents possible traversals - also keyed by string value, its
 values are probabilities representing the likelihood of choosing that
 route.</p>
@@ -584,7 +644,9 @@ route.</p>
       
       
         &mdash;
-        <div class='inline'><ul><li>
+        <div class='inline'>
+<p>the :next and :previous linkages.</p>
+<ul><li>
 <p>Outer hash is keyed by the direction (:next, :prev).</p>
 </li><li>
 <p>Inner hash represents possible traversals - also keyed by string value, its
@@ -603,12 +665,12 @@ route.</p>
       <pre class="lines">
 
 
-14
 15
-16</pre>
+16
+17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 15</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_linkages'>linkages</span>
   <span class='ivar'>@linkages</span>
@@ -621,9 +683,9 @@ route.</p>
       
       <span id=""></span>
       <div class="method_details ">
-  <h3 class="signature " id="num_inputs_per_cell-instance_method">
+  <h3 class="signature " id="nodes-instance_method">
   
-    #<strong>num_inputs_per_cell</strong>  &#x21d2; <tt>Hash&lt;Symbol, Hash&lt;String,Integer&gt;&gt;</tt>  <span class="extras">(readonly)</span>
+    #<strong>nodes</strong>  &#x21d2; <tt>Hash&lt;String,<span class='object_link'><a href="" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt>  <span class="extras">(readonly)</span>
   
 
   
@@ -632,13 +694,7 @@ route.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns - outer hash is keyed by the direction (:next, :prev)</p>
-<ul><li>
-<p>inner hash is keyed by node value and the Integer value is
-incremented/decremented whenever a linkage is added/removed</p>
-</li><li>
-<p>used to re-calculate probabilities.</p>
-</li></ul>
+<p>Returns a reference to the attr of the parent MarkovBuilder</p>
 
 
   </div>
@@ -651,19 +707,13 @@ incremented/decremented whenever a linkage is added/removed</p>
     <li>
       
       
-        <span class='type'>(<tt>Hash&lt;Symbol, Hash&lt;String,Integer&gt;&gt;</tt>)</span>
+        <span class='type'>(<tt>Hash&lt;String,<span class='object_link'><a href="" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span>&gt;</tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><ul><li>
-<p>outer hash is keyed by the direction (:next, :prev)</p>
-</li><li>
-<p>inner hash is keyed by node value and the Integer value is
-incremented/decremented whenever a linkage is added/removed</p>
-</li><li>
-<p>used to re-calculate probabilities.</p>
-</li></ul>
+        <div class='inline'>
+<p>a reference to the attr of the parent MarkovBuilder</p>
 </div>
       
     </li>
@@ -676,15 +726,15 @@ incremented/decremented whenever a linkage is added/removed</p>
       <pre class="lines">
 
 
-21
-22
-23</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 24</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_num_inputs_per_cell'>num_inputs_per_cell</span>
-  <span class='ivar'>@num_inputs_per_cell</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_nodes'>nodes</span>
+  <span class='ivar'>@nodes</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -692,11 +742,11 @@ incremented/decremented whenever a linkage is added/removed</p>
 </div>
     
       
-      <span id=""></span>
+      <span id="total_num_inputs=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="total_num_inputs-instance_method">
   
-    #<strong>total_num_inputs</strong>  &#x21d2; <tt>Hash&lt;Symbol&gt;</tt>, <tt>Integer</tt>  <span class="extras">(readonly)</span>
+    #<strong>total_num_inputs</strong>  &#x21d2; <tt>Hash&lt;Symbol&gt;</tt>, <tt>Integer</tt> 
   
 
   
@@ -705,9 +755,9 @@ incremented/decremented whenever a linkage is added/removed</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns - tracks the total number of inputs added in a direction</p>
+<p>Returns the total number of inputs added in each direction.</p>
 <ul><li>
-<p>also used to re-calculate probabilities</p>
+<p>also used to re-calculate probabilities.</p>
 </li></ul>
 
 
@@ -726,10 +776,10 @@ incremented/decremented whenever a linkage is added/removed</p>
       
       
         &mdash;
-        <div class='inline'><ul><li>
-<p>tracks the total number of inputs added in a direction</p>
-</li><li>
-<p>also used to re-calculate probabilities</p>
+        <div class='inline'>
+<p>the total number of inputs added in each direction.</p>
+<ul><li>
+<p>also used to re-calculate probabilities.</p>
 </li></ul>
 </div>
       
@@ -743,12 +793,12 @@ incremented/decremented whenever a linkage is added/removed</p>
       <pre class="lines">
 
 
-26
-27
-28</pre>
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span>
   <span class='ivar'>@total_num_inputs</span>
@@ -763,13 +813,42 @@ incremented/decremented whenever a linkage is added/removed</p>
       <div class="method_details ">
   <h3 class="signature " id="value-instance_method">
   
-    #<strong>value</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+    #<strong>value</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a single token, such as a word.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a single token, such as a word.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -800,7 +879,7 @@ incremented/decremented whenever a linkage is added/removed</p>
       <div class="method_details first">
   <h3 class="signature first" id="add_and_adjust_probabilities-instance_method">
   
-    #<strong>add_and_adjust_probabilities</strong>(direction, other_node)  &#x21d2; <tt>void</tt> 
+    #<strong>add_and_adjust_probabilities</strong>(direction, other_node, mirror_change = true)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -809,7 +888,9 @@ incremented/decremented whenever a linkage is added/removed</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Adds a single node to the :next linkages and updates probabilities</p>
+<p>Adds a single node to the :next linkages and updates probabilities. Also
+updates the opposite direction, e.g. :prev will be updated if something is
+added to :next.</p>
 
 
   </div>
@@ -829,7 +910,7 @@ incremented/decremented whenever a linkage is added/removed</p>
       
         &mdash;
         <div class='inline'>
-<p>either :next or :prev</p>
+<p>either :next or :prev.</p>
 </div>
       
     </li>
@@ -845,6 +926,24 @@ incremented/decremented whenever a linkage is added/removed</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>mirror_change</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>whether to update the opposite direction, defaults to true.</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -854,9 +953,6 @@ incremented/decremented whenever a linkage is added/removed</p>
       <pre class="lines">
 
 
-40
-41
-42
 43
 44
 45
@@ -864,20 +960,179 @@ incremented/decremented whenever a linkage is added/removed</p>
 47
 48
 49
-50</pre>
+50
+51
+52
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 43</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_add_and_adjust_probabilities'>add_and_adjust_probabilities</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='int'>0</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_add_and_adjust_probabilities'>add_and_adjust_probabilities</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='comma'>,</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='ivar'>@nodes</span><span class='lbracket'>[</span><span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id identifier rubyid_other_node'>other_node</span>
   <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='int'>1</span>
-  <span class='id identifier rubyid_probability_unit'>probability_unit</span> <span class='op'>=</span> <span class='id identifier rubyid_get_probability_unit'>get_probability_unit</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_num_inputs_per_cell'>num_inputs_per_cell</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='int'>1</span>
-  <span class='id identifier rubyid_num_inputs_per_cell'>num_inputs_per_cell</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each_key'>each_key</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_node_key'>node_key</span><span class='op'>|</span>
-    <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_node_key'>node_key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lparen'>(</span>
-      <span class='id identifier rubyid_num_inputs_per_cell'>num_inputs_per_cell</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_node_key'>node_key</span><span class='rbracket'>]</span> <span class='op'>*</span> <span class='id identifier rubyid_probability_unit'>probability_unit</span>
-    <span class='rparen'>)</span>
+  <span class='id identifier rubyid_unit'>unit</span> <span class='op'>=</span> <span class='id identifier rubyid_get_probability_unit'>get_probability_unit</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_probability_multiplier'>probability_multiplier</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='id identifier rubyid_unit'>unit</span>
+  <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each_key'>each_key</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_node_key'>node_key</span><span class='op'>|</span>
+    <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_node_key'>node_key</span><span class='rbracket'>]</span> <span class='op'>*=</span> <span class='id identifier rubyid_probability_multiplier'>probability_multiplier</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='id identifier rubyid_unit'>unit</span>
+  <span class='comment'># Add a linkage in the opposite direction to keep :next and :prev in sync
+</span>  <span class='id identifier rubyid_update_opposite_direction'>update_opposite_direction</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='comma'>,</span> <span class='id identifier rubyid___method__'>__method__</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="add_linkage!-instance_method">
+  
+    #<strong>add_linkage!</strong>(direction, other_node, probability, mirror_change = true)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Force-adds a linkage at a specific probability. Readjusts other
+probabilities but may break their proportionality. Updates the opposite
+direction to keep :next and :prev in sync</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>direction</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>other_node</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>probability</span>
+      
+      
+        <span class='type'>(<tt>Float</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>between 0 and 1.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>mirror_change</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>whether to update the opposite direction.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 127</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add_linkage!'>add_linkage!</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='comma'>,</span> <span class='id identifier rubyid_probability'>probability</span><span class='comma'>,</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>invalid probability</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_probability'>probability</span><span class='period'>.</span><span class='id identifier rubyid_between?'>between?</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>1</span><span class='rparen'>)</span>
+  <span class='comment'># first remove any existing node there and distribute the probability.
+</span>  <span class='id identifier rubyid_delete_linkage!'>delete_linkage!</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='rparen'>)</span>
+  <span class='comment'># Re-adjust each probability to account for the added value
+</span>  <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each_key'>each_key</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='op'>|</span>
+    <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>*=</span> <span class='lparen'>(</span><span class='int'>1</span> <span class='op'>-</span> <span class='id identifier rubyid_probability'>probability</span><span class='rparen'>)</span>
+    <span class='comment'># remove the linkage if it&#39;s probability is zero
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
+      <span class='id identifier rubyid_delete_linkage!'>delete_linkage!</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='ivar'>@nodes</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='comment'># Add the new value and set its probability
+</span>  <span class='id identifier rubyid_binding'>binding</span><span class='period'>.</span><span class='id identifier rubyid_pry'>pry</span> <span class='kw'>if</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>dog</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_probability'>probability</span>
+  <span class='comment'># increment the total count
+</span>  <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='int'>1</span>
+  <span class='comment'># Add a linkage in the opposite direction to keep :next and :prev in sync      
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span>
+    <span class='id identifier rubyid_update_opposite_direction'>update_opposite_direction</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='comma'>,</span> <span class='id identifier rubyid___method__'>__method__</span><span class='comma'>,</span> <span class='id identifier rubyid_probability'>probability</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -888,7 +1143,7 @@ incremented/decremented whenever a linkage is added/removed</p>
       <div class="method_details ">
   <h3 class="signature " id="add_next_linkage-instance_method">
   
-    #<strong>add_next_linkage</strong>(child_node)  &#x21d2; <tt>void</tt> 
+    #<strong>add_next_linkage</strong>(child_node, mirror_change = true)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -897,7 +1152,7 @@ incremented/decremented whenever a linkage is added/removed</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Adds another node to the :next linkages, updating probabilities</p>
+<p>Adds another node to the :next linkages, updating probabilities.</p>
 
 
   </div>
@@ -917,7 +1172,7 @@ incremented/decremented whenever a linkage is added/removed</p>
       
         &mdash;
         <div class='inline'>
-<p>to be added</p>
+<p>to be added.</p>
 </div>
       
     </li>
@@ -931,14 +1186,14 @@ incremented/decremented whenever a linkage is added/removed</p>
       <pre class="lines">
 
 
-96
-97
-98</pre>
+165
+166
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 165</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_add_next_linkage'>add_next_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_child_node'>child_node</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_add_next_linkage'>add_next_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_child_node'>child_node</span><span class='comma'>,</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_add_and_adjust_probabilities'>add_and_adjust_probabilities</span><span class='lparen'>(</span><span class='symbol'>:next</span><span class='comma'>,</span> <span class='id identifier rubyid_child_node'>child_node</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -949,7 +1204,7 @@ incremented/decremented whenever a linkage is added/removed</p>
       <div class="method_details ">
   <h3 class="signature " id="add_prev_linkage-instance_method">
   
-    #<strong>add_prev_linkage</strong>(parent_node)  &#x21d2; <tt>void</tt> 
+    #<strong>add_prev_linkage</strong>(parent_node, mirror_change = true)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -958,7 +1213,7 @@ incremented/decremented whenever a linkage is added/removed</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Adds another node to the :prev linkages, updating probabilities</p>
+<p>Adds another node to the :prev linkages, updating probabilities.</p>
 
 
   </div>
@@ -978,7 +1233,94 @@ incremented/decremented whenever a linkage is added/removed</p>
       
         &mdash;
         <div class='inline'>
-<p>to be added</p>
+<p>to be added.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+172
+173
+174</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 172</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add_prev_linkage'>add_prev_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_parent_node'>parent_node</span><span class='comma'>,</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_add_and_adjust_probabilities'>add_and_adjust_probabilities</span><span class='lparen'>(</span><span class='symbol'>:prev</span><span class='comma'>,</span> <span class='id identifier rubyid_parent_node'>parent_node</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_linkage!-instance_method">
+  
+    #<strong>delete_linkage!</strong>(direction, other_node, mirror_change = true)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Force-removes a linkage, re-adjusting other probabilities but potentially
+breaking their proportionality. Can be safely run for non-existing nodes.
+Adjusts the linkages in the opposite direction accordingly.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>direction</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>other_node</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>mirror_change</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>whether to update the opposite direction, defaults to true</p>
 </div>
       
     </li>
@@ -994,13 +1336,37 @@ incremented/decremented whenever a linkage is added/removed</p>
 
 103
 104
-105</pre>
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 103</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_add_prev_linkage'>add_prev_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_parent_node'>parent_node</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_add_and_adjust_probabilities'>add_and_adjust_probabilities</span><span class='lparen'>(</span><span class='symbol'>:prev</span><span class='comma'>,</span> <span class='id identifier rubyid_parent_node'>parent_node</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_linkage!'>delete_linkage!</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='comma'>,</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span>
+  <span class='id identifier rubyid_probability'>probability</span> <span class='op'>=</span> <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span>
+  <span class='comment'># delete the linkage
+</span>  <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span>
+  <span class='comment'># distribute the probability evenly among the other options.
+</span>  <span class='id identifier rubyid_amt_to_add'>amt_to_add</span> <span class='op'>=</span> <span class='id identifier rubyid_probability'>probability</span> <span class='op'>/</span> <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
+  <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each_key'>each_key</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='op'>|</span>
+    <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='id identifier rubyid_amt_to_add'>amt_to_add</span>
+  <span class='kw'>end</span>
+  <span class='comment'># decrement the total count
+</span>  <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span> <span class='op'>-=</span> <span class='int'>1</span>
+  <span class='comment'># Add a linkage in the opposite direction to keep :next and :prev in sync      
+</span>  <span class='id identifier rubyid_update_opposite_direction'>update_opposite_direction</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='comma'>,</span> <span class='id identifier rubyid___method__'>__method__</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1059,7 +1425,7 @@ of insertions in that direction.</p>
       
         &mdash;
         <div class='inline'>
-<p>between 0 and 1</p>
+<p>between 0 and 1.</p>
 </div>
       
     </li>
@@ -1072,14 +1438,20 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
-56
-57
-58</pre>
+60
+61
+62
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_probability_unit'>get_probability_unit</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span> <span class='op'>&gt;</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>no inputs were added in &lt;direction&gt;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
   <span class='float'>1.0</span> <span class='op'>/</span> <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1088,96 +1460,9 @@ of insertions in that direction.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="preempt_faulty_removal-instance_method">
+  <h3 class="signature " id="remove_and_adjust_probabilities-instance_method">
   
-    #<strong>preempt_faulty_removal</strong>(direction, other_node)  &#x21d2; <tt>void</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p>
-<p>a check made before removing a node, to ensure the state remains valid.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>direction</span>
-      
-      
-        <span class='type'>(<tt>Symbol</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>:next or :prev</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>other_node</span>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span></tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>the node to be removed</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-64
-65
-66
-67
-68
-69
-70
-71</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 64</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_preempt_faulty_removal'>preempt_faulty_removal</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='lbracket'>[</span>
-    <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='comma'>,</span>
-    <span class='id identifier rubyid_num_inputs_per_cell'>num_inputs_per_cell</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span>
-  <span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_val'>val</span><span class='op'>|</span> <span class='id identifier rubyid_val'>val</span> <span class='op'>==</span> <span class='int'>0</span> <span class='rbrace'>}</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>can&#39;t remove what does not exist.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="remove_and_adjust_probabilites-instance_method">
-  
-    #<strong>remove_and_adjust_probabilites</strong>(direction, other_node)  &#x21d2; <tt>void</tt> 
+    #<strong>remove_and_adjust_probabilities</strong>(direction, other_node, mirror_change = true)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -1186,7 +1471,10 @@ of insertions in that direction.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Removes a single node from the :prev linkages and updates probabilities</p>
+<p>Removes a single node from the :prev linkages and updates probabilities.
+Safe to run if the other_node is not actually present in the linkages.
+Mirrors the change in the opposite direction, to keep :prev and :next in
+sync.</p>
 
 
   </div>
@@ -1222,7 +1510,25 @@ of insertions in that direction.</p>
       
         &mdash;
         <div class='inline'>
-<p>the node to be removed</p>
+<p>the node to be removed.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>mirror_change</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>whether to update the opposite direction, defaults to true</p>
 </div>
       
     </li>
@@ -1236,6 +1542,8 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
+75
+76
 77
 78
 79
@@ -1250,25 +1558,29 @@ of insertions in that direction.</p>
 88
 89
 90
-91</pre>
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 75</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_remove_and_adjust_probabilites'>remove_and_adjust_probabilites</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_preempt_faulty_removal'>preempt_faulty_removal</span>
-  <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span> <span class='op'>-=</span> <span class='int'>1</span>
-  <span class='id identifier rubyid_num_inputs_per_cell'>num_inputs_per_cell</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span> <span class='op'>-=</span> <span class='int'>1</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_num_inputs_per_cell'>num_inputs_per_cell</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='int'>0</span>
-    <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_num_inputs_per_cell'>num_inputs_per_cell</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_remove_and_adjust_probabilities'>remove_and_adjust_probabilities</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='comma'>,</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span>
+  <span class='id identifier rubyid_unit'>unit</span> <span class='op'>=</span> <span class='id identifier rubyid_get_probability_unit'>get_probability_unit</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span> <span class='op'>-</span> <span class='id identifier rubyid_unit'>unit</span> <span class='op'>&lt;=</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_delete_linkage!'>delete_linkage!</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span> <span class='op'>-=</span> <span class='id identifier rubyid_unit'>unit</span>
+    <span class='id identifier rubyid_num_per_direction'>num_per_direction</span> <span class='op'>=</span> <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each_key'>each_key</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_node_key'>node_key</span><span class='op'>|</span>
+      <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_node_key'>node_key</span><span class='rbracket'>]</span> <span class='op'>*=</span> <span class='lparen'>(</span>
+        <span class='id identifier rubyid_num_per_direction'>num_per_direction</span> <span class='op'>/</span> <span class='lparen'>(</span><span class='id identifier rubyid_num_per_direction'>num_per_direction</span> <span class='op'>-</span> <span class='float'>1.0</span><span class='rparen'>)</span>
+      <span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_total_num_inputs'>total_num_inputs</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span> <span class='op'>-=</span> <span class='int'>1</span>
   <span class='kw'>end</span>
-  <span class='id identifier rubyid_probability_unit'>probability_unit</span> <span class='op'>=</span> <span class='id identifier rubyid_get_probability_unit'>get_probability_unit</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_num_inputs_per_cell'>num_inputs_per_cell</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each_key'>each_key</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_node_key'>node_key</span><span class='op'>|</span>
-    <span class='id identifier rubyid_linkages'>linkages</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_node_key'>node_key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lparen'>(</span>
-      <span class='id identifier rubyid_num_inputs_per_cell'>num_inputs_per_cell</span><span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_node_key'>node_key</span><span class='rbracket'>]</span> <span class='op'>*</span> <span class='id identifier rubyid_probability_unit'>probability_unit</span>
-    <span class='rparen'>)</span>
-  <span class='kw'>end</span>
+  <span class='comment'># Add a linkage in the opposite direction to keep :next and :prev in sync
+</span>  <span class='id identifier rubyid_update_opposite_direction'>update_opposite_direction</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='comma'>,</span> <span class='id identifier rubyid___method__'>__method__</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1278,7 +1590,7 @@ of insertions in that direction.</p>
       <div class="method_details ">
   <h3 class="signature " id="remove_next_linkage-instance_method">
   
-    #<strong>remove_next_linkage</strong>(child_node)  &#x21d2; <tt>void</tt> 
+    #<strong>remove_next_linkage</strong>(child_node, mirror_change = true)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -1287,7 +1599,7 @@ of insertions in that direction.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Removes a node from the :next linkages, updating probabilities</p>
+<p>Removes a node from the :next linkages, updating probabilities.</p>
 
 
   </div>
@@ -1307,7 +1619,7 @@ of insertions in that direction.</p>
       
         &mdash;
         <div class='inline'>
-<p>to be removed</p>
+<p>to be removed.</p>
 </div>
       
     </li>
@@ -1321,14 +1633,14 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
-110
-111
-112</pre>
+179
+180
+181</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 179</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_remove_next_linkage'>remove_next_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_child_node'>child_node</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_remove_next_linkage'>remove_next_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_child_node'>child_node</span><span class='comma'>,</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_remove_and_adjust_probabilities'>remove_and_adjust_probabilities</span><span class='lparen'>(</span><span class='symbol'>:next</span><span class='comma'>,</span> <span class='id identifier rubyid_child_node'>child_node</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1339,7 +1651,7 @@ of insertions in that direction.</p>
       <div class="method_details ">
   <h3 class="signature " id="remove_prev_linkage-instance_method">
   
-    #<strong>remove_prev_linkage</strong>(parent_node)  &#x21d2; <tt>void</tt> 
+    #<strong>remove_prev_linkage</strong>(parent_node, mirror_change = true)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -1348,7 +1660,7 @@ of insertions in that direction.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Removes a node from the :prev linkages, updating probabilities</p>
+<p>Removes a node from the :prev linkages, updating probabilities.</p>
 
 
   </div>
@@ -1382,15 +1694,111 @@ of insertions in that direction.</p>
       <pre class="lines">
 
 
-117
-118
-119</pre>
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 186</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_remove_prev_linkage'>remove_prev_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_parent_node'>parent_node</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_remove_prev_linkage'>remove_prev_linkage</span><span class='lparen'>(</span><span class='id identifier rubyid_parent_node'>parent_node</span><span class='comma'>,</span> <span class='id identifier rubyid_mirror_change'>mirror_change</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_remove_and_adjust_probabilities'>remove_and_adjust_probabilities</span><span class='lparen'>(</span><span class='symbol'>:prev</span><span class='comma'>,</span> <span class='id identifier rubyid_parent_node'>parent_node</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_opposite_direction-instance_method">
+  
+    #<strong>update_opposite_direction</strong>(direction, other_node, method_name, *other_args)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Calls given method_name on other_node, passing the opposite direction to
+the one given as an argument. This keeps :next and :prev in sync.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>direction</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>something should have already been added/removed here</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>other_node</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="MarkovTwitter::MarkovBuilder::Node (class)">Node</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the node which was added/removed</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>method_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the method to invoke on other_node</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+157
+158
+159
+160</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/markov_twitter/markov_builder/node.rb', line 157</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update_opposite_direction'>update_opposite_direction</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_other_node'>other_node</span><span class='comma'>,</span> <span class='id identifier rubyid_method_name'>method_name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_other_args'>other_args</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_other_direction'>other_direction</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='qsymbols_beg'>%i{</span><span class='tstring_content'>next</span><span class='words_sep'> </span><span class='tstring_content'>prev</span><span class='words_sep'>}</span> <span class='op'>-</span> <span class='lbracket'>[</span><span class='id identifier rubyid_direction'>direction</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_other_node'>other_node</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_method_name'>method_name</span><span class='comma'>,</span> <span class='id identifier rubyid_other_direction'>other_direction</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_other_args'>other_args</span><span class='comma'>,</span> <span class='kw'>false</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1402,7 +1810,7 @@ of insertions in that direction.</p>
 </div>
 
       <div id="footer">
-  Generated on Sat Oct 14 12:19:14 2017 by
+  Generated on Tue Oct 17 15:51:08 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.2).
 </div>

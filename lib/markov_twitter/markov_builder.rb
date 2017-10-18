@@ -2,23 +2,32 @@
 # A "phrase" is defined here as a tweet.
 class MarkovTwitter::MarkovBuilder
 
-  # Lambdas used to select new nodes.
-  NewNodeFinders = {
-    random:      -> (node) { true },
-    favor_start: -> (node) { node.total_num_linkages[:prev].zero? },
-    favor_end:   -> (node) { node.total_num_linkages[:next].zero? },
-  }
-
   # Regex used to split the phrase into tokens.
   # It splits on any number of whitespace\in sequence.
   # Sequences of punctuation characters are treated like any other word.
   SeparatorCharacterRegex = /\s+/
 
-  # @return [Hash<String, Node>]
   # The base dictionary for nodes.
   # There is only a single copy of each node created,
   # although they are referenced in Node#linkages as well.
+  # @return [Hash<String, Node>]
   attr_reader :nodes
+
+  # The nodes that were found at the start of phrases
+  # @return [Set<Node>]
+  attr_reader :start_nodes
+
+  # The nodes that were found at the end of phrases
+  # @return [Set<Node>]
+  attr_reader :end_nodes
+
+  def node_finders
+    @node_finders ||= {
+      random:      -> (node) { true },
+      favor_start: -> (node) { start_nodes.include? node.value },
+      favor_end:   -> (node) { end_nodes.include? node.value },
+    }
+  end
 
   # Splits a phrase into tokens.
   # @param phrase [String]
@@ -31,6 +40,8 @@ class MarkovTwitter::MarkovBuilder
   # processes the phrases to populate @nodes.
   def initialize(phrases: [])
     @nodes = {}
+    @start_nodes = Set.new
+    @end_nodes = Set.new
     phrases.each &method(:process_phrase)
   end
 
@@ -39,12 +50,16 @@ class MarkovTwitter::MarkovBuilder
   # @return [void]
   def process_phrase(phrase)
     node_vals = self.class.split_phrase(phrase)
+    last_node = nil
     node_vals.length.times do |i|
       nodes = node_vals[i..(i+1)].compact.map do |node_val|
         construct_node(node_val)
       end
+      @start_nodes.add(nodes[0].value) if i == 0
+      last_node = nodes.last
       add_nodes(*nodes)
     end
+    @end_nodes.add last_node.value
   end
 
   # Adds a sequence of two tokens to @nodes and creates linkages.
@@ -84,28 +99,28 @@ class MarkovTwitter::MarkovBuilder
   # The default evaluation method to produce a run case.
   # Goes in forward direction with with random nodes as start points.
   # See also #evaluate_favoring_start and #evaluate_favoring_end.
-  # @param (see #_evaluate)
-  #   the passed node_node_finder lambda picks a totally random new node.
-  # @return [String], the result of #_evaluate joined by whitespace.
+  # See #_evaluate for paramspecs
+  # The passed node_node_finder lambda picks a totally random new node.
+  # @return [String] the result of #_evaluate joined by whitespace.
   def evaluate(length:, probability_bounds: [0,100], root_node: nil)
     _evaluate(
       length: length,
       probability_bounds: probability_bounds,
       root_node: root_node,
       direction: :next,
-      new_node_finder: self.class::NewNodeFinders[:random]
+      new_node_finder: node_finders[:random]
     ).map(&:value).join(" ")
   end
 
-  # @param (see #_evaluate)
-  #   The passed node_node_finder lambda picks a node with no :prev.
-  #   An error is raised if no nodes match this condition.
-  # @return [String], the result of #_evaluate joined by whitespace.
+  # See #_evaluate for paramspec.
+  # The passed node_node_finder lambda picks a node contained in @start_nodes
+  # An error is raised if no nodes match this condition.
+  # @return [String] the result of #_evaluate joined by whitespace.
   def evaluate_favoring_start(length:, probability_bounds: [0,100], root_node: nil)
-    new_node_finder = self.class::NewNodeFinders[:favor_start]
-    has_possible_start_node = nodes.any? &new_node_finder
+    new_node_finder = node_finders[:favor_start]
+    has_possible_start_node = nodes.values.any? &new_node_finder
     unless has_possible_start_node
-      raise ArgumentError, "All nodes have a :prev linkage, can't favor start"
+      raise ArgumentError, "@start_nodes is empty; can't evaluate favoring start"
     end
     _evaluate(
       length: length,
@@ -116,15 +131,15 @@ class MarkovTwitter::MarkovBuilder
     ).map(&:value).join(" ")
   end
 
-  # @param (see #_evaluate)
-  #   The passed node_node_finder lambda picks a node with no :next.
-  #   an error is raised if no nodes match this condition.
-  # @return [String], the result of #_evaluate reversed and joined by whitespace.
+  # See #_evaluate for paramspec.
+  # The passed node_node_finder lambda picks a node contained in @end_nodes
+  # An error is raised if no nodes match this condition.
+  # @return [String] the result of #_evaluate reversed and joined by whitespace.
   def evaluate_favoring_end(length:, probability_bounds: [0,100], root_node: nil)
-    new_node_finder = self.class::NewNodeFinders[:favor_end]
-    has_possible_end_node = nodes.any? &new_node_finder
+    new_node_finder = node_finders[:favor_end]
+    has_possible_end_node = nodes.values.any? &new_node_finder
     unless has_possible_end_node
-      raise ArgumentError, "All nodes have a :next linkage, can't favor end"
+      raise ArgumentError, "@end_nodes is empty; can't evaluate favoring end"
     end
     _evaluate(
       length: length,
@@ -138,14 +153,14 @@ class MarkovTwitter::MarkovBuilder
   # An "evaluation" of the markov chain. e.g. a run case.
   # Passes random values through the probability sequences.
   # @param length [Integer] the number of tokens in the result.
-  # @param probabilitity_bounds [Array<Integer, Integer>]
+  # @param probability_bounds [Array<Integer, Integer>]
   #   optional, can limit the probability to a range where
   #   0 <= min <= result <= max <= 100.
   # @param new_node_finder [Lambda<Node>]
   #   during iteration, if the current node has no linkages in <direction>,
   #   a new node is selected from the nodes dict. The first randomly-picked
   #   node which this lambda returns a truthy value for is selected.
-  # @return [Array<Node>], the result tokens in order.
+  # @return [Array<Node>] the result tokens in order.
   def _evaluate(
     length:,
     probability_bounds: [0,100],
